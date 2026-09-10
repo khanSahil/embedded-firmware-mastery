@@ -15,23 +15,17 @@ The handbook has two purposes:
 1. **Deep reference while learning** — preserve mental models, internals, experiments, debugging discoveries, failure modes, architecture decisions, and connections between topics.
 2. **Senior/Principal interview refresh** — make it possible to revisit Track 1 months or years later without reconstructing everything from tutorials and scattered notes.
 
-The handbook will therefore grow progressively as Track 1 progresses.
-
 ---
 
 ## 2. North Star
 
 > Give me an unfamiliar Cortex-M system, datasheet, reference manual, schematic, compiler, and debugger, and I'm confident I can understand it, bring it up, write/debug the firmware, diagnose difficult failures, and explain my architectural decisions in an interview.
 
-The STM32H745I-DISCO is our training platform, **not our specialization**.
-
-The real objective is transferable embedded-engineering ability.
+The STM32H745I-DISCO is our training platform, **not our specialization**. The real objective is transferable embedded-engineering ability.
 
 ---
 
 ## 3. Learning Philosophy
-
-### The core loop
 
 ```text
 Concept
@@ -50,8 +44,6 @@ Improve
 We do **not** consider a topic mastered merely because an example works.
 
 For every important concept, progression should eventually include fundamentals, first principles, internals, implementation, observation, deliberate failure, debugging, edge cases, performance, production engineering, architecture/tradeoffs, interview scenarios, and teach-back.
-
-### Important rule
 
 **Do not skip fundamentals. Compress fundamentals that are already demonstrated.**
 
@@ -73,35 +65,19 @@ Previous professional exposure does not automatically mean mastery. A topic shou
 
 For important Senior/Principal topics, the target is generally **Level 5–6**.
 
----
+Status labels used in this handbook:
 
-## 5. What Principal-Level Mastery Means
+- ⬜ Not started
+- 🟡 Learning
+- ✅ Foundation established
+- 🔵 Deep understanding
+- 🏆 Mastery demonstrated
 
-For a major embedded subsystem, the goal is eventually to be able to design it, implement it, measure it, break it, debug it, test it, automate it, explain it, and defend the tradeoffs.
-
-A Principal engineer should be able to reason **downward** when a system fails and **upward** when designing the architecture.
-
-```text
-Application architecture
-        ↓
-RTOS / concurrency
-        ↓
-Drivers
-        ↓
-Interrupts / DMA
-        ↓
-Memory / cache / MPU
-        ↓
-CPU / instruction behavior
-        ↓
-Registers / buses
-        ↓
-Electrical hardware
-```
+`✅ Foundation established` means the foundational mental model has been demonstrated. It does **not** mean the topic is finished forever; important ideas recur at greater depth later.
 
 ---
 
-# 6. Track 1 Mastery Stack
+# 5. Track 1 Mastery Stack
 
 ```text
                  PRINCIPAL-LEVEL SYSTEM DESIGN
@@ -147,7 +123,7 @@ Electrical hardware
 
 ---
 
-# 7. Primary Lab Platform — STM32H745I-DISCO
+# 6. Primary Lab Platform — STM32H745I-DISCO
 
 Track 1 uses the **STM32H745I-DISCO** as the primary physical platform.
 
@@ -157,7 +133,7 @@ The development board is **not** the MCU. External components introduce addition
 
 ---
 
-# 8. Track 1 Roadmap
+# 7. Track 1 Roadmap
 
 The schedule is deliberately flexible. **Mastery determines progression, not calendar time.** A rough depth-first journey is approximately 12–15 months at 7–10 hours/week, but taking longer is completely acceptable.
 
@@ -180,59 +156,56 @@ Target balance: approximately **60% hands-on / 40% theory**.
 
 ---
 
-# 9. Parallel Track — Debugging & Measurement
+# 8. Phase 1 — Embedded C + Bare-Metal Foundations
 
-Debugging is not a chapter that comes after programming. It develops throughout Track 1: printf → GDB → SWD/ST-LINK → register inspection → memory/disassembly → watchpoints → logic analyzer/oscilloscope → RTOS tracing → performance profiling → fault reconstruction → production crash diagnostics.
+> **Status: 🟡 In progress**
 
----
+Phase 1 is intentionally architecture-neutral wherever possible. We establish strong CPU, binary, memory, C, build, startup, and bare-metal foundations before entering Cortex-M-specific architecture in Phase 2.
 
-# 10. Parallel Track — Engineering Practice
+## Phase 1 Progress Dashboard
 
-Production engineering includes Git, GCC/CMake, warnings/formatting, tests, static analysis, mocks/integration tests, Python automation, CI, hardware-in-the-loop testing, fault injection, automated flashing/testing, artifact/version management, OTA/rollback validation, and reproducible release engineering.
+| Section | Topic | Status |
+|---:|---|---|
+| 1 | MCU / Hardware Foundations | ✅ Foundation established |
+| 2 | Generic CPU Execution Foundations | ✅ Foundation established |
+| 3 | Binary & Bit Manipulation | ⬜ Not started — next |
+| 4 | Integer Representation / Arithmetic | ⬜ Not started |
+| 5 | Memory Representation | ⬜ Not started |
+| 6 | C Memory & Pointer Foundations | ⬜ Not started |
+| 7 | Embedded-C-Specific Semantics | ⬜ Not started |
+| 8 | Concurrency Foundation | ⬜ Not started |
+| 9 | Compiler & Build Pipeline | ⬜ Not started |
+| 10 | Program Memory Layout | ⬜ Not started |
+| 11 | ELF Fundamentals | ⬜ Not started |
+| 12 | Linker Script Fundamentals | ⬜ Not started |
+| 13 | Startup / Boot Fundamentals | ⬜ Not started |
+| 14 | Bare-Metal Firmware Structure | ⬜ Not started |
+| 15 | Debugging Foundations | ⬜ Not started |
 
----
-
-# 11. Chapter Template
-
-As topics mature, chapters should preserve interview refresh, mental models, first principles, internals, hardware/architecture, registers/configuration, implementation progression, interactions, debugging playbooks, failure modes, fault injection, performance, reliability, security, production design, lab findings, interview scenarios, and mastery checks where relevant.
-
----
-
-# 12. Knowledge Map
-
-```text
-MCU fundamentals
-→ Embedded C/C++
-→ ARM Cortex-M7/M4
-→ Assembly / ABI
-→ Compiler / ELF / linker
-→ Startup / vector table
-→ Memory architecture
-→ Clocks / reset
-→ GPIO / UART / SPI / I2C / timers / CAN...
-→ Interrupts / exceptions / faults
-→ DMA
-→ Cache / MPU / barriers
-→ GDB / SWD / measurement / debugging
-→ FreeRTOS / real-time engineering
-→ Ethernet / USB / storage
-→ M7 + M4 multicore
-→ Bootloader
-→ OTA / A-B / rollback
-→ Secure boot / firmware security
-→ Reliability / watchdog / recovery
-→ Zephyr
-→ Production firmware architecture
-→ Principal-level system design
-```
+After Sections 1–4, we will do the first integrated mini-design exercise using only concepts covered so far. At the end of Phase 1 we will do a cumulative test across all Phase-1 material, review/re-test weaknesses, and perform a final Phase-1 consolidation before moving to Phase 2.
 
 ---
 
-# Chapter 1 — MCU Foundations
+# Phase 1 — Section 1: MCU / Hardware Foundations
+
+> **Status: ✅ Foundation established**
 
 ## Interview Refresh
 
-A microcontroller is much more than a CPU. A useful first mental model is CPU(s) + memories + peripherals + interconnect/buses + clocks/reset + interrupt system + DMA + caches + debug infrastructure + power management.
+A microcontroller is much more than a CPU. A useful first mental model is:
+
+```text
+CPU(s)
++ memories
++ peripherals
++ interconnect / buses
++ clocks / reset
++ interrupt system
++ DMA
++ caches
++ debug infrastructure
++ power management
+```
 
 Important ideas:
 
@@ -240,19 +213,17 @@ Important ideas:
 - The system memory map determines which hardware responds to an address.
 - Peripheral registers are exposed through memory-mapped addresses.
 - A CPU store instruction can therefore alter physical hardware.
-- Peripheral clocks and resets are prerequisites for correct operation.
+- Peripheral clocks and reset state matter for correct peripheral operation.
 - DMA can move data without the CPU executing one copy instruction per byte.
-- Interrupts allow hardware events to redirect CPU execution.
+- Interrupts allow hardware events to request CPU attention asynchronously.
 - Multiple bus masters can compete for memory/interconnect resources.
-- The STM32H745 has two CPU cores, making ownership and synchronization first-class concerns.
+- The STM32H745 contains two CPU cores, making ownership and synchronization first-class concerns later.
 
----
-
-## 1. What Is Actually Inside an MCU?
+## 1.1 What Is Actually Inside an MCU?
 
 ```text
                      ┌───────────────┐
-                     │ Cortex-M7 CPU │
+                     │      CPU      │
                      └───────┬───────┘
                              │
                      ┌───────┴───────┐
@@ -266,25 +237,9 @@ Important ideas:
                                   GPIO          UART          SPI ...
 ```
 
-Other important participants include the M4 core, DMA controllers, Ethernet, USB, interrupt controller, cache, clock/reset system, and debug infrastructure. Some can initiate transactions independently of the M7 CPU.
+Other important participants include DMA controllers, interrupt logic, clocks/reset, debug infrastructure, caches, and—on STM32H745—the second CPU core and hardware engines such as Ethernet/USB.
 
----
-
-## 2. CPU — Fetch, Decode, Execute
-
-At a simplified level a processor repeatedly performs `FETCH → DECODE → EXECUTE`. The actual machine behavior behind a C expression depends on optimization, variable location, register allocation, architecture capabilities, and compiler decisions. Later we will compile small programs and inspect generated ARM instructions ourselves.
-
----
-
-## 3. Registers — PC, SP, LR
-
-- **PC** identifies the instruction stream being executed.
-- **SP** identifies the current stack location and participates in local variables, saved registers, call state, exception state, and RTOS task context.
-- **LR** commonly contains function-return information. During Cortex-M exceptions it can contain special `EXC_RETURN` values.
-
----
-
-## 4. Memory Is More Than RAM
+## 1.2 Memory Map and Address Decoding
 
 A CPU address is not synonymous with RAM. Hardware address decoding determines which target responds.
 
@@ -298,20 +253,32 @@ address decoder determines target
 Flash / SRAM / peripheral / other target responds
 ```
 
-The system architecture defines what an address means.
+A system interconnect can first select a peripheral region, after which the peripheral internally decodes the register offset.
 
----
+Example conceptual GPIO block:
 
-## 5. Memory-Mapped I/O
+```text
+GPIO base = 0x9000
+MODE      = base + 0x00
+OUTPUT    = base + 0x04
+INPUT     = base + 0x08
+PULL      = base + 0x0C
+```
 
-Most MCU peripherals expose configuration, control, status, and data registers inside the processor address space. Ordinary CPU load/store instructions can therefore interact with hardware.
+The same broad CPU STORE mechanism can therefore write RAM or alter a peripheral register. The **address determines the destination**.
+
+An access to an unmapped/unsupported address may produce an error or exception depending on the architecture and implementation. Exact Cortex-M fault behavior belongs later.
+
+## 1.3 Memory-Mapped I/O
+
+Most MCU peripherals expose configuration, control, status, and data registers inside the processor address space.
 
 ```text
 C code
    ↓
 compiler
    ↓
-ARM STORE instruction
+machine STORE instruction
    ↓
 CPU issues address + value
    ↓
@@ -326,19 +293,15 @@ physical signal can change
 
 This is one of the fundamental bridges between software and electronics.
 
----
+A GPIO input register exposes a digital interpretation of the sensed physical pin state. It does not directly tell software the exact analog voltage.
 
-## 6. `volatile` — Early Mental Model
+## 1.4 Clocks and Reset
 
-Memory-mapped hardware registers can change independently of ordinary program flow, which is one reason `volatile` appears frequently in embedded programming. But `volatile` is **not** a concurrency primitive: it does not automatically provide atomicity, mutual exclusion, cache coherency, inter-core synchronization, or all required memory-ordering guarantees.
+A peripheral clock is **not** a clock that pushes CPU data onto the bus. CPU, interconnect, and peripherals can participate in different clock domains.
 
----
+Clock gating saves dynamic power and can stop clock-dependent state progression.
 
-## 7. Why Peripheral Clocks and Reset Matter
-
-Many MCU peripherals are clock-gated. Clock gating saves power and controls operation. A peripheral may fail because its clock is disabled, it is held in reset, the wrong source is selected, the frequency is wrong, or a parent clock/domain is wrong.
-
-Important nuance: do not assume universally that a bus write to a clock-gated peripheral must fail. The bus-facing register interface and functional peripheral logic may have different clocking behavior. The reference manual defines the exact behavior for a given MCU/peripheral.
+Important nuance: do **not** assume universally that a CPU register access must fail merely because the peripheral functional clock is disabled. Bus-facing register access and peripheral functional logic may have different clocking behavior. The reference manual defines exact behavior.
 
 Clock gating and reset are different:
 
@@ -348,18 +311,38 @@ Clock gated
 → retained state may remain intact
 
 Reset asserted
-→ peripheral state/registers are driven to defined reset conditions
+→ peripheral state/registers are driven to defined reset/default conditions
 ```
 
-A useful debugging hierarchy is `Power → Reset → Clock → Pin mux → Peripheral configuration → Data path → Interrupt/DMA → Application logic`.
+A useful peripheral-debugging hierarchy is:
 
----
+```text
+Power
+  ↓
+Reset
+  ↓
+Clock
+  ↓
+Pin mux / mode
+  ↓
+Peripheral configuration
+  ↓
+Data path
+  ↓
+Interrupt / DMA
+  ↓
+Application logic
+```
 
-## 8. GPIO Electrical Foundations
+## 1.5 GPIO Mode and Output State
 
-### 8.1 MCU boundary: the GPIO pin is physical hardware
+GPIO mode controls whether an output driver is allowed to drive the physical pin. The output-data register can retain a value even while the pin is configured as input. This means firmware can sometimes preload an output value before switching the pin to output mode to avoid an unwanted transition/glitch.
 
-A GPIO pin is a physical connection on the MCU package. Behind it is internal circuitry that can sense the pin voltage and, when configured for output, drive the pin.
+Exact behavior is MCU-specific and should be verified in the reference manual.
+
+## 1.6 GPIO Electrical Boundary
+
+A GPIO pin is a physical connection on the MCU package. Behind it is internal circuitry that can sense pin voltage and, when configured for output, drive the pin.
 
 ```text
                  INSIDE MCU                         OUTSIDE MCU
@@ -378,7 +361,7 @@ A GPIO pin is a physical connection on the MCU package. Behind it is internal ci
         └────────────────────────┘
 ```
 
-The software/electrical chain is therefore:
+Input path:
 
 ```text
 physical pin voltage
@@ -392,91 +375,44 @@ input data register bit
 CPU reads 0 or 1
 ```
 
-When configured as output, the direction is conceptually reversed: register state controls output circuitry, which drives a physical voltage on the pin.
+## 1.7 High-Impedance Inputs and Floating Nodes
 
-### 8.2 Input mode is high impedance
+A digital input is designed to sense voltage while drawing very little current. A simple DC mental model is a very large input resistance, but real inputs are better characterized by leakage current, parasitic capacitance, protection structures, and input thresholds rather than one literal fixed resistor.
 
-A digital GPIO input is designed to sense voltage while drawing very little current. A simple DC mental model is a very large input resistance, but real semiconductor inputs are more accurately characterized by leakage current, parasitic capacitance, protection structures, and input thresholds rather than one literal fixed resistor.
+If an input has no meaningful path to VDD or ground, its voltage is not established deterministically. It is **floating** and can be influenced by stored charge, leakage, noise, nearby signals, or touch.
 
-High input impedance matters because a sensing input should not significantly load the external circuit.
-
-### 8.3 Floating inputs
-
-If an input has no meaningful path to VDD or ground, nothing establishes a definite electrical potential:
-
-```text
-VDD   no connection
-
-        ● GPIO input
-
-GND   no connection
-```
-
-The input is **floating**. Its voltage can be influenced by stored charge, leakage, electrical noise, nearby signals, or touch. Firmware may therefore observe unstable or unpredictable digital values.
-
-A crucial principle is:
+A crucial principle:
 
 > Zero current does not imply zero voltage, and it does not imply VDD either. Voltage is established by circuit conditions and electrical connections.
 
-A node directly connected to ground is at approximately 0 V. A node directly connected to 3.3 V is at approximately 3.3 V. A floating node has no such defined state.
+## 1.8 Pull-Ups and Pull-Downs
 
-### 8.4 Pull-ups and pull-downs
-
-A pull-up creates a weak resistive path toward VDD:
+A pull-up creates a weak resistive path toward VDD; a pull-down creates a weak resistive path toward ground.
 
 ```text
-3.3 V
-  │
- [R]
-  │
-  ● GPIO
+3.3 V                GPIO
+  │                    │
+ [R]                  [R]
+  │                    │
+ GPIO                  GND
+pull-up              pull-down
 ```
 
-With a high-impedance input, almost no current flows, so the voltage drop across the pull-up is tiny and the pin sits near VDD.
+The resistor makes the bias weak: it establishes a default state when nothing stronger controls the node, but a lower-resistance external path can override it safely.
 
-A pull-down is the mirror image:
-
-```text
-  ● GPIO
-  │
- [R]
-  │
- GND
-```
-
-It establishes a default LOW.
-
-The resistor makes the bias **weak**: it establishes a default state when nothing stronger controls the node, but a low-resistance external path can override it safely.
-
-For a 3.3 V supply and 10 kΩ pull-up, a switch to ground draws approximately:
+Example with 3.3 V and 10 kΩ:
 
 ```text
 I = V / R = 3.3 / 10000 = 0.33 mA
 ```
 
-Without the resistor, closing a switch between VDD and ground would create a near short circuit rather than a safe logic transition.
+Without the resistor, closing a switch directly between VDD and ground would create a near-short rather than a safe logic transition.
 
-### 8.5 Internal pull resistors
+Internal MCU pull resistors add a weak bias path but do not mean the input sensing circuitry itself is no longer high impedance.
 
-Many MCUs can enable weak pull-ups or pull-downs internally. Enabling an internal pull-up does **not** mean the GPIO input sensing circuitry stops being high impedance. Instead, the MCU enables an additional weak resistive path between the pin and VDD.
+## 1.9 Active-Low Signals
 
-```text
-                 INSIDE MCU
-        ┌─────────────────────────┐
-        │ VDD                     │
-        │  │                      │
-        │ [internal pull-up]      │
-        │  │                      │
-        │  ├────● GPIO PIN        │
-        │  │                      │
-        │ input sensing           │
-        │ (high impedance)        │
-        └─────────────────────────┘
-```
-
-### 8.6 Active-low signals
-
-A common button arrangement uses a pull-up and a switch to ground:
+A common button arrangement is:
 
 ```text
 3.3 V
@@ -495,37 +431,31 @@ Button released → HIGH → inactive
 Button pressed  → LOW  → active
 ```
 
-This is an **active-low** signal: the logical function is asserted when the signal is LOW. Common naming conventions include `RESET_N`, `ENABLE_N`, `CS_N`, `IRQ_N`, `/RESET`, `nRESET`, and `RESET#`.
+This is an **active-low** signal: the logical function is asserted when the signal is LOW. Common naming styles include `RESET_N`, `/RESET`, `nRESET`, and `RESET#`.
 
-"Active" describes the logical meaning of the signal, not merely whether current is flowing or a switch is physically closed.
+“Active” describes logical meaning, not merely whether current is flowing.
 
-### 8.7 Digital input thresholds: VIL(max) and VIH(min)
+## 1.10 Digital Thresholds
 
-Digital inputs do not simply treat every voltage below 1.65 V as 0 and every voltage above it as 1. Datasheets specify guaranteed regions.
-
-For a hypothetical device:
+Datasheets specify guaranteed input regions rather than a universal midpoint threshold.
 
 ```text
-VIL(max) = 0.8 V
-VIH(min) = 2.0 V
+VIL(max) = highest voltage guaranteed LOW
+VIH(min) = lowest voltage guaranteed HIGH
 
-0 V ─────── 0.8 V ───────────── 2.0 V ─────── 3.3 V
-   guaranteed LOW   not guaranteed   guaranteed HIGH
+0 V ─── VIL(max) ───── undefined/not-guaranteed region ───── VIH(min) ─── VDD
 ```
 
-- `VIL(max)` = **Voltage Input Low, maximum**: the highest input voltage still guaranteed to be interpreted as LOW.
-- `VIH(min)` = **Voltage Input High, minimum**: the lowest input voltage guaranteed to be interpreted as HIGH.
+The voltage between VIL(max) and VIH(min) does not create a third digital value. Hardware still resolves to a digital state, but the result is not guaranteed by the specification.
 
-A voltage between those limits does not represent a third digital value. The input register still produces a digital result, but which result occurs is not guaranteed by the specification.
+Output guarantees:
 
-### 8.8 Output guarantees: VOL(max) and VOH(min)
+```text
+VOH(min) = minimum voltage guaranteed when output drives HIGH
+VOL(max) = maximum voltage guaranteed when output drives LOW
+```
 
-A real GPIO output is not an ideal voltage source. Datasheets therefore specify what an output guarantees under stated operating/loading conditions:
-
-- `VOL(max)` = **Voltage Output Low, maximum**: when driving LOW, the sender guarantees the output will be no higher than this limit.
-- `VOH(min)` = **Voltage Output High, minimum**: when driving HIGH, the sender guarantees the output will be at least this voltage.
-
-A useful way to reconstruct all four names instead of memorizing them:
+A useful reconstruction:
 
 ```text
 V = Voltage
@@ -538,176 +468,57 @@ HIGH → minimum matters
 LOW  → maximum matters
 ```
 
-Therefore:
+## 1.11 Logic-Level Compatibility and Noise Margin
 
-```text
-INPUT / receiver       OUTPUT / sender
-VIH(min)               VOH(min)
-VIL(max)               VOL(max)
-```
-
-### 8.9 Logic-level compatibility
-
-When Chip A drives Chip B:
-
-```text
-             CHIP A                         CHIP B
-             SENDER                        RECEIVER
-
-HIGH:       VOH(min) ─────────────────────► VIH(min)
-LOW:        VOL(max) ─────────────────────► VIL(max)
-```
-
-For guaranteed compatibility:
+For Chip A driving Chip B:
 
 ```text
 HIGH: VOH(min) ≥ VIH(min)
 LOW:  VOL(max) ≤ VIL(max)
 ```
 
-Reason physically rather than memorizing inequalities:
-
-- For HIGH, the sender's worst guaranteed HIGH must still be high enough for the receiver.
-- For LOW, the sender's worst guaranteed LOW must still be low enough for the receiver.
-
-Example:
-
-```text
-Sender:   VOH(min)=2.7 V, VOL(max)=0.4 V
-Receiver: VIH(min)=2.0 V, VIL(max)=0.8 V
-
-HIGH: 2.7 ≥ 2.0  ✓
-LOW:  0.4 ≤ 0.8  ✓
-```
-
-Testing a few boards successfully is not a substitute for satisfying guaranteed datasheet limits across the specified operating conditions.
-
-### 8.10 Noise margin
-
-The gap between the sender's guaranteed output and the receiver's required input is an electrical safety cushion.
+Noise margins:
 
 ```text
 HIGH noise margin = VOH(min) - VIH(min)
 LOW  noise margin = VIL(max) - VOL(max)
 ```
 
-Using the previous example:
+Datasheet guarantees matter more than behavior observed on a few boards because production behavior must remain valid across specified voltage, loading, temperature, and process conditions.
 
-```text
-HIGH margin = 2.7 - 2.0 = 0.7 V
-LOW margin  = 0.8 - 0.4 = 0.4 V
-```
+## 1.12 Output Loading
 
-Larger noise margin generally means more tolerance to electrical degradation/disturbance. Whether a particular margin is sufficient depends on the actual system: loading, PCB layout, trace length, interface speed, switching noise, temperature, supply variation, and other electrical conditions.
-
-### 8.11 Why GPIO HIGH is not exactly VDD
-
-The GPIO output driver uses real transistors with nonzero effective resistance. When the pin sources current, the driver can develop an internal voltage drop:
-
-```text
-VDD ──[effective output resistance]──● GPIO ── load
-```
-
-A simplified model gives:
+A GPIO output is not an ideal voltage source. Its output driver has nonzero effective resistance, so load current can cause HIGH voltage to droop and LOW voltage to rise.
 
 ```text
 Vdrop = I × Rinternal
 ```
 
-For example, 10 mA through an effective 20 Ω produces about 0.2 V of drop, so a 3.3 V source could result in roughly 3.1 V at the pin in that simplified model.
+This is why VOH/VOL guarantees are tied to stated load-current conditions.
 
-Likewise, a heavily loaded LOW output may sit somewhat above 0 V. This is why `VOH(min)` and `VOL(max)` are meaningful and why datasheet limits are tied to specified output-current conditions.
+## 1.13 Pull-Resistor Selection Tradeoff
 
-### 8.12 GPIO electrical mental model to retain
+There is no universal “always use 10 kΩ” rule.
 
-```text
-Firmware configuration
-        ↓
-GPIO registers
-        ↓
-internal input/output circuitry
-        ↓
-physical MCU pin
-        ↓
-external electrical network
-        ↓
-voltage/current behavior
-        ↓
-receiving device thresholds
-        ↓
-logical 0 / 1
-```
+Smaller resistance generally provides stronger bias, better noise immunity, and faster RC transitions, but consumes more current when overridden. Larger resistance saves power but is more sensitive to leakage/noise and can create slower transitions with capacitance.
 
-Do not collapse these layers into "software writes a 1, therefore the wire is exactly 3.3 V." A robust embedded engineer reasons across the entire chain.
+A large resistor produces a large voltage drop only when current actually flows: `V = I × R`.
 
-### 8.13 GPIO electrical mastery check
+## 1.14 Early Interrupt, DMA, Multicore, and Debug Mental Models
 
-Be able to explain from first principles:
-
-- where the physical GPIO pin sits relative to internal MCU circuitry
-- why an input is high impedance
-- why a floating input is undefined
-- why zero current does not imply zero voltage
-- how pull-ups and pull-downs establish deterministic default states
-- why pull resistors are intentionally weak
-- why a resistor prevents a button-to-ground circuit from shorting VDD
-- internal versus external pulls
-- active-low signaling
-- `VIL(max)`, `VIH(min)`, `VOL(max)`, and `VOH(min)` without rote memorization
-- how to verify logic-level compatibility between two devices
-- what noise margin means physically
-- why GPIO output voltage changes with load
-- why datasheet guarantees matter more than behavior observed on one board
-
----
-
-## 9. Interrupt Mental Model
-
-Without interrupts, software can poll hardware continuously. Interrupts allow hardware to request CPU attention asynchronously.
+These are previews only; deep treatment comes later.
 
 ```text
-Peripheral event
-      ↓
-Interrupt request
-      ↓
-NVIC
-      ↓
-Cortex-M exception entry
-      ↓
-automatic context stacking
-      ↓
-ISR executes
-      ↓
-exception return
-      ↓
-interrupted code resumes
+Peripheral event → interrupt request → CPU attention → handler → return
 ```
 
-Later we will study priorities, preemption, nesting, masking, tail chaining, latency, jitter, ISR execution time, interrupt storms, and RTOS interaction.
+DMA allows a hardware engine to transfer data after CPU configuration rather than requiring one CPU load/store pair per byte.
 
----
+Potential bus masters include CPU cores, DMA, Ethernet, USB, and other engines. Performance/correctness can therefore depend on contention, ownership, memory placement, and synchronization.
 
-## 10. DMA Mental Model
+On STM32H745, M7 and M4 can share resources. Shared state is not automatically safe.
 
-DMA allows a hardware engine to perform transfers after CPU configuration, rather than requiring the CPU to execute a load/store pair for every byte.
-
-This creates deeper questions around buffer ownership, memory accessibility, cache coherency, alignment, completion, races, and zero-copy design.
-
----
-
-## 11. Bus Masters and the Interconnect
-
-Potential bus masters include M7, M4, DMA, Ethernet, USB, and other hardware engines. Performance and correctness can therefore depend on contention, arbitration, memory accessibility/placement, latency, bandwidth, ownership, and cache behavior.
-
----
-
-## 12. Dual-Core Consequences
-
-STM32H745 contains Cortex-M7 and Cortex-M4 processors. Shared state is not automatically safe. We will study read-modify-write races, atomics, synchronization, hardware semaphores, shared-memory placement, barriers, cache behavior, peripheral ownership, IPC, startup coordination, watchdog ownership, fault isolation, and firmware compatibility.
-
----
-
-## 13. ST-LINK and SWD Mental Model
+Debug path:
 
 ```text
 Development PC
@@ -719,236 +530,546 @@ STM32 debug infrastructure
 Cortex-M7 / Cortex-M4
 ```
 
-This enables programming Flash, halting/resuming, stepping, reading registers/memory, and setting breakpoints/watchpoints. We will later understand the mechanism deeply enough that debugging is not treated as magic.
+## 1.15 Section 1 Foundation Gate
+
+Be able to explain naturally:
+
+- MCU as CPU + memory + peripherals + interconnect + clocks/reset + other engines
+- address decoding and memory-mapped I/O
+- why an address does not inherently mean RAM
+- clock gating versus reset
+- GPIO mode versus output-data state
+- high-impedance inputs and floating nodes
+- pull-ups/pull-downs and why the resistor matters
+- active-low signals
+- VIL/VIH/VOL/VOH
+- logic compatibility and noise margin
+- why output voltage changes with load
+- why datasheet guarantees matter
+- early roles of interrupts, DMA, multicore ownership, and SWD debugging
 
 ---
 
-## 14. Software-to-Physical-Hardware Chain
+# Phase 1 — Section 2: Generic CPU Execution Foundations
+
+> **Status: ✅ Foundation established**
+
+This section intentionally uses an architecture-neutral CPU model. The goal is to understand what a processor fundamentally does beneath C code before depending on ARM/Cortex-M-specific register names, calling conventions, exception behavior, or instruction details.
+
+## Interview Refresh
+
+A CPU executes encoded machine instructions. At a simplified level it repeatedly **fetches, decodes, and executes** instructions. Registers provide small, fast working storage inside the CPU; memory provides much larger storage outside that register set. Load/store operations move values between memory and registers, ALU instructions transform register values, the program counter tracks instruction flow, and branches alter that flow.
+
+Function calls add another problem: the machine must preserve enough execution state to return correctly, pass arguments/results according to an agreed convention, and protect values that must survive nested calls. The stack is a RAM-backed LIFO mechanism commonly used for this temporary per-invocation state.
+
+A C local variable is a language-level object, not inherently a stack slot or register. The compiler decides where values live based on semantics, optimization, liveness, addressability, register pressure, and the target architecture/ABI.
+
+## 2.1 Instructions, Machine Code, and Assembly
+
+The CPU does not execute C source directly. It executes binary-encoded **machine instructions** defined by its instruction-set architecture (ISA).
 
 ```text
-C / C++ statement
-       ↓
-Compiler
-       ↓
-ARM machine instruction
-       ↓
-Cortex-M CPU
-       ↓
-load / store
-       ↓
-address + data on interconnect
-       ↓
-peripheral register
-       ↓
-hardware state machine / I/O circuitry
-       ↓
-physical pin / signal
+C source
+   ↓
+compiler
+   ↓
+assembly representation (conceptually)
+   ↓
+assembler
+   ↓
+machine-code instruction bits
+   ↓
+CPU
 ```
 
-When something fails, we should eventually be capable of investigating every layer in this chain.
+Assembly is a human-readable representation of machine instructions; it is not machine code itself. A compiler also does not necessarily emit a textual assembly file as an intermediate artifact.
 
----
+During decode, hardware interprets instruction fields according to the ISA and generates internal control signals needed to perform the operation. Memory itself stores bits; meaning comes from context and interpretation.
 
-## 15. MCU Foundations Mastery Gate
-
-Before considering the foundations mature, be able to explain naturally: major MCU blocks; fetch/decode/execute; PC/SP/LR; address decoding; memory-mapped I/O; software-to-physical hardware; clocks/reset; GPIO electrical behavior; interrupts; DMA; bus masters; dual-core ownership/synchronization; and ST-LINK/SWD.
-
-The standard is understanding, not memorized wording.
-
----
-
-# Chapter 2 — Embedded C
-
-> Status: **Planned / not yet consolidated**
-
-Topics include integer representation, pointers/arrays, structs/unions, padding/alignment, bit manipulation, endianness, `const`, `volatile`, `static`, `extern`, function pointers, macros/inline functions, stack/heap, lifetime, undefined behavior, MMIO, optimization, and build/link behavior.
-
----
-
-# Chapter 3 — ARM Cortex-M, Assembly & ABI
-
-> Status: **Planned / not yet consolidated**
-
-Core areas include general-purpose registers, PC/SP/LR, MSP/PSP, load/store architecture, branches, function calls, stack frames, ABI, compiler-generated assembly, exception entry/return, `EXC_RETURN`, and disassembly-driven debugging.
-
----
-
-# Chapter 4 — Compiler, ELF & Linker
-
-> Status: **Planned / not yet consolidated**
+## 2.2 Fetch → Decode → Execute
 
 ```text
-source.c → compiler → source.o → linker → firmware.elf → objcopy → firmware.bin / hex
+FETCH
+  obtain encoded instruction indicated by the PC
+        ↓
+DECODE
+  interpret instruction fields according to the ISA
+        ↓
+EXECUTE
+  perform requested operation
+        ↓
+repeat
 ```
 
-We will study preprocessing, compilation, assembly, object files, symbols, relocation, linking, ELF, map files, `objdump`, `readelf`, `nm`, and linker scripts.
+**Fetch retrieves instruction bits, not the instruction's data operands.** Operand accesses occur according to what the decoded instruction requires.
 
----
+Real processors can pipeline and overlap operations. Fetch/decode/execute is therefore a foundational mental model, not necessarily a literal one-operation-per-cycle description.
 
-# Chapter 5 — Startup, Vector Table & `Reset_Handler`
+## 2.3 Registers Versus RAM
 
-> Status: **Planned / not yet consolidated**
+Registers are small storage locations tightly integrated with the CPU. They provide fast working state for operations.
 
 ```text
-POWER → RESET → boot configuration → vector table → initial MSP → Reset_Handler
-→ startup assembly → copy .data → zero .bss → system/runtime initialization → main()
+CPU
+├── registers       small, directly usable working state
+├── ALU             arithmetic / logical operations
+└── execution logic
+        │
+        └──────── memory system
+```
+
+Registers are not infinite. Increasing their number has costs in area, wiring/routing, selection logic, instruction encoding, power, and timing.
+
+When simultaneously live values exceed conveniently available registers, a compiler may **spill** selected values to memory, commonly stack storage, and reload them later.
+
+## 2.4 LOAD, STORE, and ALU Operations
+
+Conceptually:
+
+```text
+LOAD  R1, [address]     → read VALUE stored at address into R1
+STORE R1, [address]     → write R1's value to memory at address
+ADD   R3, R1, R2        → R3 = R1 + R2
+SUB   R3, R1, R2        → R3 = R1 - R2
+```
+
+A LOAD obtains the data at an address; it does not automatically mean “load the address itself.” A STORE does not inherently destroy the source register.
+
+This connects directly to MMIO: the same broad CPU store mechanism can target RAM or a peripheral register; the target address determines which hardware responds.
+
+## 2.5 Program Counter and Control Flow
+
+The **program counter (PC)** identifies the instruction stream the CPU is executing. In our simplified model it identifies where the next instruction should be fetched.
+
+Sequential execution advances according to instruction size. Address width does **not** determine instruction size. In an imaginary machine using 4-byte instructions, PC progression by 4 occurs because each instruction occupies four bytes, not because addresses happen to be 32 bits wide.
+
+Branches change normal sequential flow:
+
+```text
+normal:    instruction → next instruction → next instruction
+branch:    instruction ───────────────────→ target instruction
+```
+
+A conceptual COMPARE can perform subtraction for condition evaluation without storing the arithmetic result. If the comparison result is zero, a Zero flag can become `Z=1`; a later conditional branch may inspect that state.
+
+**The flag itself does not branch.**
+
+## 2.6 Function Calls: Redirect + Remember How to Return
+
+A plain branch redirects execution. A function call must additionally preserve enough information to resume the caller afterward.
+
+```text
+caller
+  │
+  ├── remember return point
+  └── redirect execution to callee
+              │
+              └── callee eventually returns
+                         │
+                         └── caller resumes
+```
+
+We used a generic return-information-register model without yet making it Cortex-M-specific.
+
+Nested calls expose why one return register is insufficient for arbitrary call depth. If A calls B and B calls C, the newer call can overwrite the current return information, so older return information must be preserved somewhere—commonly the stack.
+
+A leaf function may avoid saving return information if it makes no nested call, but **leaf function does not universally mean no stack frame**.
+
+## 2.7 Stack and Stack Pointer
+
+The stack is an organized region of RAM used for temporary LIFO state. The **stack pointer (SP)** tracks the current stack position; it does not inherently encode total capacity, free bytes, or used bytes.
+
+For our conceptual downward-growing stack:
+
+```text
+          higher addresses
+                ↑
+0x3000          ← initial SP boundary
+0x2FFF   ┌───────────────┐
+         │ stack storage │
+         │      ...      │
+0x2000   └───────────────┘
+                ↓
+          lower addresses
+
+PUSH 32-bit value:
+    SP = SP - 4
+    memory[SP] = value
+
+first pushed value occupies 0x2FFC ... 0x2FFF
+```
+
+Conceptual POP:
+
+```text
+value = memory[SP]
+SP = SP + 4
+```
+
+POP does not erase the old RAM bits. It changes which region is considered active stack state.
+
+The stack stores **value bits**, not metadata describing which register originally produced them. Correct compiler/code conventions determine how values are restored.
+
+Stack direction and endianness are separate concepts.
+
+## 2.8 Stack Frames and Per-Invocation State
+
+A **stack frame** is the portion of stack storage associated with an active function invocation. Depending on compiler decisions it can contain saved registers, preserved return information, local objects, compiler temporaries, and call-related state.
+
+Use **per invocation**, not merely “per function,” because recursion can create multiple simultaneously active invocations of the same function.
+
+Example:
+
+```text
+B enters with SP = 0x2FF4
+save 3 × 32-bit values → 12 bytes
+reserve 8 bytes for locals
+frame size = 20 bytes
+SP reaches 0x2FE0
+
+B must restore its stack consumption before returning:
+SP → 0x2FF4
+```
+
+A correct callee restores stack state as required by the calling convention. Stack imbalance can cause the caller to restore the wrong values and create failures far from the original mistake.
+
+## 2.9 Stack Depth and Overflow
+
+Stack safety depends on **peak simultaneous usage**, not average usage.
+
+If each recursive invocation consumes 20 bytes:
+
+```text
+5 active invocations  = 100 bytes
+10 active invocations = 200 bytes
+```
+
+If the deepest path calls another function needing 40 bytes, that must be added to the peak.
+
+Stack overflow means SP crosses the region allocated for that stack. Consequences depend on the memory map and protection. It may overwrite another RAM object, enter unmapped/protected memory and fault, corrupt control state, or manifest much later as an apparently unrelated failure.
+
+A visible crash location is therefore not necessarily the original corruption location.
+
+Where possible, controlled rejection/admission checking is preferable to knowingly permitting stack exhaustion.
+
+## 2.10 Arguments, Return Values, and Calling Conventions
+
+Functions need an agreement describing where inputs arrive, where results are returned, what registers can be clobbered, what state must survive, what stack state is required at return, and how control returns.
+
+We deliberately used an **imaginary convention**, not ARM rules:
+
+```text
+R1 = first argument
+R2 = second argument
+R1 = return value
+
+R1, R2 = caller-saved
+R3, R4 = callee-saved
+SP must satisfy the convention on return
+return information must be preserved correctly
+```
+
+Return **control** and return **data** are distinct problems.
+
+Example:
+
+```text
+R1 = 10
+R2 = 20
+CALL add
+...
+R1 = 30      ← return data according to our imaginary convention
+RETURN
+```
+
+If the caller needs its previous `R1` value after the call, it must preserve it before the call. If the result also arrives in R1, the caller must move/save that result somewhere safe before restoring the old R1 value.
+
+## 2.11 Caller-Saved and Callee-Saved Registers
+
+These terms describe **responsibility**, not physical properties of particular registers.
+
+**Caller-saved:** the caller preserves a value if it needs that value after making a call that is permitted to clobber the register.
+
+**Callee-saved:** if a callee modifies such a register, the callee restores the required original value before returning.
+
+Roles are relative:
+
+```text
+A calls B → A is caller, B is callee
+B calls C → B is caller, C is callee
+```
+
+The calling convention specifies externally required state. An implementation can sometimes preserve a value in another safe register instead of memory, provided later operations cannot destroy that temporary copy and the convention remains satisfied.
+
+Do not silently add unstated nested-call requirements while reasoning about a scenario: a strategy valid for a leaf function can become unsafe only after the requirements change and the function itself calls something else.
+
+## 2.12 Calling Convention Versus ABI
+
+A **calling convention** defines function-call mechanics: argument/result locations, register-preservation responsibility, stack rules, and control return.
+
+An **ABI (Application Binary Interface)** is broader. It can include calling convention plus binary-level rules such as data representation, alignment, object layout, symbol conventions, and interoperability requirements.
+
+Exact ARM/Cortex-M ABI details belong to Phase 2.
+
+## 2.13 C Local Variables Are Not “Stack Variables”
+
+```c
+int f(void) {
+    int x = 10;
+    int y = 20;
+    return x + y;
+}
+```
+
+The C language describes program semantics. It does not require `x` and `y` to occupy stack slots. Depending on optimization/context, the compiler may keep values in registers, reuse registers, place an object in memory, transform the calculation, or eliminate variables entirely—for example by constant-folding the result.
+
+A source-level variable and a physical storage location belong to different abstraction layers.
+
+## 2.14 Liveness, Register Allocation, and Spilling
+
+A value is **live** while its current value can still be needed by future execution. Once dead, the register holding it can be reused.
+
+Therefore twenty source-level local variables do not necessarily require twenty registers or a large stack frame. If only three values are simultaneously live, registers can be reused across variables.
+
+When register pressure exceeds the usable register set, the compiler may spill selected live values to memory and reload them later. The decision depends on liveness, future use, cost, optimization, calling-convention constraints, and target architecture—not simply on which value is “needed immediately.”
+
+## 2.15 Addressability Changes Storage Requirements
+
+```c
+int x = 10;
+use(&x);
+```
+
+`&x` means the memory address of the C object `x`; it does **not** mean “the address of the CPU register currently holding x.”
+
+If observable program behavior requires `x` to be addressable, the compiler must arrange suitable memory-backed storage, commonly stack storage for an ordinary automatic local, subject to optimizations that preserve language semantics.
+
+Pointer semantics will be studied deeply in the dedicated Phase-1 pointer section.
+
+## 2.16 Integrated Execution Model
+
+```text
+C function       → instructions + control flow
+argument         → value in convention-defined location
+return value     → value in convention-defined location
+local variable   → register / memory / transformed / optimized away
+function call    → preserve required state + redirect execution
+return           → restore required state + redirect back
+stack frame      → temporary RAM associated with active invocation
+```
+
+Underneath these abstractions, the CPU still executes encoded instructions through the fetch/decode/execute machinery.
+
+A useful umbrella is **execution state**:
+
+```text
+PC
+register values
+condition flags
+SP
+relevant memory state
+```
+
+A debugger fundamentally helps us halt execution and inspect or modify pieces of this state. The same model later supports reasoning about interrupts, faults, and RTOS context switching.
+
+## 2.17 Deliberate Phase Boundary
+
+This section is architecture-neutral on purpose. We have **not yet** locked these concepts to Cortex-M specifics such as exact R0–R15 meanings, R13/SP, R14/LR, R15/PC behavior, ARM/Thumb instructions, AAPCS rules, MSP/PSP, xPSR, exception entry/return, NVIC, or Cortex-M stack frames.
+
+Those belong to **Phase 2 — ARM Cortex-M Internals**, after Phase 1 is completed deeply.
+
+## 2.18 Section 2 Foundation Gate
+
+Be able to reason naturally about:
+
+- instruction vs machine code vs assembly
+- fetch/decode/execute
+- registers vs RAM and why registers exist
+- LOAD/STORE and basic ALU operations
+- PC and sequential/branched control flow
+- compare + Zero flag + conditional branch
+- why a function call needs return information
+- nested calls and preservation of older return state
+- SP, PUSH/POP, stack direction, and frame ownership
+- stack imbalance and overflow
+- peak stack usage
+- arguments and return values
+- caller-saved versus callee-saved responsibility
+- calling convention versus ABI
+- locals not inherently living on the stack
+- liveness, register allocation, and spilling
+- why taking a local object's address can require memory-backed storage
+- how these pieces combine into CPU execution state
+
+**Status: ✅ Foundation established.** These ideas will recur and deepen throughout later phases.
+
+---
+
+# Phase 1 — Section 3: Binary & Bit Manipulation
+
+> **Status: ⬜ Not started — next**
+
+Planned foundation topics:
+
+- bits, bytes, words, and register-width thinking
+- binary and hexadecimal from the register perspective
+- AND, OR, XOR, NOT
+- left/right shifts
+- masks
+- set, clear, toggle, and test individual bits
+- multi-bit fields
+- safe bit manipulation in C
+- reasoning from datasheet register diagrams
+
+This section will be consolidated only after we study and demonstrate the concepts.
+
+---
+
+# Phase 1 — Section 4: Integer Representation / Arithmetic
+
+> **Status: ⬜ Not started**
+
+Planned topics include signed versus unsigned integers, two's complement, ranges, overflow/wraparound, promotions/conversions, and conceptual CPU condition flags such as Z/N/C/V.
+
+---
+
+# Phase 1 — Sections 5–15: Planned Sequence
+
+## Section 5 — Memory Representation
+Endianness, alignment, object representation basics.
+
+## Section 6 — C Memory & Pointer Foundations
+Pointers, addresses, dereferencing, arrays versus pointers, pointer arithmetic, `const`, structures, padding/alignment.
+
+## Section 7 — Embedded-C-Specific Semantics
+`volatile`, `const volatile`, fixed-width types, safe register bit operations, undefined and implementation-defined behavior.
+
+## Section 8 — Concurrency Foundation
+Atomicity, read-modify-write, race conditions, and why `volatile` does not mean atomic.
+
+## Section 9 — Compiler & Build Pipeline
+Preprocessing, compilation, assembly, object files, linking, symbols, relocations, optimization implications.
+
+## Section 10 — Program Memory Layout
+`.text`, `.rodata`, `.data`, `.bss`, stack, heap.
+
+## Section 11 — ELF Fundamentals
+Sections, symbols, map files, `objdump`, `readelf`, `nm` concepts.
+
+## Section 12 — Linker Script Fundamentals
+Flash/RAM placement, `MEMORY`, `SECTIONS`, VMA/LMA, linker symbols.
+
+## Section 13 — Startup / Boot Fundamentals
+Reset, initial stack concept, startup code, `.data` copy, `.bss` zeroing, calling `main()`.
+
+## Section 14 — Bare-Metal Firmware Structure
+Initialization, superloop, polling, state-machine thinking, driver/application separation.
+
+## Section 15 — Debugging Foundations
+Debugger mental model, breakpoints, watchpoints, registers/memory, disassembly, stepping, and optimized-code debugging concepts.
+
+---
+
+# 9. Phase 2 — ARM Cortex-M Internals
+
+> **Status: ⬜ Not started**
+
+Phase 2 begins only after Phase 1 has been completed deeply and passed its cumulative test/review gate.
+
+Planned areas include common Cortex-M architecture first, followed by meaningful M4-versus-M7 differences: core registers, Thumb instructions, real function execution, AAPCS/ABI, xPSR/flags, MSP/PSP, Thread/Handler modes, privilege, vector table, exception entry/return, NVIC, faults, SysTick, masking registers, pipeline fundamentals, memory ordering/barriers, and exclusive/atomic access.
+
+---
+
+# 10. Later Track 1 Phases
+
+## Phase 3 — Drivers + Interrupts + DMA
+Register-level peripheral drivers, polling, interrupts, timers, DMA, buffering, async APIs, zero-copy, failure recovery, and measurement.
+
+## Phase 4 — Embedded C++
+References, RAII, ownership, constructors/destructors, templates, `constexpr`, interfaces, allocation policy, STL tradeoffs, exceptions/RTTI policy, and zero-cost abstractions.
+
+## Phase 5 — FreeRTOS + Real-Time Engineering
+Tasks, scheduling, context switching, priorities, queues, mutexes, semaphores, event groups, notifications, timers, ISR-safe APIs, stack sizing, priority inversion, starvation, deadlocks, latency, jitter, deadlines, and WCET reasoning.
+
+## Phase 6 — Cache + Memory + Performance
+Cache lines, clean/invalidate, DMA coherency, MPU attributes, memory barriers, TCM versus SRAM, shared memory, memory placement, zero-copy, and benchmarking.
+
+## Phase 7 — Connectivity + Storage
+Ethernet/TCP-IP, Wireshark, USB, CAN FD, eMMC, QSPI, persistent data, filesystems, storage integrity, and error recovery.
+
+## Phase 8 — Multicore M7 ↔ M4
+Boot order, resource ownership, IPC, shared memory, HSEM, cache/coherency, fault isolation, watchdog ownership, restart strategies, and firmware compatibility.
+
+## Phase 9 — Bootloader + OTA + Security
+Custom bootloader, validation/jump, CRC/integrity, Flash programming, A/B slots, rollback, power-failure safety, signatures, secure boot, anti-rollback, dual-core image coordination, and trust model.
+
+## Phase 10 — Zephyr
+Apply existing MCU/RTOS understanding in another ecosystem and compare device/driver models, DeviceTree, Kconfig/build, scheduling, synchronization, portability, and architecture tradeoffs.
+
+## Phase 11 — Principal Capstone
+Integrate dual-core partitioning, real-time control, networking, storage, UI, OTA, security, diagnostics, watchdog/recovery, automated testing, deliberate fault injection, and Principal-level architecture defense.
+
+---
+
+# 11. Parallel Track — Debugging & Measurement
+
+Debugging is not a chapter that comes after programming. It develops throughout Track 1:
+
+```text
+printf
+  ↓
+GDB
+  ↓
+SWD / ST-LINK
+  ↓
+register and memory inspection
+  ↓
+disassembly / watchpoints
+  ↓
+logic analyzer / oscilloscope
+  ↓
+RTOS tracing / performance profiling
+  ↓
+fault reconstruction
+  ↓
+production crash diagnostics
 ```
 
 ---
 
-# Chapter 6 — Memory Architecture
+# 12. Parallel Track — Engineering Practice
 
-> Status: **Planned / not yet consolidated**
-
-Areas include internal Flash, SRAM regions, ITCM/DTCM, AXI SRAM, external SDRAM, QSPI, stack/heap placement, DMA-accessible memory, cacheability, linker placement, latency/bandwidth, contention, and benchmarking.
+Production engineering includes Git, GCC/CMake, warnings/formatting, tests, static analysis, mocks/integration tests, Python automation, CI, hardware-in-the-loop testing, fault injection, automated flashing/testing, artifact/version management, OTA/rollback validation, and reproducible release engineering.
 
 ---
 
-# Chapter 7 — Clocks & Reset
-
-> Status: **Planned / not yet consolidated**
-
-We will study oscillator/source/PLL/prescalers, CPU and bus clocks, peripheral clocks, clock domains, reset types, deliberate misconfiguration, measurement, and debugging.
-
----
-
-# Chapter 8 — Interrupts, Exceptions & Faults
-
-> Status: **Planned / not yet consolidated**
-
-Topics include vector table, NVIC, exception entry/frame, priority, preemption, nesting, tail chaining, latency, jitter, masking, ISR design, interrupt storms, HardFault, BusFault, MemManage, UsageFault, status registers, crash-context capture, and postmortem reconstruction.
-
----
-
-# Chapter 9 — Peripheral Drivers
-
-> Status: **Planned / not yet consolidated**
-
-Representative progression: register polling → interrupts → buffering → DMA → circular DMA → RTOS-safe driver → async API → zero-copy → error recovery/diagnostics. Relevant peripherals include GPIO, UART, timers/PWM, SPI, I2C, ADC, watchdog, CAN FD, Ethernet, USB, eMMC, QSPI, SDRAM, display/touch, and audio/microphone.
-
----
-
-# Chapter 10 — DMA
-
-> Status: **Planned / not yet consolidated**
-
-CPU copy → DMA transfer → interrupt completion → circular DMA → double buffering → cache coherency → buffer ownership → zero-copy → performance engineering. A working CubeMX example is **not** the mastery criterion.
-
----
-
-# Chapter 11 — Cache, MPU & Memory Barriers
-
-> Status: **Planned / not yet consolidated**
-
-Topics include cache lines, dirty/stale data, clean/invalidate, DMA coherency, alignment, MPU attributes, barriers, ordering, TCM versus SRAM, shared memory, and zero-copy tradeoffs. We will deliberately create stale-data/corruption failures and diagnose them.
-
----
-
-# Chapter 12 — Embedded C++
-
-> Status: **Planned / not yet consolidated**
-
-Topics include references, constructors/destructors, RAII, ownership, templates, `constexpr`, interfaces, polymorphism, allocation policy, placement new, STL tradeoffs, exceptions, RTTI, zero-cost abstractions, wrapping C drivers, and generated assembly.
-
----
-
-# Chapter 13 — FreeRTOS & Real-Time Engineering
-
-> Status: **Planned / not yet consolidated**
-
-Core areas include scheduler/tasks, context switching, priorities, queues, mutexes, semaphores, event groups, task notifications, timers, ISR-safe APIs, stack sizing, heap strategies, priority inversion/inheritance, starvation, deadlocks, latency, jitter, deadlines, and WCET reasoning.
-
----
-
-# Chapter 14 — Connectivity & Storage
-
-> Status: **Planned / not yet consolidated**
-
-Major areas include Ethernet/TCP-IP, packet tracing, USB, CAN FD, eMMC, QSPI, persistent data, filesystem/storage integrity, and error recovery. Networking experiments will include Wireshark/protocol-level observation.
-
----
-
-# Chapter 15 — Multicore M7 ↔ M4
-
-> Status: **Planned / not yet consolidated**
-
-We will study boot order, shared-resource initialization, peripheral ownership, M4 release, IPC, shared-memory placement, cache, hang recovery, watchdog ownership, firmware compatibility, HSEM, resource ownership, fault isolation, restart strategies, and production partitioning.
-
----
-
-# Chapter 16 — Bootloader
-
-> Status: **Planned / not yet consolidated**
-
-Progression includes reset/Boot ROM, custom bootloader, vector table/MSP/VTOR, application validation and jump, CRC/integrity, Flash programming, update transport, power-failure safety, A/B slots, rollback/recovery, signatures, secure boot, anti-rollback, and dual-core update coordination.
-
-A bootloader/application handoff is **not** simply calling `app_main()`.
-
----
-
-# Chapter 17 — OTA, A/B & Recovery
-
-> Status: **Planned / not yet consolidated**
-
-Target architecture: download candidate → write inactive slot → verify → mark pending → reboot → health/self-test → confirm or rollback. Failure injection will cover network/power loss, corruption, invalid signatures, incompatible images, downgrade attempts, crashes, deadlocks, watchdog resets, and storage exhaustion.
-
-Core requirement: the device must not become unrecoverably bricked because the update was interrupted at the worst possible moment.
-
----
-
-# Chapter 18 — Secure Boot & Firmware Security
-
-> Status: **Planned / not yet consolidated**
-
-Progression: CRC → hash → digital signature → trusted public key → root of trust → anti-rollback → A/B recovery → key/bootloader protection → production threat model.
-
-CRC detects accidental corruption but is not authenticity. Hashing detects modification but alone does not establish authorization. Digital signatures can establish authenticity when the verification keys and trust chain are protected.
-
----
-
-# Chapter 19 — Reliability, Watchdog & Recovery
-
-> Status: **Planned / not yet consolidated**
-
-We will study watchdog architecture, health monitoring, reset reason, persistent crash state, boot-loop detection, safe mode, crash dumps, fault reconstruction, recovery policy, and telemetry. A robust watchdog design validates system progress rather than blindly refreshing a timer.
-
----
-
-# Chapter 20 — Zephyr
-
-> Status: **Planned / support on exact target to be verified when reached**
-
-Zephyr comes after deep FreeRTOS/MCU understanding. The goal is to apply existing principles in another ecosystem and compare driver/device models, configuration, scheduling, synchronization, DeviceTree, build system, portability, abstractions, and architecture tradeoffs.
-
----
-
-# Chapter 21 — Principal Capstone
-
-The final Track 1 system will combine dual-core partitioning, real-time control, networking, storage, UI, firmware update, security, diagnostics, watchdog/recovery, automated testing, and deliberate fault injection. The final architecture examination will require defending M7/M4 partitioning, peripheral ownership, IPC, DMA/buffer ownership, cache strategy, worst-case latency, priorities, failure recovery, OTA behavior, compatibility, security, testing, and maintainability.
-
----
-
-# 22. Failure Notebook
+# 13. Failure Notebook
 
 Real failures encountered during Track 1 should be preserved because debugging experience is one of the highest-value outputs of the track. Each entry should preserve symptoms, context, hypotheses, experiments, observations, root cause, fix, why it works, misleading fixes, unfamiliar-MCU diagnostic approach, prevention/production design, and interview variations.
 
 ---
 
-# 23. Interview Preparation Index
+# 14. Interview Preparation Index
 
 This section will eventually aggregate questions and scenarios accumulated during learning across C/C++, Cortex-M, assembly/ABI, compiler/linker/startup, memory, clocks/reset, peripherals, interrupts/faults, DMA, cache/MPU/barriers, RTOS, networking/storage, multicore, bootloader, OTA/security, reliability, debugging, performance, and Senior/Principal architecture.
 
 ---
 
-# 24. Current Learning Position
+# 15. Current Learning Position
 
-We are at the beginning of **MCU Foundations**. We have now consolidated the first electrical GPIO foundation block: MCU/pin boundary, high-impedance inputs, floating nodes, pull-ups/pull-downs, active-low signals, digital thresholds, sender/receiver logic-level compatibility, noise margins, and output loading.
+```text
+Track 1
+└── Phase 1 — Embedded C + Bare-Metal Foundations  🟡
+    ├── Section 1 — MCU / Hardware Foundations     ✅
+    ├── Section 2 — Generic CPU Execution          ✅
+    └── Section 3 — Binary & Bit Manipulation      ← NEXT
+```
 
-The broader immediate sequence remains CPU execution, registers/assembly, memory map/MMIO, compiler/object/ELF/linking, memory sections/linker scripts, vector table/startup, and ST-LINK/SWD/GDB. When the physical board arrives, real hardware experiments will be integrated into this same path rather than treated as a separate tutorial.
+Sections 1 and 2 have been consolidated into this single handbook. Section 3 is the next active learning block.
 
 ---
 
-# 25. Handbook Maintenance Rule
+# 16. Handbook Maintenance Rule
 
 This handbook should **not** be updated after every conversation message.
 
@@ -970,14 +1091,15 @@ Consolidate into handbook
 Commit to GitHub
 ```
 
-This keeps the handbook useful years later instead of turning it into a conversation archive.
+We will normally consolidate and push after each completed Phase-1 section. Later cumulative tests and mini-design exercises can expose weaknesses, and subsequent commits can refine earlier sections.
 
 ---
 
 ## Track 1 Status
 
 **Primary board:** STM32H745I-DISCO  
-**Current phase:** Foundations / pre-board learning  
+**Current phase:** Phase 1 — Embedded C + Bare-Metal Foundations  
+**Current section:** Section 3 — Binary & Bit Manipulation (next)  
 **Primary RTOS:** FreeRTOS  
 **Secondary RTOS:** Zephyr (later)  
 **Primary languages:** C and C++  
