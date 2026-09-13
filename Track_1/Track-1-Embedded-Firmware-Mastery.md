@@ -168,8 +168,8 @@ Phase 1 is intentionally architecture-neutral wherever possible. We establish st
 |---:|---|---|
 | 1 | MCU / Hardware Foundations | ✅ Foundation established |
 | 2 | Generic CPU Execution Foundations | ✅ Foundation established |
-| 3 | Binary & Bit Manipulation | ⬜ Not started — next |
-| 4 | Integer Representation / Arithmetic | ⬜ Not started |
+| 3 | Binary & Bit Manipulation | ✅ Foundation established |
+| 4 | Integer Representation / Arithmetic | ⬜ Not started — next |
 | 5 | Memory Representation | ⬜ Not started |
 | 6 | C Memory & Pointer Foundations | ⬜ Not started |
 | 7 | Embedded-C-Specific Semantics | ⬜ Not started |
@@ -907,27 +907,354 @@ Be able to reason naturally about:
 
 # Phase 1 — Section 3: Binary & Bit Manipulation
 
-> **Status: ⬜ Not started — next**
+> **Status: ✅ Foundation established**
 
-Planned foundation topics:
+## Interview Refresh
 
-- bits, bytes, words, and register-width thinking
-- binary and hexadecimal from the register perspective
-- AND, OR, XOR, NOT
-- left/right shifts
-- masks
-- set, clear, toggle, and test individual bits
-- multi-bit fields
-- safe bit manipulation in C
-- reasoning from datasheet register diagrams
+Embedded firmware frequently needs to interpret and modify individual bits inside hardware registers. The key mental model is that a register is a fixed-width pattern of bits; hexadecimal is simply a compact way to represent that pattern.
 
-This section will be consolidated only after we study and demonstrate the concepts.
+```text
+1 hex digit = 4 bits
+8 bits      = 1 byte
+32 bits     = 8 hex digits
+```
+
+The core operations are:
+
+```text
+TEST:    reg &  mask
+SET:     reg |  mask
+CLEAR:   reg & ~mask
+TOGGLE:  reg ^  mask
+```
+
+For a multi-bit field, replacing the old field value safely requires **clear then insert**, not OR alone:
+
+```c
+reg = (reg & ~FIELD_MASK) |
+      ((value << FIELD_POS) & FIELD_MASK);
+```
+
+Correct bit math is only one layer of correctness. A read-modify-write sequence can still lose another execution context's update if the complete sequence is not atomic.
+
+## 3.1 Binary, Hexadecimal, and Bit Positions
+
+Bit numbering conventionally starts at zero from the least-significant bit:
+
+```text
+Bit:   7 6 5 4 3 2 1 0
+Value: 1 0 1 0 0 1 0 1
+```
+
+For an unsigned N-bit pattern there are `2^N` combinations and the largest representable value is `2^N - 1`.
+
+Examples:
+
+```text
+only bit 6 set = 0100 0000 = 0x40 = 64
+1101 1010      = 0xDA
+0xA5           = 1010 0101
+```
+
+Leading zeroes can be valuable because they make the intended register width visible even though they do not change the numeric value.
+
+## 3.2 Shifts
+
+A left shift moves bits toward more-significant positions; a right shift moves bits toward less-significant positions.
+
+```text
+0000 0001 << 4 → 0001 0000
+0100 0000 >> 1 → 0010 0000
+```
+
+At fixed width, bits shifted beyond the available width are not retained in that stored pattern. Exact C behavior for signed values, promotions, invalid shift counts, and overflow belongs to later integer/C-semantics sections.
+
+A highly useful mask idiom is:
+
+```c
+1U << bit_position
+```
+
+For example, bit 4 corresponds to `1U << 4`, which is `0x10`.
+
+## 3.3 AND, OR, XOR, and NOT
+
+### AND — select/test or clear
+
+```text
+x & 0 = 0
+x & 1 = x
+```
+
+AND with a mask preserves selected bits and clears unselected bits in the result.
+
+### OR — set
+
+```text
+x | 0 = x
+x | 1 = 1
+```
+
+OR can force selected bits to 1, but it cannot clear an existing 1.
+
+### XOR — toggle
+
+```text
+x ^ 0 = x
+x ^ 1 = NOT x
+```
+
+Applying the same XOR mask twice restores the original value:
+
+```text
+x ^ mask ^ mask = x
+```
+
+### NOT — invert
+
+NOT flips every bit in the operand. It is commonly used with AND to create a clear mask:
+
+```c
+reg &= ~(1U << bit_position);
+```
+
+## 3.4 Constructing and Testing Masks
+
+To select multiple independent bits, OR their individual masks:
+
+```c
+mask = (1U << 6) | (1U << 2);
+```
+
+For multiple selected bits:
+
+```c
+(reg & mask) == 0U      // none selected bits are set
+(reg & mask) != 0U      // at least one selected bit is set
+(reg & mask) == mask    // all selected bits are set
+```
+
+Do not assume a bit-test result is literally `1`. For example:
+
+```c
+REGISTER & (1U << 4)
+```
+
+returns either `0` or the mask value (`0x10` here), so this is generally wrong:
+
+```c
+(REGISTER & (1U << 4)) == 1U
+```
+
+Prefer:
+
+```c
+(REGISTER & (1U << 4)) != 0U
+```
+
+or normalize deliberately:
+
+```c
+(REGISTER >> 4) & 1U
+```
+
+## 3.5 Multi-Bit Fields
+
+A notation such as `MODE[5:3]` means that the field occupies bits 5, 4, and 3. A three-bit field has eight possible bit patterns (`000` through `111`).
+
+For a field of `width` bits beginning at `position`:
+
+```c
+FIELD_MASK = ((1U << width) - 1U) << position;
+```
+
+Example for a 3-bit field at bits `[5:3]`:
+
+```text
+base three-bit mask = 0000 0111
+shift left by 3     = 0011 1000 = 0x38
+```
+
+Extract a field by masking and shifting it down to bit zero:
+
+```c
+value = (reg & FIELD_MASK) >> FIELD_POS;
+```
+
+Example:
+
+```text
+register          = 1101 0011
+field [6:4] mask  = 0111 0000
+masked            = 0101 0000
+shift right by 4  = 0000 0101 = 5
+```
+
+## 3.6 Replacing a Field Safely
+
+OR alone is not a general field-replacement operation because OR cannot clear old 1 bits.
+
+Suppose an old field is `101` and the requested new field is `010`:
+
+```text
+101
+OR 010
+------
+111    ← wrong replacement
+```
+
+The correct generic pattern is:
+
+```c
+reg = (reg & ~FIELD_MASK) |
+      ((value << FIELD_POS) & FIELD_MASK);
+```
+
+Conceptually:
+
+```text
+1. clear the old field
+2. constrain and position the new value
+3. OR the new field into the cleared register
+```
+
+OR-only insertion is valid if the old field is guaranteed to be all zeroes, but that guarantee should be explicit rather than assumed.
+
+## 3.7 Field Width, Validation, and Truncation
+
+A three-bit unsigned field can represent values `0..7`.
+
+Masking an oversized value constrains it to the field width, but can silently transform the caller's request:
+
+```text
+input  = 1010 (10)
+mask   = 0111
+result = 0010 (2)
+```
+
+This prevents neighboring-field corruption but does not prove the input was valid.
+
+For a production API, when out-of-range input is an error, validate and reject/report it rather than relying on silent truncation. Masking can still be useful as a defensive boundary after validation.
+
+## 3.8 Operator Precedence Pitfalls
+
+Unary `~` binds more tightly than shifts. Therefore:
+
+```c
+reg & ~1U << 5
+```
+
+is interpreted like:
+
+```c
+reg & ((~1U) << 5)
+```
+
+not:
+
+```c
+reg & ~(1U << 5)
+```
+
+The intended and readable form is:
+
+```c
+reg &= ~(1U << 5);
+```
+
+For the operators used here, a useful precedence slice is:
+
+```text
+unary ~
+   ↓
+<<  >>
+   ↓
+&
+   ↓
+^
+   ↓
+|
+```
+
+Even when precedence makes an expression technically correct, parentheses are often preferable in register code because they make intent obvious during review and debugging.
+
+## 3.9 Read-Modify-Write and Lost Updates
+
+An expression such as:
+
+```c
+reg |= mask;
+```
+
+is conceptually a read-modify-write operation:
+
+```text
+READ register
+MODIFY local/read value
+WRITE complete register value back
+```
+
+If two execution contexts update different bits in the same register and their sequences overlap, one can overwrite the other's update.
+
+Example:
+
+```text
+Initial REG = 0000 0000
+
+Main reads      → 0000 0000
+Interrupt reads → 0000 0000
+Interrupt sets bit 1 and writes → 0000 0010
+Main sets bit 0 in stale copy and writes → 0000 0001
+```
+
+The desired combined state was `0000 0011`, but the interrupt update was lost.
+
+Important rule:
+
+> Correct masking does not imply concurrency safety.
+
+Full treatment of atomicity, critical sections, hardware set/clear registers, and why `volatile` does not solve races belongs to Section 8 and later peripheral work.
+
+## 3.10 Reading Datasheet Register Diagrams
+
+For each register field, translate the datasheet into four questions:
+
+```text
+Where is the field?        → high:low / position / width
+How do I select it?        → mask
+How do I read it?          → mask + shift down
+How do I replace it?       → clear + shift/mask + insert
+```
+
+Do not infer neighboring-bit behavior from field names alone. Preserve unrelated fields unless the datasheet explicitly specifies special write behavior. Later peripheral sections will add real hardware semantics such as read-only bits, write-one-to-clear fields, set/clear aliases, reserved bits, and side effects.
+
+## 3.11 Section 3 Foundation Gate
+
+Be able to reason naturally about:
+
+- bit positions, powers of two, binary, and hexadecimal
+- unsigned N-bit combinations and maximum value
+- left/right shifts at the bit-pattern level
+- AND/OR/XOR/NOT behavior
+- constructing one-bit and multi-bit masks
+- set, clear, toggle, and test patterns
+- why a masked bit test may return the mask value rather than `1`
+- field position, width, mask construction, extraction, and insertion
+- why OR alone cannot generally replace a field
+- validation versus masking/truncation
+- precedence pitfalls such as `~1U << n`
+- read-modify-write lost-update reasoning
+- the distinction between bit-manipulation correctness and concurrency correctness
+
+The cumulative Sections 1–3 test also revalidated MMIO/address decoding, stack/calling-convention reasoning, compiler storage freedom, and integration between register manipulation and CPU execution. Minor notation slips around STORE direction and MMIO-vs-RAM identification were re-tested successfully.
+
+**Status: ✅ Foundation established.** These concepts will recur at much greater depth in peripheral drivers, concurrency, Cortex-M atomic operations, and real register-level firmware.
 
 ---
 
 # Phase 1 — Section 4: Integer Representation / Arithmetic
 
-> **Status: ⬜ Not started**
+> **Status: ⬜ Not started — next**
 
 Planned topics include signed versus unsigned integers, two's complement, ranges, overflow/wraparound, promotions/conversions, and conceptual CPU condition flags such as Z/N/C/V.
 
@@ -1062,10 +1389,11 @@ Track 1
 └── Phase 1 — Embedded C + Bare-Metal Foundations  🟡
     ├── Section 1 — MCU / Hardware Foundations     ✅
     ├── Section 2 — Generic CPU Execution          ✅
-    └── Section 3 — Binary & Bit Manipulation      ← NEXT
+    ├── Section 3 — Binary & Bit Manipulation      ✅
+    └── Section 4 — Integer Representation         ← NEXT
 ```
 
-Sections 1 and 2 have been consolidated into this single handbook. Section 3 is the next active learning block.
+Sections 1–3 have been consolidated into this single handbook. Section 4 is the next active learning block. After Section 4, the first mini-design will integrate concepts from Sections 1–4.
 
 ---
 
@@ -1099,7 +1427,7 @@ We will normally consolidate and push after each completed Phase-1 section. Late
 
 **Primary board:** STM32H745I-DISCO  
 **Current phase:** Phase 1 — Embedded C + Bare-Metal Foundations  
-**Current section:** Section 3 — Binary & Bit Manipulation (next)  
+**Current section:** Section 4 — Integer Representation / Arithmetic (next)  
 **Primary RTOS:** FreeRTOS  
 **Secondary RTOS:** Zephyr (later)  
 **Primary languages:** C and C++  
