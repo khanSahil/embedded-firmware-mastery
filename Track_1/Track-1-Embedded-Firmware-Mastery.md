@@ -169,8 +169,8 @@ Phase 1 is intentionally architecture-neutral wherever possible. We establish st
 | 1 | MCU / Hardware Foundations | ✅ Foundation established |
 | 2 | Generic CPU Execution Foundations | ✅ Foundation established |
 | 3 | Binary & Bit Manipulation | ✅ Foundation established |
-| 4 | Integer Representation / Arithmetic | ⬜ Not started — next |
-| 5 | Memory Representation | ⬜ Not started |
+| 4 | Integer Representation / Arithmetic | ✅ Foundation established |
+| 5 | Memory Representation | ⬜ Not started — next |
 | 6 | C Memory & Pointer Foundations | ⬜ Not started |
 | 7 | Embedded-C-Specific Semantics | ⬜ Not started |
 | 8 | Concurrency Foundation | ⬜ Not started |
@@ -182,7 +182,7 @@ Phase 1 is intentionally architecture-neutral wherever possible. We establish st
 | 14 | Bare-Metal Firmware Structure | ⬜ Not started |
 | 15 | Debugging Foundations | ⬜ Not started |
 
-After Sections 1–4, we will do the first integrated mini-design exercise using only concepts covered so far. At the end of Phase 1 we will do a cumulative test across all Phase-1 material, review/re-test weaknesses, and perform a final Phase-1 consolidation before moving to Phase 2.
+After every completed section, design practice integrates all concepts covered so far using an evolving template appropriate to the current learning depth. The current Sections 1–4 mini-design is intentionally paused during travel and will resume from the existing control-flow step rather than restart. At the end of Phase 1 we will do a cumulative test across all Phase-1 material, review/re-test weaknesses, and perform a final Phase-1 consolidation before moving to Phase 2.
 
 ---
 
@@ -1254,9 +1254,422 @@ The cumulative Sections 1–3 test also revalidated MMIO/address decoding, stack
 
 # Phase 1 — Section 4: Integer Representation / Arithmetic
 
-> **Status: ⬜ Not started — next**
+> **Status: ✅ Foundation established**
 
-Planned topics include signed versus unsigned integers, two's complement, ranges, overflow/wraparound, promotions/conversions, and conceptual CPU condition flags such as Z/N/C/V.
+## Interview Refresh
+
+A fixed-width bit pattern has no inherent signed or unsigned meaning. Interpretation comes from the type/operation applied to the bits.
+
+For an N-bit integer:
+
+```text
+Unsigned range:
+0 ... 2^N - 1
+
+Signed two's-complement range:
+-2^(N-1) ... 2^(N-1) - 1
+```
+
+Two's complement is best understood as fixed-width modular arithmetic, not as "one sign bit plus magnitude." For 8 bits:
+
+```text
+1000 0000 = -128
+1111 1111 = -1
+0111 1111 = +127
+```
+
+Carry and signed overflow answer different questions:
+
+```text
+C → did the addition generate a bit beyond the operation width?
+V → is the mathematically correct signed result outside the signed range?
+```
+
+Unsigned arithmetic is defined modulo `2^N`; signed overflow must not be assumed to have the same C-language behavior merely because the CPU uses two's complement.
+
+A key C mental model established here is:
+
+```text
+expression evaluation width/type
+        ≠ necessarily
+destination object's width/type
+```
+
+Small integer operands can be promoted before arithmetic, and information can be lost later during narrowing. Widening after information has already been discarded cannot reconstruct the original value.
+
+## 4.1 Bits Versus Numeric Interpretation
+
+The same pattern can represent different numbers:
+
+```text
+1111 1111
+
+unsigned → 255
+signed two's complement → -1
+```
+
+The hardware stores bits; the compiler and machine operation determine how those bits participate in arithmetic and comparisons.
+
+Do not confuse two's complement with sign-magnitude. In two's complement, the MSB is not a detachable sign bit. A useful signed-weight model for 8 bits is:
+
+```text
+bit:     7    6   5   4   3   2   1   0
+weight: -128  64  32  16   8   4   2   1
+```
+
+Example:
+
+```text
+1111 1100
+= -128 + 64 + 32 + 16 + 8 + 4
+= -4
+```
+
+## 4.2 Two's Complement and Negation
+
+To construct the negative of an ordinary representable value at fixed width:
+
+```text
+1. invert every bit
+2. add 1
+```
+
+Example:
+
+```text
++10 = 0000 1010
+invert 1111 0101
++1     1111 0110 = -10
+```
+
+This is a derived shortcut for the modular representation, not a separate magical encoding rule.
+
+The most-negative value is a special boundary:
+
+```text
+int8_t-like signed range: -128 ... +127
+
+-128 = 1000 0000
+```
+
+Mathematically, negating -128 requires +128, which is not representable in the same signed 8-bit width. This asymmetry later matters for C expressions such as negation and absolute-value edge cases.
+
+## 4.3 Addition and Subtraction
+
+Subtraction can be viewed as addition of a negative:
+
+```text
+A - B = A + (-B)
+```
+
+Example:
+
+```text
+  0000 1010   +10
++ 1111 1101    -3
+------------
+1 0000 0111
+```
+
+Keeping the low 8 bits gives 7.
+
+The same binary adder can therefore support both addition and subtraction with appropriate operand transformation/control.
+
+## 4.4 Carry Versus Signed Overflow
+
+These are independent concepts.
+
+Example:
+
+```text
+  0111 1111   +127
++ 0000 0001     +1
+------------
+  1000 0000
+```
+
+Mathematical signed result is +128, which is outside the 8-bit signed range. Therefore signed overflow occurred. But there is no carry bit beyond bit 7.
+
+Conversely:
+
+```text
+  1111 1111   -1 signed
++ 0000 0001   +1
+------------
+1 0000 0000
+```
+
+Here there is carry-out, but the signed mathematical result is 0 and fits perfectly.
+
+All combinations are possible:
+
+```text
+C=0, V=0
+C=1, V=0
+C=0, V=1
+C=1, V=1
+```
+
+A useful signed-addition rule:
+
+- positive + positive yielding a negative-looking stored pattern indicates signed overflow;
+- negative + negative yielding a non-negative-looking stored pattern indicates signed overflow;
+- adding opposite signs cannot overflow the signed range.
+
+## 4.5 Conceptual Z / N / C / V Flags
+
+Architecture-neutral meanings introduced here:
+
+```text
+Z → stored result is zero
+N → stored result MSB is 1
+C → carry out of the operation width
+V → signed mathematical result overflowed the signed range
+```
+
+Example:
+
+```text
+1111 1111 + 0000 0001 → stored 0000 0000
+
+Z=1
+N=0
+C=1
+V=0
+```
+
+Important nuance: `N=1` describes the stored result pattern's MSB. If `V=1`, the mathematically correct signed result may not actually be negative.
+
+Exact Cortex-M flag semantics, condition codes, and subtraction carry/borrow behavior belong to Phase 2.
+
+## 4.6 Unsigned Modular Arithmetic and Counter Wraparound
+
+Unsigned fixed-width arithmetic wraps modulo `2^N`.
+
+For 8 bits:
+
+```text
+255 + 1 → 0
+250 + 10 → 4
+```
+
+This is not merely a nuisance; it is useful for free-running counters and timers.
+
+Example:
+
+```text
+start = 250
+end   = 5
+
+elapsed = (5 - 250) mod 256 = 11
+```
+
+However, two snapshots cannot reveal how many complete cycles occurred. If the modulo difference is 7, actual elapsed counts could be:
+
+```text
+7
+7 + 256
+7 + 2*256
+...
+```
+
+Therefore wrap-safe elapsed-time calculations require a bound that makes the intended interval unambiguous.
+
+## 4.7 Signed Versus Unsigned Comparisons
+
+The same bit pattern can order differently depending on interpretation:
+
+```text
+1111 1111 vs 0000 0001
+
+unsigned: 255 > 1 → true
+signed:    -1 > 1 → false
+```
+
+Mixed signed/unsigned C expressions are dangerous because language conversion rules may change the effective numeric interpretation before the comparison.
+
+For a same-width simplified case:
+
+```text
+signed -5 → converted to unsigned → large unsigned value
+large unsigned value < 10 → false
+```
+
+Do not memorize "signed always becomes unsigned" as a universal rule. Exact rank/range rules belong to Section 7.
+
+## 4.8 Integer Promotions and Expression Width
+
+A small integer object's declared width does not imply that every expression using it is evaluated at that width.
+
+Typical example when `int` can represent all `uint8_t` values:
+
+```c
+uint8_t a = 200;
+uint8_t b = 100;
+uint8_t result = a + b;
+```
+
+Conceptually:
+
+```text
+a → promoted to int
+b → promoted to int
+200 + 100 → 300 as int
+assignment to uint8_t → 44
+```
+
+Therefore:
+
+```c
+if (a + b > 255)
+```
+
+can be true even though both source objects are 8-bit.
+
+But after narrowing:
+
+```c
+uint8_t result = a + b;
+if (result > 255)
+```
+
+the condition cannot be true because the object already contains only an 8-bit value.
+
+Exact integer-promotion and usual-arithmetic-conversion rules belong to Section 7.
+
+## 4.9 Narrowing and Irrecoverable Information Loss
+
+Once a wider value is converted to a narrower type and high-order information is discarded, later widening cannot restore it.
+
+Example:
+
+```text
+260
+ ↓ convert to uint8_t
+4
+ ↓ convert to uint16_t
+4
+```
+
+Bit view:
+
+```text
+0000 0100
+      ↓ widen
+0000 0000 0000 0100
+```
+
+The lost upper bit that distinguished 260 from 4 is gone.
+
+Engineering rule:
+
+> If overflow/range information matters, validate before a narrowing conversion that can discard it.
+
+## 4.10 Unsigned Underflow
+
+Unsigned arithmetic has no negative result domain. At width N:
+
+```text
+0 - 1 → 2^N - 1
+```
+
+For `unsigned int count = 0;`, `count--` produces `UINT_MAX`, not -1.
+
+This can make an invalid logical state look like a very large valid-looking positive quantity.
+
+Also distinguish `uint8_t` from `unsigned int`: a `uint8_t` may promote to `int` before arithmetic on typical systems, whereas `unsigned int` is already at that type/rank and does not simply become signed `int`.
+
+## 4.11 Logical Versus Arithmetic Right Shift
+
+At the bit-operation level:
+
+```text
+logical right shift    → newly vacated high bits are filled with 0
+arithmetic right shift → newly vacated high bits replicate the original MSB
+```
+
+Example:
+
+```text
+1111 1000  (-8)
+
+logical >> 1    → 0111 1100
+arithmetic >> 1 → 1111 1100  (-4)
+```
+
+Arithmetic right shift can resemble division by powers of two for signed values, but negative odd numbers expose rounding differences:
+
+```text
+-7 arithmetic >> 1 → -4
+-7 / 2 mathematically → -3.5
+```
+
+Exact C semantics for right-shifting negative signed integers belong to Section 7.
+
+## 4.12 Sign Extension Foundation
+
+When widening a negative two's-complement value while preserving its numeric meaning, replicate the original sign bit into all newly introduced upper bits.
+
+Example:
+
+```text
+8-bit -5:
+1111 1011
+
+16-bit -5:
+1111 1111 1111 1011
+```
+
+Zero extension would instead produce positive 251 and would not preserve the signed value.
+
+This will recur naturally in memory representation, integer conversions, and later CPU load/instruction behavior.
+
+## 4.13 C-Language Boundary
+
+Do not confuse hardware bit behavior with C-language guarantees.
+
+A CPU may physically use a two's-complement adder, but this does not imply that overflowing a signed C integer is guaranteed to wrap like unsigned arithmetic.
+
+Unsigned arithmetic has defined modulo behavior. Signed-overflow language semantics, implementation-defined conversions, promotions, and undefined behavior are deliberately deferred to Section 7.
+
+Useful layered model:
+
+```text
+C language rules
+      ↓
+compiler transformations / instruction selection
+      ↓
+machine instructions
+      ↓
+CPU operates on bit patterns
+```
+
+## 4.14 Section 4 Foundation Gate
+
+Be able to reason naturally about:
+
+- bits versus signed/unsigned interpretation
+- unsigned and two's-complement ranges
+- why two's complement is not sign-magnitude
+- negative-weight interpretation
+- invert-plus-one negation and the most-negative-value asymmetry
+- subtraction as addition of a two's-complement negative
+- carry versus signed overflow
+- conceptual Z/N/C/V flags
+- unsigned modulo arithmetic and counter wraparound
+- ambiguity when a counter may have wrapped multiple times
+- signed versus unsigned comparison meaning
+- integer-promotion foundation
+- expression width versus destination width
+- narrowing and irreversible information loss
+- unsigned underflow
+- logical versus arithmetic right shift
+- sign extension
+- hardware behavior versus C-language guarantees
+
+The cumulative Sections 1–4 test revalidated MMIO/address decoding, CPU/calling-convention reasoning, peak stack usage, register field replacement, read-modify-write lost updates, integer flags, wraparound, compiler storage freedom, GPIO active-low behavior, and signed/unsigned interpretation. A temporary sign-magnitude slip while encoding a negative value was re-tested successfully by deriving `-6` as `1111 1010` through invert-plus-one.
+
+**Status: ✅ Foundation established.** Exact C conversion/overflow semantics will deepen in Section 7; exact Cortex-M flag and shift behavior will deepen in Phase 2.
 
 ---
 
@@ -1390,10 +1803,11 @@ Track 1
     ├── Section 1 — MCU / Hardware Foundations     ✅
     ├── Section 2 — Generic CPU Execution          ✅
     ├── Section 3 — Binary & Bit Manipulation      ✅
-    └── Section 4 — Integer Representation         ← NEXT
+    ├── Section 4 — Integer Representation         ✅
+    └── Section 5 — Memory Representation          ← NEXT
 ```
 
-Sections 1–3 have been consolidated into this single handbook. Section 4 is the next active learning block. After Section 4, the first mini-design will integrate concepts from Sections 1–4.
+Sections 1–4 have been consolidated into this single handbook. Section 5 — Memory Representation is the next active learning block. The Sections 1–4 guided mini-design remains paused during travel and will resume from its existing control-flow step when convenient.
 
 ---
 
@@ -1427,7 +1841,7 @@ We will normally consolidate and push after each completed Phase-1 section. Late
 
 **Primary board:** STM32H745I-DISCO  
 **Current phase:** Phase 1 — Embedded C + Bare-Metal Foundations  
-**Current section:** Section 4 — Integer Representation / Arithmetic (next)  
+**Current section:** Section 5 — Memory Representation (next)  
 **Primary RTOS:** FreeRTOS  
 **Secondary RTOS:** Zephyr (later)  
 **Primary languages:** C and C++  
