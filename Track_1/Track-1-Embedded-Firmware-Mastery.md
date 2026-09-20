@@ -170,8 +170,8 @@ Phase 1 is intentionally architecture-neutral wherever possible. We establish st
 | 2 | Generic CPU Execution Foundations | ✅ Foundation established |
 | 3 | Binary & Bit Manipulation | ✅ Foundation established |
 | 4 | Integer Representation / Arithmetic | ✅ Foundation established |
-| 5 | Memory Representation | ⬜ Not started — next |
-| 6 | C Memory & Pointer Foundations | ⬜ Not started |
+| 5 | Memory Representation | ✅ Foundation established |
+| 6 | C Memory & Pointer Foundations | ⬜ Not started — next |
 | 7 | Embedded-C-Specific Semantics | ⬜ Not started |
 | 8 | Concurrency Foundation | ⬜ Not started |
 | 9 | Compiler & Build Pipeline | ⬜ Not started |
@@ -1673,10 +1673,404 @@ The cumulative Sections 1–4 test revalidated MMIO/address decoding, CPU/callin
 
 ---
 
-# Phase 1 — Sections 5–15: Planned Sequence
+# Phase 1 — Section 5: Memory Representation
 
-## Section 5 — Memory Representation
-Endianness, alignment, object representation basics.
+> **Status: ✅ Foundation established**
+
+## Interview Refresh
+
+Memory is byte-addressed: each address identifies one byte. Multi-byte objects occupy consecutive addresses, and the object size determines the inclusive address range:
+
+```text
+last byte address = start address + size - 1
+```
+
+For a multi-byte value, **endianness** determines the order in which its bytes appear in memory:
+
+```text
+Value: 0x12345678
+
+Little-endian memory:
+lowest address → 78 56 34 12 → highest address
+
+Big-endian memory:
+lowest address → 12 34 56 78 → highest address
+```
+
+Endianness changes byte order for multi-byte values. It does not reverse bit order inside each byte.
+
+**Alignment** describes constraints or preferences on an object's starting address. Under a common natural-alignment model:
+
+```text
+2-byte alignment → address % 2 == 0
+4-byte alignment → address % 4 == 0
+8-byte alignment → address % 8 == 0
+```
+
+Power-of-two alignment can also be recognized from low address bits:
+
+```text
+2-byte aligned → lowest 1 bit = 0
+4-byte aligned → lowest 2 bits = 00
+8-byte aligned → lowest 3 bits = 000
+```
+
+Alignment and size are related on many ABIs, but they are not the same concept and must not be treated as universally identical.
+
+A misaligned multi-byte access can span multiple naturally aligned memory blocks. Exact consequences are architecture-specific: it may require multiple internal accesses, be slower, need special handling, or fault for some access types.
+
+Padding is compiler-inserted storage used to satisfy alignment constraints. It can appear:
+
+```text
+between members → internal padding
+after the final member → tail padding
+```
+
+Tail padding is especially important for arrays because the next structure object must begin at an address satisfying the structure's alignment.
+
+The most important mental model from this section is:
+
+> Memory stores bytes/bits. Meaning comes from software type, instruction, format, and context.
+
+The same bit pattern can therefore represent different values:
+
+```text
+1111 1111
+
+uint8_t → 255
+int8_t  → -1
+```
+
+Likewise, the same 32-bit representation can be interpreted as an integer, floating-point value, pointer representation, protocol field, or other format depending on context.
+
+## 5.1 Byte-Addressed Memory
+
+If a 32-bit object begins at `0x2000`, it occupies:
+
+```text
+0x2000
+0x2001
+0x2002
+0x2003
+```
+
+A byte read from one of those addresses retrieves only that byte. A multi-byte read combines consecutive bytes according to the machine's representation rules.
+
+Do not confuse an object's numeric value with the order in which its bytes are displayed in a raw memory window.
+
+## 5.2 Endianness
+
+For value `0xA1B2C3D4`:
+
+```text
+Little-endian:
+address +0 → D4
+address +1 → C3
+address +2 → B2
+address +3 → A1
+
+Big-endian:
+address +0 → A1
+address +1 → B2
+address +2 → C3
+address +3 → D4
+```
+
+A debugger may show:
+
+```text
+variable value: 0xAABBCCDD
+raw memory:     DD CC BB AA
+```
+
+on a little-endian system. Those views are consistent: one shows the logical numeric value, the other the physical byte representation.
+
+When data crosses a machine boundary, a protocol should define a fixed byte order rather than relying on each machine's native endianness.
+
+## 5.3 Alignment
+
+Alignment answers a different question from size:
+
+```text
+size      → how many bytes the object occupies
+alignment → which starting addresses satisfy its placement requirement
+```
+
+Example: a 32-bit object beginning at `0x2002` occupies:
+
+```text
+0x2002
+0x2003
+0x2004
+0x2005
+```
+
+and spans two 4-byte-aligned blocks:
+
+```text
+0x2000–0x2003
+0x2004–0x2007
+```
+
+The object still occupies four bytes; misalignment does not inherently make the object itself consume more storage. Memory overhead generally appears when compilers insert padding to preserve alignment.
+
+Exact alignment rules depend on the target architecture, ABI, compiler, and type. "An N-byte object always requires N-byte alignment" is not a universal rule.
+
+## 5.4 Structure Padding
+
+Under a simplified ABI where `uint8_t`, `uint16_t`, and `uint32_t` have alignments 1, 2, and 4:
+
+```c
+struct Example {
+    uint8_t  a;
+    uint32_t b;
+};
+```
+
+can lay out as:
+
+```text
+offset 0  a
+offset 1  padding
+offset 2  padding
+offset 3  padding
+offset 4  b byte 0
+offset 5  b byte 1
+offset 6  b byte 2
+offset 7  b byte 3
+```
+
+The internal padding ensures `b` begins at a 4-byte-aligned address.
+
+Reversing the members:
+
+```c
+struct Example {
+    uint32_t b;
+    uint8_t  a;
+};
+```
+
+can produce:
+
+```text
+offset 0–3  b
+offset 4    a
+offset 5–7  tail padding
+```
+
+The tail padding keeps the total structure size compatible with its alignment, so array elements can be placed back-to-back while each element remains correctly aligned.
+
+## 5.5 Member Ordering and Memory Efficiency
+
+Member order can materially change structure size.
+
+Example:
+
+```c
+struct A {
+    uint8_t  a;
+    uint32_t b;
+    uint16_t c;
+};
+```
+
+may require 12 bytes, while:
+
+```c
+struct B {
+    uint32_t b;
+    uint16_t c;
+    uint8_t  a;
+};
+```
+
+may require only 8 bytes under the same alignment assumptions.
+
+Across 10,000 instances, that difference is:
+
+```text
+12 × 10,000 = 120,000 bytes
+ 8 × 10,000 =  80,000 bytes
+saved         = 40,000 bytes ≈ 39.1 KiB
+```
+
+A useful engineering heuristic is to consider ordering members from stricter alignment requirements toward weaker ones when layout is under your control and memory efficiency matters.
+
+This is not a universal optimization law. Readability, logical grouping, ABI compatibility, hardware-defined layouts, protocol formats, cache behavior, and external interfaces can matter more.
+
+## 5.6 Packed Structures Are Not a Free Optimization
+
+A packed structure can remove padding, but it can also create misaligned members.
+
+Conceptual packed layout:
+
+```text
+0x1000  uint8_t a
+0x1001  uint32_t b begins
+0x1002
+0x1003
+0x1004
+```
+
+The 32-bit member beginning at `0x1001` crosses a natural 4-byte boundary.
+
+Depending on architecture/access type, this can mean slower access, multiple underlying transactions, special compiler-generated sequences, or a fault.
+
+Therefore:
+
+> First optimize layout while preserving normal alignment. Use packed layouts only for a specific reason and with a clear understanding of the target's access rules.
+
+Legitimate uses can include externally specified binary formats, storage formats, protocol packets, or hardware-defined byte layouts.
+
+## 5.7 Object Representation Versus Logical Value
+
+The physical bytes associated with an object are its object representation. The logical program value is the meaning assigned to those bytes.
+
+For:
+
+```c
+uint32_t x = 0x12345678;
+```
+
+on a little-endian machine:
+
+```text
+logical value          → 0x12345678
+object size            → 4 bytes
+raw memory             → 78 56 34 12
+```
+
+Memory itself does not know whether a bit pattern is signed, unsigned, floating point, or something else.
+
+A debugging consequence is important:
+
+> Correct bytes can still produce an incorrect application value if firmware interprets them using the wrong width, signedness, endianness, type, or external format.
+
+Useful debugging checklist:
+
+```text
+Are the raw bytes correct?
+Is the width correct?
+Is signedness correct?
+Is endianness correct?
+Is the intended type/format correct?
+```
+
+## 5.8 Padding Bytes Are Not Logical Members
+
+A structure's raw representation may include padding bytes that are not named logical members.
+
+For:
+
+```c
+struct S {
+    uint8_t  a;
+    uint32_t b;
+};
+```
+
+the physical representation may contain:
+
+```text
+a + padding + b
+```
+
+Assigning values to `a` and `b` does not, in general, imply that padding bytes become meaningful program state or must be maintained as zero.
+
+The language/compiler has no need to perform extra writes solely to keep padding at a canonical value when those bytes are not part of the object's logical members.
+
+This distinction explains why two structures can have the same logical member values while their raw byte representations differ in padding.
+
+## 5.9 Why Raw `memcmp` Is Not General Struct Equality
+
+Suppose two structures have identical logical members but different padding bytes.
+
+A byte-wise comparison:
+
+```c
+memcmp(&s1, &s2, sizeof(struct S))
+```
+
+examines every byte in the object representation, including padding. It can therefore report a difference even when all meaningful members are equal.
+
+For logical equality, compare the meaningful fields.
+
+Even if a program deliberately initializes complete storage so padding initially happens to match, keep the concepts separate:
+
+```text
+logical equality
+≠ definitionally the same thing as
+raw byte-for-byte equality
+```
+
+If every compared byte is identical, `memcmp` will of course report equality, but C does not generally define structure equality in terms of padding or raw object representation.
+
+## 5.10 Serialization and External Formats
+
+Blindly transmitting a structure's in-memory bytes is fragile:
+
+```c
+write(uart, &msg, sizeof(msg));
+```
+
+Potential problems include:
+
+- compiler-inserted padding,
+- different ABI/layout rules,
+- different native endianness,
+- representation details that are not part of the protocol.
+
+A robust wire/storage format defines its byte representation explicitly.
+
+Example:
+
+```text
+bytes 0–1 → id, big-endian
+bytes 2–5 → value, big-endian
+```
+
+The sender serializes logical fields into that format; the receiver deserializes from it. This decouples the protocol from both machines' native structure layouts.
+
+If a little-endian sender transmits the raw bytes of `0x1234` as:
+
+```text
+34 12
+```
+
+a big-endian receiver that blindly interprets those bytes as a native 16-bit integer can read `0x3412`. The bytes did not become corrupted; they were interpreted under a different byte-order convention.
+
+## 5.11 Section 5 Foundation Gate
+
+Be able to reason naturally about:
+
+- byte-addressed memory and inclusive object address ranges
+- multi-byte object representation
+- little-endian versus big-endian byte ordering
+- why endian order affects bytes, not bit order inside each byte
+- size versus alignment
+- power-of-two alignment and low address bits
+- aligned versus misaligned accesses
+- why a misaligned access can cross natural memory blocks
+- implementation/ABI dependence of exact alignment requirements
+- internal padding versus tail padding
+- why arrays motivate tail padding
+- member-order effects on structure size
+- why packed structures can trade memory for access cost/restrictions
+- logical value versus raw object representation
+- same bits under different signed/type interpretations
+- padding bytes as non-logical state
+- why raw `memcmp` is not general logical struct equality
+- why external formats should define byte order and layout explicitly
+- why raw struct transmission is not a robust general serialization strategy
+
+The short cumulative Sections 1–5 test revalidated MMIO/base-plus-offset reasoning, register-field replacement, integer flags, alignment/block-boundary reasoning, structure padding, and raw-object comparison. A carry-versus-signed-overflow distinction from Section 4 had a minor slip and is intentionally left for a later unannounced retention check rather than immediate repetition.
+
+**Status: ✅ Foundation established.** Exact C object-model semantics, pointer behavior, structure access, and language-level representation rules will deepen in Sections 6–7; exact Cortex-M misalignment/access behavior will deepen in Phase 2.
+
+---
+
+# Phase 1 — Sections 6–15: Planned Sequence
 
 ## Section 6 — C Memory & Pointer Foundations
 Pointers, addresses, dereferencing, arrays versus pointers, pointer arithmetic, `const`, structures, padding/alignment.
@@ -1804,10 +2198,11 @@ Track 1
     ├── Section 2 — Generic CPU Execution          ✅
     ├── Section 3 — Binary & Bit Manipulation      ✅
     ├── Section 4 — Integer Representation         ✅
-    └── Section 5 — Memory Representation          ← NEXT
+    ├── Section 5 — Memory Representation          ✅
+    └── Section 6 — C Memory & Pointer Foundations ← NEXT
 ```
 
-Sections 1–4 have been consolidated into this single handbook. Section 5 — Memory Representation is the next active learning block. The Sections 1–4 guided mini-design remains paused during travel and will resume from its existing control-flow step when convenient.
+Sections 1–5 have been consolidated into this single handbook. Section 6 — C Memory & Pointer Foundations is the next active learning block. The guided mini-design remains paused and will resume from its existing control-flow step when convenient.
 
 ---
 
@@ -1841,7 +2236,7 @@ We will normally consolidate and push after each completed Phase-1 section. Late
 
 **Primary board:** STM32H745I-DISCO  
 **Current phase:** Phase 1 — Embedded C + Bare-Metal Foundations  
-**Current section:** Section 5 — Memory Representation (next)  
+**Current section:** Section 6 — C Memory & Pointer Foundations (next)  
 **Primary RTOS:** FreeRTOS  
 **Secondary RTOS:** Zephyr (later)  
 **Primary languages:** C and C++  
