@@ -38,6 +38,7 @@ This distinction should become automatic before moving into arrays, buffers, DMA
 
 ## Backfill queue
 
-- Recover exact Section 1–5 titles from the original Track 1 chat.
-- Recover any earlier exercises or weak areas worth preserving.
-- Mark earlier topics with proper mastery states rather than assuming full mastery.
+- Recover any earlier exercises or weak areas from the original Track 1 chat that are worth preserving.
+- Mark earlier Sections 1–5 with proper mastery states rather than assuming full mastery.
+
+The exact Section 1–5 titles have now been recovered and are preserved in `Track_1/Curriculum.md`.
