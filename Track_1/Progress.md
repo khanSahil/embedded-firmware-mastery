@@ -90,4 +90,4 @@ Likely sequence after that:
 
 Sections 1–5 were covered in the previous Track 1 chat.
 
-Their exact titles and mastery details are not reconstructed here yet. Backfill from the original chat when convenient rather than guessing.
+Their exact titles are now recovered and preserved in `Track_1/Curriculum.md`. Topic-by-topic mastery for Sections 1–5 still needs to be recovered or revalidated rather than assumed.
