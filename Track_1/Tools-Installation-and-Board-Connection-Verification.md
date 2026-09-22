@@ -40,7 +40,7 @@ The factory demonstration firmware was left intact during verification.
 
 ## 3. GNU ARM toolchain
 
-STM32CubeIDE already contained the GNU ARM toolchain at a path similar to:
+STM32CubeIDE already contained the GNU ARM toolchain at:
 
 ```text
 C:\ST\STM32CubeIDE_2.2.0\STM32CubeIDE\plugins\
@@ -142,7 +142,25 @@ ninja --version
 
 The command succeeded from a fresh PowerShell session.
 
-## 8. Final host-tool status
+## 8. Tool-installation screenshots
+
+The following contact sheet contains **all tool-installation screenshots shared during this setup chat**, including the host reference, ST tools/software page, Git installer choices, Python installer/success screens, and CMake PATH selection.
+
+![Tool installation screenshots](assets/tools-setup/tool-installation-screenshots.jpg)
+
+Captured checkpoints:
+
+1. Host machine reference.
+2. ST tools/software page.
+3. Git default-editor selection.
+4. Git PATH selection.
+5. Git HTTPS/SChannel selection.
+6. Git line-ending selection.
+7. Python installer and PATH option.
+8. Python successful-install screen and path-length option.
+9. CMake PATH option.
+
+## 9. Final host-tool status
 
 ```text
 STM32CubeIDE             PASS
@@ -156,15 +174,15 @@ ARM GNU Toolchain
   arm-none-eabi-readelf  PASS
   arm-none-eabi-nm       PASS
 
-Git                       PASS
-Python                    PASS
-CMake                     PASS
-Ninja                     PASS
+Git                      PASS
+Python                   PASS
+CMake                    PASS
+Ninja                    PASS
 ```
 
 No additional tools are required before beginning the planned Track 1 board work. Additional tools should be introduced only when a curriculum topic requires them.
 
-## 9. STM32H745I-DISCO physical connection
+## 10. STM32H745I-DISCO physical connection
 
 The STM32H745I-DISCO was connected to the Windows PC through the board connector marked **STLK**.
 
@@ -177,7 +195,7 @@ Physical observations:
 
 This established a known-good board before debugger verification.
 
-## 10. STM32CubeProgrammer — ST-LINK detection
+## 11. STM32CubeProgrammer — ST-LINK detection
 
 With the board connected through the STLK USB connector, STM32CubeProgrammer detected the on-board ST-LINK.
 
@@ -197,7 +215,7 @@ ST-LINK FW:      V3J3M2
 
 The presence of the ST-LINK serial number and target voltage confirmed that the PC could see the debugger and that the target side was powered.
 
-## 11. STM32 target connection verification
+## 12. STM32 target connection verification
 
 Selecting **Connect** in STM32CubeProgrammer succeeded.
 
@@ -232,13 +250,28 @@ Windows
   -> target memory access
 ```
 
-## 12. Verification result
+## 13. Board-connection verification screenshots
+
+The following contact sheet contains **all board photos and CubeProgrammer screenshots shared during this setup chat**.
+
+![Board connection verification screenshots](assets/tools-setup/board-connection-verification-screenshots.jpg)
+
+Captured checkpoints:
+
+10. STM32H745I-DISCO powered with factory demo running.
+11. Rear-board view showing the STLK USB connection and active LEDs.
+12. Clear front-board view.
+13. Clear rear-board view.
+14. STM32CubeProgrammer with ST-LINK detected before target connection.
+15. STM32CubeProgrammer after successful SWD connection and target-memory read.
+
+## 14. Verification result
 
 **Tools installation: COMPLETE**
 
 **Initial board connection verification: COMPLETE**
 
-The following are confirmed:
+Confirmed:
 
 - Windows development environment is ready.
 - ARM GNU command-line tools are globally accessible.
@@ -249,26 +282,6 @@ The following are confirmed:
 - STM32CubeProgrammer identifies the STM32H745I-DK correctly.
 - Target Flash can be read non-destructively.
 - Factory firmware remains intact.
-
-## 13. Screenshots captured during setup
-
-The setup session also captured screenshots/photos for the following checkpoints:
-
-1. Host machine reference.
-2. Initial Track 1 tool list.
-3. Git default-editor selection.
-4. Git PATH selection.
-5. Git HTTPS/SChannel selection.
-6. Git line-ending selection.
-7. Python installer and PATH option.
-8. Python successful-install screen and path-length option.
-9. CMake PATH option.
-10. STM32H745I-DISCO powered with factory demo running.
-11. Rear/board views showing the STLK USB connection and LEDs.
-12. STM32CubeProgrammer before target connection.
-13. STM32CubeProgrammer after successful SWD connection and memory read.
-
-> **Repository note:** the textual setup record is committed here. The original screenshots are conversation-upload binary assets; the current GitHub connector can create/update repository text files but does not accept those conversation image assets as binary upload inputs. They therefore cannot be embedded into this repository commit without re-uploading/copying the image binaries through a binary-capable Git path.
 
 ---
 
