@@ -20,6 +20,37 @@ For each lab record:
 
 ## Phase 1 labs
 
+## Phase 1 board-acclimation labs
+
+These are intentionally deferred until **Phase 1 Sections 14–15**.
+
+Goal:
+
+Become comfortable with the STM32H745I-DISCO development/debug workflow before Phase 2 becomes board-heavy.
+
+Planned skills:
+
+- create/build a firmware project
+- flash firmware to the board
+- reset / run / halt
+- set and hit breakpoints
+- set a watchpoint
+- inspect CPU registers
+- inspect memory
+- inspect SP / stack contents / call stack
+- use Step Into / Step Over / Step Return
+- perform instruction stepping
+- inspect disassembly
+- observe a simple bare-metal superloop
+- perform a basic fault-inspection exercise
+
+Exit criterion before Phase 2:
+
+Basic tooling mechanics should feel routine. Phase 2 should focus on MCU architecture and hardware concepts rather than spending lesson time learning how to flash firmware or operate the debugger.
+
+---
+
+
 ### Pointer arithmetic micro-lab
 
 Status: `PLANNED`
