@@ -4,6 +4,41 @@ This is the long-term curriculum map. It is intentionally broad and can evolve a
 
 This file is **Track 1 only**. The overall three-track roadmap is preserved in `Tracks-Overview.md`; Track 2 and Track 3 should not be folded into Track 1 progress.
 
+## Phase 0 – Tooling, Board, and Debug Environment Orientation
+
+Goal: build a concrete mental model of the development/debug chain before deeper firmware work.
+
+Status: `COMPLETED` (2026-09-23)
+
+Covered:
+
+- development chain: source -> compiler -> object files -> linker -> ELF / firmware image
+- physical debug path: PC -> USB -> ST-LINK -> SWD -> STM32H745
+- ST-LINK MCU vs STM32H745 target MCU
+- on-board STLINK-V3E vs external SWD debugger/probe
+- SWD basics: SWDIO, SWCLK, GND, VTref / 3V3, reset context
+- PC-side debugger stack: IDE, GDB, ST-LINK GDB Server, probe, SWD, target
+- hardware breakpoints and finite comparator resources
+- software breakpoints and temporary `BKPT` instruction patching
+- watchpoints and DWT-level mental model
+- source stepping vs instruction stepping
+- Step Into, Step Over, Step Return
+- Link Register (LR), leaf vs non-leaf functions, preserving return addresses
+- call stack and stack unwinding
+- stack corruption effects on return flow and debugger backtraces
+- fault-debug orientation: HardFault, stacked PC/registers, CFSR, HFSR, BFAR/MMFAR validity
+- precise vs imprecise fault concept
+- fault escalation into HardFault
+- reset vs restart vs reflash
+- Flash persistence vs RAM runtime state
+- end-to-end debug-session mental model
+
+Validation:
+
+- Phase 0 test completed: 19/20
+- one miss was a haste/misread on the precise-vs-imprecise wording; the underlying concept was immediately explained correctly
+- Phase 0 is considered covered and complete for this pass
+
 ## Phase 1 – Embedded C and Bare-Metal Foundations
 
 Goal: build a precise model of how C maps to CPU execution, memory, compiler behavior, and hardware.
@@ -190,9 +225,10 @@ Goal: build a precise model of how C maps to CPU execution, memory, compiler beh
 
 Current progress:
 
+- Phase 0: completed and validated with a 20-question test (19/20; one wording misread, concept immediately corrected).
 - Sections 1–5: covered previously. Exact mastery should be revalidated where needed rather than assumed.
 - Section 6: in progress.
-- Latest checkpoint: pointer comparison and one-past-the-end basics covered; arrays and pointer decay next.
+- Latest checkpoint before the Phase 0 detour: multidimensional arrays / pointer-to-pointer distinction is mostly covered; function-parameter forms for 2D arrays remain to finish before continuing.
 
 ## Phase 2 – MCU Architecture and Hardware Fundamentals
 
