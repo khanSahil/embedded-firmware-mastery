@@ -39,6 +39,26 @@ Validation:
 - one miss was a haste/misread on the precise-vs-imprecise wording; the underlying concept was immediately explained correctly
 - Phase 0 is considered covered and complete for this pass
 
+## Hands-on progression rule for Track 1
+
+The curriculum intentionally ramps board usage instead of making Phase 1 board-heavy from the beginning.
+
+- Phase 1 Sections 1–13: primarily foundations, reasoning, code reading, and host-side/lightweight experiments.
+- Phase 1 Sections 14–15: begin light STM32H745I-DISCO lab work so board mechanics become familiar before Phase 2.
+  - build and flash firmware
+  - reset / run / halt
+  - set and hit breakpoints
+  - use watchpoints
+  - inspect registers and memory
+  - inspect stack / call stack
+  - source-step and instruction-step
+  - inspect disassembly
+  - perform simple bare-metal / superloop experiments
+  - practice basic fault inspection
+- Phase 2 onward: board-heavy conceptual learning. New MCU concepts should be tied to real hardware behavior, registers, measurements, and debugging. Phase 2 should not be spent learning basic flashing/debugger mechanics.
+
+This sequencing is deliberate: by the start of Phase 2, the learner should already be comfortable with the basic firmware development/debug workflow.
+
 ## Phase 1 – Embedded C and Bare-Metal Foundations
 
 Goal: build a precise model of how C maps to CPU execution, memory, compiler behavior, and hardware.
@@ -211,6 +231,9 @@ Goal: build a precise model of how C maps to CPU execution, memory, compiler beh
 - polling
 - state-machine thinking
 - driver / application separation
+- light board lab: create/build/flash a simple STM32H745 firmware image
+- light board lab: reset, run, halt, and observe firmware execution
+- light board lab: simple GPIO / superloop behavior where useful
 
 ### Section 15 – Debugging Foundations
 
@@ -222,6 +245,11 @@ Goal: build a precise model of how C maps to CPU execution, memory, compiler beh
 - disassembly
 - stepping
 - debugging optimized code
+- light board lab: set/clear breakpoints and watchpoints
+- light board lab: inspect registers, memory, stack, and call stack
+- light board lab: source stepping vs instruction stepping
+- light board lab: inspect generated disassembly
+- light board lab: basic fault capture / inspection
 
 Current progress:
 
