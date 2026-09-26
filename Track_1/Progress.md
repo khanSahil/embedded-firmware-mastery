@@ -1,6 +1,6 @@
 # Track 1 – Progress
 
-Last updated: 2026-09-23
+Last updated: 2026-09-25
 
 ## Current location
 
@@ -53,7 +53,7 @@ Validation:
 
 ## Current Phase 1 checkpoint
 
-Before the Phase 0 detour, Section 6 had progressed well beyond the old pointer-comparison checkpoint.
+Section 6 core material has now been covered through pointer debugging and firmware failure scenarios.
 
 Established:
 
@@ -74,22 +74,56 @@ Established:
 - `m[i][j] == *(*(m + i) + j)`
 - true 2D array vs `int **`
 - contiguous 2D storage vs array-of-pointers layout
-- `&m[i]` vs `&m[i][j]`
+- 2D-array function parameter forms: `int m[][N]` and `int (*m)[N]`
+- why the column dimension is required for row stride
 - pointer-to-pointer basics
-- const pointer combinations (covered earlier)
-- structures, padding, and alignment (covered earlier)
+- const pointer combinations
+- structures, padding, alignment, and `memcmp` caveat
+- `void *`
+- null pointers
+- dangling pointers
+- wild / uninitialized pointers
+- object lifetime
+- pointer casts
+- byte/object representation via character types
+- strict-aliasing / incompatible typed access basics
+- alignment-sensitive pointer access
+- integer / pointer conversion and `uintptr_t`
+- function pointers and function-pointer arrays
+- MMIO pointers
+- volatile pointer patterns and MMIO corner cases
+- read-to-clear register behavior
+- write-one-to-clear register behavior
+- `volatile` vs atomicity / synchronization / cache coherency
+- pointer-related undefined behavior
+- pointer debugging with watchpoints
+- firmware failure scenarios: silent RAM corruption, delayed stack corruption, MMIO side effects, optimization-sensitive UB
+
+## Validation status
+
+A hard 40-question validation pass was planned:
+
+- Questions 1–20: Section 6 only — **completed**
+- Questions 21–40: integrated Sections 1–6 — **started**
+
+Section 6 performance was strong overall. Remaining refinement areas are mainly precision rather than broad conceptual gaps:
+
+- strict aliasing / effective-type reasoning and optimizer assumptions
+- distinguishing pointer casts from creation of a valid object of the cast-to type
+- W1C read-modify-write hazards
+- exact array-lvalue vs pointer-conversion wording
+- delayed stack corruption vs eventual fault site
+- occasional arithmetic slips
 
 ## Next planned topic
 
-Resume **Phase 1 -> Section 6** and finish the remaining 2D-array/function-parameter material:
+Resume the integrated Sections 1–6 validation set at **Question 21/40**.
 
-1. `void f(int m[][4])`
-2. `void f(int (*m)[4])`
-3. why those parameter forms are equivalent
-4. why the column dimension is required
-5. a small `sizeof` / bounds consolidation
+After the integrated pass:
 
-Then continue with the remaining Section 6 pointer topics.
+1. decide whether Section 6 can be closed for this pass
+2. perform only targeted remediation where needed
+3. continue to Section 7 – Embedded-C Semantics
 
 ## Section 6 coverage so far
 
@@ -106,27 +140,29 @@ Then continue with the remaining Section 6 pointer topics.
 - [x] array vs pointer basics
 - [x] `sizeof(array)` vs `sizeof(pointer)`
 - [x] `arr` vs `&arr`
-- [~] multidimensional arrays
-- [~] pointer-to-pointer
+- [x] multidimensional arrays
+- [x] pointer-to-pointer distinction
+- [x] 2D-array function parameters
 - [x] const pointer combinations
 - [x] structures
 - [x] padding and alignment
-- [ ] void pointers
-- [ ] null pointers
-- [ ] dangling pointers
-- [ ] wild pointers
-- [ ] object lifetime
-- [ ] pointer casts
-- [ ] strict aliasing
-- [ ] alignment-related pointer issues beyond struct layout
-- [ ] integer/pointer conversion
-- [ ] function pointers
-- [ ] MMIO pointer usage
-- [ ] volatile pointer patterns
-- [ ] pointer-related undefined behavior
-- [ ] pointer debugging
-- [ ] firmware-specific failure scenarios
-- [ ] Senior/Principal interview scenarios
+- [x] void pointers
+- [x] null pointers
+- [x] dangling pointers
+- [x] wild pointers
+- [x] object lifetime
+- [x] pointer casts
+- [x] strict aliasing basics
+- [x] alignment-related pointer issues
+- [x] integer/pointer conversion
+- [x] function pointers
+- [x] MMIO pointer usage
+- [x] volatile pointer patterns
+- [x] pointer-related undefined behavior
+- [x] pointer debugging
+- [x] firmware-specific failure scenarios
+- [x] hard Section 6 interview pass
+- [~] integrated Sections 1–6 validation
 
 Legend:
 
@@ -137,4 +173,4 @@ Legend:
 
 Sections 1–5 were covered in the previous Track 1 chat.
 
-Their exact titles are preserved in `Track_1/Curriculum.md`. Topic-by-topic mastery for Sections 1–5 should still be recovered or revalidated rather than assumed.
+Their exact titles are preserved in `Track_1/Curriculum.md`. Topic-by-topic mastery should continue to be revalidated through the integrated Sections 1–6 question set rather than assumed.
