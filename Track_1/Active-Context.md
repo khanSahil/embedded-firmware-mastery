@@ -145,4 +145,14 @@ Do not refresh it for every individual message or minor correction. Use checkpoi
 
 Resume the integrated Sections 1–6 validation set at Question 21/40, then use the results to decide whether Section 6 can be closed or whether a small targeted revision pass is needed before Section 7.
 
+## Synchronization checkpoint
+
+This snapshot was refreshed after the latest updates to:
+
+- `Progress.md`
+- `Mastery-Ledger.md`
+- `Revision-Queue.md`
+- `Design-Exercises.md`
+- `Project-Instructions.md`
+
 Last synchronized: 2026-09-25
