@@ -116,6 +116,7 @@ Do not assume mastery of later concepts such as interrupt architecture, DMA owne
 - The reviewed introductory startup readiness LED design is recorded in [`Design/01-startup-readiness-led.md`](Design/01-startup-readiness-led.md), with the hardware diagram in `Design/assets/` and the evolving format in `Design/README.md`.
 - It covers hardware connections, firmware responsibility boundaries, reset/off-state behavior, required clock gating, safe failure handling, and validation. It was guided design work, not implemented or independently mastered.
 - Design exercises should advance one learned concept at a time, retain earlier concepts cumulatively, and use the standard format at a depth appropriate to current readiness. Do not silently assume later-track concepts.
+- The learned-concept baseline, demonstrated design coverage, and proposed next single-concept increment are in [`Design/Concept-Coverage.md`](Design/Concept-Coverage.md). Before each design question, state the new concept and curriculum location, plus relevant earlier design concepts; mark design coverage only after a reviewed write-up. The six-stage MCU-independent interview flow lives in `Design/README.md`.
 
 ## Cross-chat synchronization rule
 
