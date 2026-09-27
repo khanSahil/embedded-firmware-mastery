@@ -7,6 +7,7 @@ The purpose is to provide design-level evidence without mixing design work into 
 ## Operating rules
 
 - Use only concepts that are marked ready in `Active-Context.md`, unless the exercise is explicitly labeled as a preview; add newly learned concepts cumulatively.
+- Maintain [Design/Concept-Coverage.md](Design/Concept-Coverage.md): before each question name the one new concept and curriculum location, list prior design concepts that naturally carry over, and distinguish learned concepts from concepts actually demonstrated in design. Mark new design coverage only after a reviewed exercise.
 - Frame new questions independently of any specific MCU or board. Begin the interview with requirements, constraints, and assumptions.
 - Initially guide the learner one decision at a time and help formulate the design answer; reduce guidance as the learner takes control.
 - Apply the relevant portions of the six-stage framework in `Design/README.md`; early small exercises do not need every stage in depth.
