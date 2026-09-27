@@ -10,6 +10,8 @@ This folder contains reviewed design questions, the resulting answers, and their
 
 ## Design discussion guide
 
+The [concept coverage tracker](Concept-Coverage.md) lists concepts learned through the current curriculum checkpoint separately from concepts actually used in reviewed designs. Before each new question, announce its one new concept and Phase/Section/Topic, identify earlier design concepts that naturally carry forward, and show which learned concepts remain for later. Add design coverage only after a reviewed design demonstrates it.
+
 Treat each exercise as an embedded design interview. State the problem without choosing a particular MCU or board; reason in terms of generic hardware and firmware responsibilities. Start by clarifying requirements, constraints, assumptions, and success criteria before proposing components or an implementation. Ask genuine design questions, rather than turning the session into a debugging or device-specific quiz.
 
 Start with one learned concept and add each newly learned concept to subsequent exercises alongside earlier ones. Use only concepts ready in `../Active-Context.md`; identify anything else as a preview. Early designs can be small, and each stage below gets deeper only as the relevant concepts are learned. Revisit earlier designs when new concepts change a decision.
