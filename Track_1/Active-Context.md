@@ -111,6 +111,12 @@ Good current design areas include:
 
 Do not assume mastery of later concepts such as interrupt architecture, DMA ownership models, RTOS synchronization, cache coherency design, boot/update architecture, or linker/startup internals until those sections are taught. Previewing is allowed only when explicitly labeled.
 
+## Design & Architecture checkpoint
+
+- The reviewed introductory startup readiness LED design is recorded in [`Design/01-startup-readiness-led.md`](Design/01-startup-readiness-led.md), with the hardware diagram in `Design/assets/` and the evolving format in `Design/README.md`.
+- It covers hardware connections, firmware responsibility boundaries, reset/off-state behavior, required clock gating, safe failure handling, and validation. It was guided design work, not implemented or independently mastered.
+- Design exercises should advance one learned concept at a time, retain earlier concepts cumulatively, and use the standard format at a depth appropriate to current readiness. Do not silently assume later-track concepts.
+
 ## Cross-chat synchronization rule
 
 Before substantive work, each chat should:
@@ -155,4 +161,4 @@ This snapshot was refreshed after the latest updates to:
 - `Design-Exercises.md`
 - `Project-Instructions.md`
 
-Last synchronized: 2026-09-25
+Last synchronized: 2026-09-26

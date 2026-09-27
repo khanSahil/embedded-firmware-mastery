@@ -99,6 +99,11 @@ Overall status: `PRACTICED` with selected `DEBUGGED` evidence; section validatio
 | optimization-sensitive UB | UNDERSTOOD | Recognizes `-O0` vs `-O2` behavior and strict-aliasing connection; deepen compiler-assumption explanation |
 | Section 6 interview validation | PRACTICED | Completed 20 hard Section 6 questions; overall strong with targeted precision gaps |
 
+## Guided design evidence (2026-09-26)
+
+- Startup readiness LED: the learner separated startup policy from GPIO control, required the application clock before asserting ready, reasoned about a debuggable safe state, and proposed error indication. The off-state output latch and reset-pin behavior were taught during the exercise.
+- See [`Design/01-startup-readiness-led.md`](Design/01-startup-readiness-led.md). This is guided application of Phase 0 / early Phase 1 concepts, without implementation or independent transfer; no existing topic is promoted to `MASTERED` or `DESIGNED_WITH` on this evidence alone.
+
 ## Current validation state
 
 - Section 6 hard-question pass: completed

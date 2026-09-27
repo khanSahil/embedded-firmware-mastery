@@ -55,4 +55,4 @@ Next step:
 
 ## Completed exercises
 
-None yet.
+| [01 — Startup readiness LED](Design/01-startup-readiness-led.md) | `COMPLETED` (guided) | Phase 0 + Phase 1 hardware and GPIO fundamentals; conceptual design only, board implementation pending. |

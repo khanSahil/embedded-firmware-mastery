@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="920" viewBox="0 0 1600 920">
+<defs>
+  <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#46657f"/></marker>
+  <style>
+    text{font-family:Arial,sans-serif;fill:#17324d}
+    .title{font-size:34px;font-weight:700}
+    .subtitle{font-size:18px;fill:#4c6478}
+    .boxtext{font-size:24px;font-weight:700;text-anchor:middle}
+    .small{font-size:18px;text-anchor:middle}
+    .label{font-size:17px;font-weight:700;fill:#3e5c73;text-anchor:middle}
+    .wire{stroke:#46657f;stroke-width:4;fill:none;marker-end:url(#arrow)}
+    .branch{stroke:#916bac;stroke-width:4;fill:none}
+    .note{font-size:17px;fill:#435970}
+  </style>
+</defs>
+<rect width="1600" height="920" fill="#f8fafc"/>
+<text x="800" y="68" class="title" text-anchor="middle">Startup readiness LED — hardware block diagram</text>
+<text x="800" y="104" class="subtitle" text-anchor="middle">Conceptual active-high LED circuit • check the actual board schematic for pin and polarity</text>
+
+<!-- Sources on the left -->
+<rect x="75" y="164" rx="14" width="320" height="104" fill="#eaf7f1" stroke="#23866d" stroke-width="3"/>
+<text x="235" y="208" class="boxtext">Power supply</text><text x="235" y="239" class="small">MCU rails and ground</text>
+<rect x="75" y="320" rx="14" width="320" height="104" fill="#eaf7f1" stroke="#23866d" stroke-width="3"/>
+<text x="235" y="363" class="boxtext">External clock source</text><text x="235" y="394" class="small">if required by design</text>
+<rect x="75" y="476" rx="14" width="320" height="104" fill="#eaf7f1" stroke="#23866d" stroke-width="3"/>
+<text x="235" y="519" class="boxtext">Reset circuit</text><text x="235" y="550" class="small">power-on / NRST</text>
+<rect x="75" y="648" rx="14" width="320" height="104" fill="#edf0fb" stroke="#6472b7" stroke-width="3"/>
+<text x="235" y="691" class="boxtext">ST-LINK probe</text><text x="235" y="722" class="small">PC debug connection</text>
+
+<!-- MCU with four separate ports -->
+<rect x="610" y="158" rx="18" width="400" height="602" fill="#e7f0fb" stroke="#295d88" stroke-width="4"/>
+<text x="810" y="443" class="boxtext" style="font-size:37px">STM32H745 MCU</text>
+<text x="810" y="484" class="small" style="font-size:22px">PLL • startup firmware • GPIO</text>
+<path class="wire" d="M395 216 H606"/><text x="501" y="199" class="label">VDD / VSS</text>
+<path class="wire" d="M395 372 H606"/><text x="501" y="355" class="label">clock input</text>
+<path class="wire" d="M395 528 H606"/><text x="501" y="511" class="label">NRST</text>
+<path class="wire" d="M395 700 H606"/><text x="501" y="674" class="label">SWD</text>
+<text x="500" y="782" class="note" text-anchor="middle">SWDIO • SWCLK • GND • VTref</text>
+
+<!-- Right-side LED circuit, with a visible pull-down branch at the GPIO node -->
+<rect x="1110" y="297" rx="14" width="180" height="112" fill="#fff4db" stroke="#b28026" stroke-width="3"/>
+<text x="1200" y="344" class="boxtext" style="font-size:22px">Series</text><text x="1200" y="376" class="boxtext" style="font-size:22px">resistor</text>
+<rect x="1360" y="297" rx="14" width="175" height="112" fill="#fff4db" stroke="#b28026" stroke-width="3"/>
+<text x="1447" y="365" class="boxtext">LED</text>
+<path class="wire" d="M1010 353 H1107"/>
+<path class="wire" d="M1290 353 H1357"/>
+<text x="1060" y="333" class="label">GPIO</text>
+<path class="wire" d="M1447 409 V456"/>
+<rect x="1362" y="461" rx="10" width="171" height="63" fill="#e9edf0" stroke="#657887" stroke-width="2"/>
+<text x="1447" y="501" class="small">GND return</text>
+
+<circle cx="1062" cy="353" r="7" fill="#916bac"/>
+<path class="branch" d="M1062 360 V600 H1156"/>
+<rect x="1156" y="550" rx="12" width="360" height="100" fill="#f3eafa" stroke="#916bac" stroke-width="3"/>
+<text x="1336" y="592" class="boxtext" style="font-size:20px">Proposed pull-down to GND</text>
+<text x="1336" y="622" class="small">keeps LED off during reset</text>
+
+<rect x="474" y="810" rx="11" width="1004" height="69" fill="#edf3f9" stroke="#ccd9e6" stroke-width="2"/>
+<text x="976" y="852" class="note" text-anchor="middle">Firmware preloads the GPIO off level, enables output mode, then drives it on only after startup checks pass.</text>
+</svg>

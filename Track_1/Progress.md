@@ -1,6 +1,6 @@
 # Track 1 – Progress
 
-Last updated: 2026-09-25
+Last updated: 2026-09-26
 
 ## Current location
 
@@ -168,6 +168,12 @@ Legend:
 
 - `[x]` = covered for the current pass
 - `[~]` = in progress / not yet closed
+
+## Design & Architecture checkpoint (2026-09-26)
+
+- Completed guided startup readiness LED design: requirements, hardware blocks and connections, firmware boundaries and execution flow, GPIO off-state, clock failure behavior, safe state, SWD-readable RAM error, tradeoffs, and validation.
+- Reviewed design and conceptual diagram: [`Design/01-startup-readiness-led.md`](Design/01-startup-readiness-led.md). Exact board schematic, pin, polarity, implementation, and measurements remain open.
+- This design work does not change the Concepts & Mastery checkpoint or close Section 6 validation.
 
 ## Previous sections
 
