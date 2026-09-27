@@ -2,12 +2,15 @@
 
 This file records architecture/design exercises for the dedicated **Design & Architecture** chat.
 
-The purpose is to provide design-level evidence without mixing design work into concept progress or hands-on lab history.
+The purpose is to provide design-level evidence without mixing design work into concept progress or hands-on lab history. The interview flow and evolving answer format are defined in [Design/README.md](Design/README.md).
 
 ## Operating rules
 
-- Use only concepts that are marked ready in `Active-Context.md`, unless the exercise is explicitly labeled as a preview.
-- Record the problem, constraints, tradeoffs, proposed design, failure modes, and follow-up gaps.
+- Use only concepts that are marked ready in `Active-Context.md`, unless the exercise is explicitly labeled as a preview; add newly learned concepts cumulatively.
+- Frame new questions independently of any specific MCU or board. Begin the interview with requirements, constraints, and assumptions.
+- Initially guide the learner one decision at a time and help formulate the design answer; reduce guidance as the learner takes control.
+- Apply the relevant portions of the six-stage framework in `Design/README.md`; early small exercises do not need every stage in depth.
+- Record the problem, constraints, tradeoffs, proposed design, failure modes, and follow-up gaps. Show the complete write-up for learner review before pushing it to `Design/`.
 - When an exercise provides evidence for a mastery-status change, update `Mastery-Ledger.md`.
 - After a meaningful design checkpoint, refresh `Active-Context.md` last.
 - Do not treat completion of a design discussion alone as `MASTERED`.
