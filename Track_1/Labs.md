@@ -14,15 +14,13 @@ Use ST's [board documentation page](https://www.st.com/en/evaluation-tools/stm32
 
 The learner should find and explain the relevant passage, table, or register field before using it in code. Provide section or search hints when needed.
 
-## Cumulative projects and lab progression
+## Current lab progression
 
-Track 1 may have several substantial projects. **No first project has been mutually selected.** Compare proposals by the breadth and depth of transferable skills for a general embedded firmware Principal Engineer: low-level C, hardware interfaces, timing, concurrency, data movement, boot/update, reliability, security, measurement, and architecture. BMC-specific relevance is not a selection criterion. The [connected device supervisor](Projects/Candidate-Connected-Device-Supervisor.md) is one candidate. The [engineering workflow](Projects/Engineering-Workflow.md) records the agreed multi-folder C/header organization and feature-branch/PR integration exercise, independent of project choice.
+**Projects are paused. No active project has been selected.** Use focused C experiments and later board labs to establish core concepts, documentation habits, build/flash/debug competence, and hardware understanding. Labs may stand alone or build on one another. Increase their difficulty with demonstrated skill; do not force an early lab to become product code.
 
-After a project is chosen, each regular project lab should make a useful contribution: firmware, a module, a project-relevant test, a build/debug tool, or implementation documentation. Labs may be independent contributions or direct continuations. Increase difficulty and independence as demonstrated capability grows. Existing concept labs remain available while the first project is being selected; do not force demonstration code into a future firmware runtime.
+For each lab, locate the relevant facts in primary documentation, predict behavior, implement or inspect a small change, observe it with suitable tools, explain discrepancies, and record the result. Keep reproducible code and configurations in the repository when useful. Intentional-bug exercises remain separate from working examples.
 
-Integrate contributions against a stable baseline, verify affected earlier capabilities, and retain reproducible Git checkpoints. Document deliberate interface or format changes and migration when needed. Keep intentional-bug exercises in a separate branch or copy; only verified fixes with regression evidence enter the working project.
-
-Board acclimation remains planned for Phase 1 Sections 14–15. Later hardware and cross-system features follow the curriculum and measured readiness.
+Board acclimation remains planned for Phase 1 Sections 14–15; board-heavy conceptual work follows in Phase 2. After substantial MCU and board foundations are demonstrated, compare multiple production-relevant project options for broad, transferable embedded engineering learning. The [connected device supervisor](Projects/Candidate-Connected-Device-Supervisor.md) is a parked candidate. The [modular source and team workflow](Projects/Engineering-Workflow.md) is reserved for a future chosen project, though Git branches and reviews can be practiced during labs.
 
 ## Lab tracking format
 
