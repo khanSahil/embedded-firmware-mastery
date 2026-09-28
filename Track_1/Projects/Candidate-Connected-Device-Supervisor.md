@@ -1,6 +1,6 @@
 # Candidate – Connected Device Supervisor and Recovery Platform
 
-Status: **proposal for discussion; no project has been selected**
+Status: **parked candidate; project selection is paused until core C and board concepts are established**
 
 This is one possible first production-style Track 1 project. Evaluate it alongside alternatives before committing to a roadmap or creating implementation branches. The agreed [engineering workflow](Engineering-Workflow.md) applies whichever project is chosen.
 
