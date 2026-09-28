@@ -1,6 +1,6 @@
 # Track 1 – Project engineering workflow
 
-Status: **agreed lab and collaboration requirements; no first project selected**
+Status: **future project workflow; project selection and implementation are paused during foundational labs**
 
 Apply this structure to the chosen project, adjusting module names to its actual problem. Create source files incrementally during labs so each file has a reason to exist.
 
