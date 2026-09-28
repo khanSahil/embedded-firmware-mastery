@@ -54,7 +54,9 @@ Observed checkpoint (2026-09-27): learner reports the physical JP8 jumper at STL
 
 Observed checkpoint (2026-09-27): after disconnecting STM32CubeProgrammer, the LCD shows an ST-branded demonstration menu with icons. This is consistent with the factory demonstration firmware described in UM2488 Section 3.3. The LCD had appeared white during the active debug connection. Debug attachment pausing the application is a plausible explanation, not yet proven; reset-button behavior was not reported.
 
-Next checkpoint: learner selects a user-controlled LED from the board user manual and explains the choice. Then identify a restoration path for the demonstration image and consult the revision-matched schematic before writing firmware.
+Observed checkpoint (2026-09-27): learner identified LD6 (red) and LD7 (green) as user LEDs, chose LD7 to represent normal activity, and found PJ2 as its MCU pin. A photo of the main-board sticker reads `MB1381-H745XI-B03`, so the matching B03 schematic is now linked in `docs/README.md`.
+
+Next checkpoint: learner examines the B03 schematic to predict which PJ2 output level illuminates LD7. Determine a restoration path for the demonstration image before overwriting its firmware.
 
 The full board-acclimation sequence remains planned for **Phase 1 Sections 14–15**. The learner requested a narrow build/flash/hardware-documentation preview during Section 6; this preview does not advance conceptual mastery or replace the later sequence.
 
