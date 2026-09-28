@@ -60,6 +60,8 @@ Observed checkpoint (2026-09-27): learner read the B03 LED schematic and correct
 
 Observed checkpoint (2026-09-28, learner's local date): learner used STM32CubeProgrammer Read all and Save As to create a local BIN file of the factory internal flash. Windows Explorer reports 2,048 KB, consistent with the STM32H745XI's 2 MiB internal flash capacity. File contents have not yet been compared with the board, and external demo assets are not included in this internal-flash backup.
 
+Artifact checkpoint (2026-09-28, learner's local date): the uploaded 2,097,152-byte image is stored in [`firmware-backups/`](firmware-backups/). Its SHA-256 is `961d7faa8833fb785141d3e9af8d6dee751661c4c3f67a3680e709d6a91d562c`; the first two vector words match the earlier CubeProgrammer view. A fresh device comparison is still required.
+
 Next checkpoint: use UM2237 to identify and perform a file-to-device comparison of the saved image before flashing any new firmware. Then the learner writes their first LED firmware.
 
 The full board-acclimation sequence remains planned for **Phase 1 Sections 14–15**. The learner requested a narrow build/flash/hardware-documentation preview during Section 6; this preview does not advance conceptual mastery or replace the later sequence.
