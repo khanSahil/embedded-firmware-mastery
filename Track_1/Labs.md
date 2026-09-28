@@ -42,7 +42,23 @@ For each lab record:
 
 ## Phase 1 board-acclimation labs
 
-These are intentionally deferred until **Phase 1 Sections 14–15**.
+### B00 – Connect, flash, and inspect first firmware
+
+Status: `IN_PROGRESS` (early preview requested 2026-09-27)
+
+Objective: use the board manual to identify power/debug connections, build a minimal firmware image, flash it through the on-board STLINK-V3E, verify execution with the debugger, and relate a visible behavior to hardware documentation.
+
+Hardware and environment: STM32H745I-DISCO, Windows host, STM32CubeIDE, STM32CubeProgrammer, STM32CubeH7 package, USB data cable. The physical board revision and JP8 position must be observed, not assumed.
+
+Documentation checkpoints:
+1. UM2488 Figure 5 (board bottom layout): locate the STLINK-V3E USB connector CN14.
+2. UM2488 Sections 6.3–6.4: identify embedded debugger, power route, and JP8 selection for CN14.
+3. UM2488 Table 7 and revision-matched schematic: identify a user LED and its MCU connection before any GPIO code.
+4. MCU datasheet and RM0399 later: locate the relevant GPIO and clock behavior before register-level work.
+
+First interactive checkpoint: learner reports the observed JP8 position and locates CN14 on their board before connecting/programming. Subsequent build/flash/debug and LED observations will be recorded as they occur. No successful flash or running firmware has been claimed yet.
+
+The full board-acclimation sequence remains planned for **Phase 1 Sections 14–15**. The learner requested a narrow build/flash/hardware-documentation preview during Section 6; this preview does not advance conceptual mastery or replace the later sequence.
 
 Goal:
 
