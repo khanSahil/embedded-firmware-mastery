@@ -1,46 +1,52 @@
-# Project 1 – Device Health and Recovery System
+# Project 1 – Connected Device Supervisor and Recovery Platform
 
-Status: **selected for planning; implementation has not started**
+Status: **selected project; implementation has not started**
 
-## Goal
+## Real-world problem
 
-Build firmware on the STM32H745I-DISCO that can report its state, record useful events, diagnose failures, and recover safely. Later, add a small Linux-side management tool for viewing logs and interacting with the device. The first working versions should use only the board and a development computer; additional hardware can be considered when a lab needs it.
+A deployed controller or appliance can hang, lose connectivity, exhaust resources, corrupt its persistent state, or fail during an update. Build an STM32H745I-DISCO-based supervisor that observes a managed device, records evidence, makes bounded recovery decisions, and exposes enough diagnostics for an operator to understand what happened.
 
-This is the first substantial Track 1 project, not the only one. Later projects can focus on other domains such as protocol gateways or audio processing.
+Initially, a program on the development computer can act as the managed device and send heartbeats or fault reports. Recovery outputs can be simulated and verified before connecting external equipment. Later, a Linux-side management component can exercise the cross-system contract. This is a learning platform for production firmware engineering, not a claim that a Discovery board is a certified product or a complete server BMC.
 
-## User-visible behavior, built incrementally
+Track 1 may include multiple substantial projects. This is Project 1 because it spans system bring-up, firmware architecture, protocols, reliability, storage, concurrency, debugging, updates, and host integration. Additional projects can target other production domains.
 
-1. Boot into a known state and show a heartbeat/status indication.
-2. Accept simple local commands and report firmware version, uptime, and health.
-3. Record timestamped events and reset/fault information.
-4. Preserve important records across resets and make them inspectable.
-5. Expose status to a host over a communication interface.
-6. Detect selected failures and enter a defined recovery path.
+## End-state behavior
 
-The exact interface and storage implementation will be chosen during the appropriate labs from board documentation and measurements. Do not assume a feature is complete merely because a demo runs once.
+- Detect healthy, degraded, and unresponsive states from explicit signals and timeouts.
+- Keep a bounded event history with timestamps, reset causes, and diagnostic context.
+- Make recovery decisions through a documented state machine with rate limits, escalation, and a safe fallback.
+- Serve local diagnostics and later expose a versioned host/network interface.
+- Preserve critical evidence through reset and tolerate interrupted writes where feasible.
+- Support an update and recovery path with authenticity and rollback considerations at the appropriate curriculum stage.
+- Explain and measure timing, memory, power, reliability, and security tradeoffs.
 
-## Provisional lab milestones
+## Engineering requirements for each stage
 
-The numbers are planning ranges, not prerequisites or a fixed 50-lab promise. Independent labs may build separate modules; related labs may extend an existing module. Each regular lab contributes to this repository and is integrated when verified.
+Each feature gets a clear contract and failure behavior. We will use primary ST documentation to derive register, pin, electrical, and timing facts. Keep modules testable on the host where possible and confirm board-dependent behavior on hardware.
 
-| Labs | Milestone | Example contributions |
-| --- | --- | --- |
-| P1-L01–L04 | Portable foundations | Build layout, event representation, bounded buffer, host-side checks and debugging notes |
-| P1-L05–L08 | Board bring-up | Build/flash/debug workflow, startup observation, status LED, input event |
-| P1-L09–L12 | Time and diagnostics | Time base, event timestamps, reset information, local diagnostic commands |
-| P1-L13–L16 | Durable records | Storage abstraction, integrity check, record retrieval, reset/recovery tests |
-| P1-L17–L20 | Host communication | Device status protocol, host tool, flow control, disconnection behavior |
-| P1-L21–L24 | Reliability | Watchdog strategy, fault capture, long-run observation, recovery validation |
-| Later, if useful | Extensions | Display, RTOS migration, DMA/cache exercise, dual-core coordination, firmware update |
+Review resource budgets, bounds, concurrency ownership, timeout behavior, reset behavior, storage integrity, and observability as they become relevant. Add fault injection and regression checks for real failure paths. Use design notes to record alternatives, assumptions, evidence, and consequences. Choose numerical acceptance thresholds from requirements and measurements rather than inventing impressive targets.
 
-Only schedule board-heavy labs when the curriculum supports them. Phase 1 Sections 14–15 are the planned board acclimation point; earlier C labs can add portable modules, tests, or tools that serve a real project need.
+## Provisional progression
 
-## How a lab becomes part of the project
+These are milestone groups, not a rigid lab count or permission to skip prerequisites. Every regular lab contributes a usable feature, module, project-relevant test, tool, or implementation document. Independent labs can be integrated after verification; related labs may build directly on earlier work.
 
-- Start from a known working revision. An independent module may be built separately before integration.
-- Use the relevant ST user manual, revision-matched schematic, MCU datasheet, and reference manual to find the facts needed for implementation.
-- Record expected behavior, implementation, observation, debugging evidence, and the contribution in `Track_1/Labs.md`.
-- Check the new behavior and the previously established capabilities affected by the change. Keep prior lab revisions reproducible with Git commits or tags.
-- Keep intentional-bug exercises in separate branches or copies. Integrate only verified fixes with a regression check.
+| Milestone | Contributions and evidence |
+| --- | --- |
+| Portable core | Host build, event schema, bounded buffer, state machine, parser, unit tests, design notes |
+| Board bring-up | Reproducible build/flash/debug procedure, status indication, input capture, register and debugger observations |
+| Supervision | Heartbeat protocol, deadlines, health transitions, hysteresis, bounded recovery policy, timing measurements |
+| Diagnostics | Reset-cause capture, fault record, local command interface, useful error classification |
+| Persistence | Storage abstraction, integrity checks, interrupted-write recovery, retention and wear tradeoffs |
+| Connectivity | Versioned host interface, Linux-side test client, disconnect/retry behavior, load and backpressure tests |
+| Reliability and updates | Watchdog, fault injection, long-run checks, update/rollback design and implementation when prerequisite concepts are ready |
 
-The first detailed lab specification should be written when the relevant concept and tools are ready. Adjust the backlog as actual hardware observations and demonstrated mastery warrant.
+Do not schedule board-heavy implementation before the curriculum's planned board acclimation in Phase 1 Sections 14–15. Earlier C labs can provide portable project components or tests. Later subsystems such as RTOS, DMA/cache, dual-core coordination, secure update, and Linux management are introduced only after their foundations are learned.
+
+## Lab integration rule
+
+- Begin from a known working revision; an independent module may be developed on its own branch.
+- For each lab, record the requirement, source documentation, predicted result, observed evidence, design choice, code/tests, and remaining risk in `Track_1/Labs.md`.
+- Verify the new behavior and affected earlier capabilities; keep completed stages reproducible with Git history.
+- Keep intentional-bug exercises isolated from the working project. Integrate a discovered real fix only with evidence and an appropriate regression check.
+
+The next concrete step is a scoped Project 1 requirements and architecture exercise at the learner's current readiness level, followed by the first lab specification when its prerequisites are met.
