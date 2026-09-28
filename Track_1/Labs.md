@@ -14,6 +14,8 @@ Use ST's [board documentation page](https://www.st.com/en/evaluation-tools/stm32
 
 The learner should find and explain the relevant passage, table, or register field before using it in code. Provide section or search hints when needed.
 
+For active labs, the learner writes the code first. Record requirements and checkpoints here, not a starter implementation or solution; review their code and suggest targeted corrections or hints after they submit it.
+
 ## Current lab progression
 
 **Projects are paused. No active project has been selected.** Use focused C experiments and later board labs to establish core concepts, documentation habits, build/flash/debug competence, and hardware understanding. Labs may stand alone or build on one another. Increase their difficulty with demonstrated skill; do not force an early lab to become product code.
@@ -95,32 +97,9 @@ Goal:
 
 Demonstrate how pointer arithmetic differs across pointed-to types.
 
-Suggested experiment:
+Task:
 
-```c
-#include <stdint.h>
-#include <stdio.h>
-
-int main(void) {
-    uint8_t  a8[4]  = {0};
-    uint16_t a16[4] = {0};
-    uint32_t a32[4] = {0};
-
-    printf("%p %p\n", (void *)&a8[0],  (void *)&a8[1]);
-    printf("%p %p\n", (void *)&a16[0], (void *)&a16[1]);
-    printf("%p %p\n", (void *)&a32[0], (void *)&a32[1]);
-
-    return 0;
-}
-```
-
-Expected conceptual observation:
-
-- `uint8_t * + 1` advances by 1 byte
-- `uint16_t * + 1` advances by 2 bytes
-- `uint32_t * + 1` advances by 4 bytes on systems where these types have the conventional widths
-
-The semantic rule is based on `sizeof(*ptr)`, not on a hard-coded byte count.
+Write a small C program that creates arrays with 8-bit, 16-bit, and 32-bit unsigned elements. Inspect the addresses of adjacent elements, predict the differences before running it, and explain the relationship to `sizeof(*ptr)`. Submit your own code and output for review.
 
 ### Pointer subtraction micro-lab
 
@@ -130,39 +109,9 @@ Goal:
 
 Verify that pointer subtraction returns an element distance.
 
-Suggested experiment:
+Task:
 
-```c
-#include <stddef.h>
-#include <stdint.h>
-#include <stdio.h>
-
-int main(void) {
-    uint32_t arr[5];
-
-    uint32_t *p1 = &arr[1];
-    uint32_t *p2 = &arr[4];
-
-    ptrdiff_t d1 = p2 - p1;
-    ptrdiff_t d2 = p1 - p2;
-
-    printf("%td\n", d1);
-    printf("%td\n", d2);
-
-    return 0;
-}
-```
-
-Expected:
-
-```text
-3
--3
-```
-
-Important constraint:
-
-Do not extend this experiment by subtracting unrelated pointers and treating the result as meaningful C behavior.
+Write a small C program using two pointers into the same array. Compute their difference in both orders; predict the result before running it. Submit your own code and observations for review. Do not subtract unrelated pointers.
 
 ---
 
