@@ -16,7 +16,7 @@ The learner should find and explain the relevant passage, table, or register fie
 
 ## Cumulative projects and lab progression
 
-Track 1 may have several substantial projects. **No first project has been mutually selected.** The [connected device supervisor](Projects/Candidate-Connected-Device-Supervisor.md) is one proposal to compare against other production-relevant options. The [engineering workflow](Projects/Engineering-Workflow.md) records the agreed multi-folder C/header organization and feature-branch/PR integration exercise, independent of project choice.
+Track 1 may have several substantial projects. **No first project has been mutually selected.** Compare proposals by the breadth and depth of transferable skills for a general embedded firmware Principal Engineer: low-level C, hardware interfaces, timing, concurrency, data movement, boot/update, reliability, security, measurement, and architecture. BMC-specific relevance is not a selection criterion. The [connected device supervisor](Projects/Candidate-Connected-Device-Supervisor.md) is one candidate. The [engineering workflow](Projects/Engineering-Workflow.md) records the agreed multi-folder C/header organization and feature-branch/PR integration exercise, independent of project choice.
 
 After a project is chosen, each regular project lab should make a useful contribution: firmware, a module, a project-relevant test, a build/debug tool, or implementation documentation. Labs may be independent contributions or direct continuations. Increase difficulty and independence as demonstrated capability grows. Existing concept labs remain available while the first project is being selected; do not force demonstration code into a future firmware runtime.
 
