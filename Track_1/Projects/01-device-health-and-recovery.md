@@ -2,6 +2,8 @@
 
 Status: **selected project; implementation has not started**
 
+Source modules, header ownership, repository layout, and the simulated team integration workflow are described in [Project 1 – Source layout and team workflow](01-architecture-and-team-workflow.md).
+
 ## Real-world problem
 
 A deployed controller or appliance can hang, lose connectivity, exhaust resources, corrupt its persistent state, or fail during an update. Build an STM32H745I-DISCO-based supervisor that observes a managed device, records evidence, makes bounded recovery decisions, and exposes enough diagnostics for an operator to understand what happened.
