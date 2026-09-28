@@ -11,6 +11,6 @@ Added: 2026-09-28 (America/Los_Angeles).
 | File size | 2,097,152 bytes (2 MiB) |
 | SHA-256 | `961d7faa8833fb785141d3e9af8d6dee751661c4c3f67a3680e709d6a91d562c` |
 | Git blob SHA-1 | `8a618054a226bdf5599fcbc40285dd6f7c079e04` |
-| Verification | Local file size, checksum, and initial vector words checked; a file-to-device comparison remains pending |
+| Verification | Local file size, checksum, and initial vector words checked; STM32CubeProgrammer reported “No difference found with file” for the `0x08000000`–`0x08200000` internal-flash range on 2026-09-28 |
 
-This captures internal flash only. A complete restoration of the factory demonstration may also require resources stored outside internal flash. Verify the image against the device in STM32CubeProgrammer before relying on it for restoration.
+This captures internal flash only. A complete restoration of the factory demonstration may also require resources stored outside internal flash.
