@@ -4,7 +4,7 @@ This file records implementation exercises, experiments, debugger work, and larg
 
 ## STM32H745I-DISCO documentation
 
-Use the [Track 1 documentation register](docs/README.md) for official board/MCU source links, document revisions, and the exact sections used by labs. The learner should find and explain the relevant passage, table, schematic connection, or register field before using it in code. Provide section or search hints when needed.
+Use the [Track 1 documentation register](docs/README.md) for official board/MCU source links, document revisions, and the exact sections used by labs. Present only the relevant official document at the start of each lookup, ask one open-ended question, and let the learner find the component and supporting passage independently. Offer section or search hints after an attempt or on request.
 
 For active labs, the learner writes the code first. Record requirements and checkpoints here, not a starter implementation or solution; review their code and suggest targeted corrections or hints after they submit it.
 
@@ -47,14 +47,14 @@ Hardware and environment: STM32H745I-DISCO, Windows host, STM32CubeIDE, STM32Cub
 Documentation checkpoints:
 1. UM2488 Figure 5 (board bottom layout): locate the STLINK-V3E USB connector CN14.
 2. UM2488 Sections 6.3–6.4: identify embedded debugger, power route, and JP8 selection for CN14.
-3. UM2488 Table 7 and revision-matched schematic: identify a user LED and its MCU connection before any GPIO code.
+3. Board user manual, followed by the revision-matched schematic: choose and investigate a user-controlled LED before any GPIO code.
 4. MCU datasheet and RM0399 later: locate the relevant GPIO and clock behavior before register-level work.
 
 Observed checkpoint (2026-09-27): learner reports the physical JP8 jumper at STLK and connected CN14 to the PC. Green LD4 illuminates. STM32CubeProgrammer screenshot shows ST-LINK Connected, board STM32H745I-DK, device ID 0x450, target voltage 3.25 V, and a successful 1024-byte read from 0x08000000. The board LCD is illuminated solid white; its cause and the current firmware state are not yet established. No new firmware has been built or flashed yet.
 
 Observed checkpoint (2026-09-27): after disconnecting STM32CubeProgrammer, the LCD shows an ST-branded demonstration menu with icons. This is consistent with the factory demonstration firmware described in UM2488 Section 3.3. The LCD had appeared white during the active debug connection. Debug attachment pausing the application is a plausible explanation, not yet proven; reset-button behavior was not reported.
 
-Next checkpoint: preserve or identify a way to restore the demonstration image before overwriting it, then locate the user LED in UM2488 Table 7 and a revision-matched schematic before writing the learner's first firmware.
+Next checkpoint: learner selects a user-controlled LED from the board user manual and explains the choice. Then identify a restoration path for the demonstration image and consult the revision-matched schematic before writing firmware.
 
 The full board-acclimation sequence remains planned for **Phase 1 Sections 14–15**. The learner requested a narrow build/flash/hardware-documentation preview during Section 6; this preview does not advance conceptual mastery or replace the later sequence.
 
