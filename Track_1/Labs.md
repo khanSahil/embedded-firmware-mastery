@@ -42,7 +42,7 @@ For each lab record:
 
 ## Phase 1 board-acclimation labs
 
-### B00 – Connect, flash, and inspect first firmware
+### Board Lab 00 – First connection and firmware flash
 
 Status: `IN_PROGRESS` (early preview requested 2026-09-27)
 
