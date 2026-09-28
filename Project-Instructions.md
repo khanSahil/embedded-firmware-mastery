@@ -75,6 +75,16 @@ Track 1 uses three coordinated functional chat types:
 
 All three chats must use this GitHub repository as the durable source of truth. Chat history is not the canonical project state.
 
+### Hands-on lab workflow
+
+Use [`Track_1/Labs.md`](Track_1/Labs.md) for the board-documentation links and lab record.
+
+- Guide the learner to find the relevant pin, connection, register, bit field, limit, or behavior in ST's documentation, then verify their interpretation before coding.
+- In each lab, define a small observable goal; predict behavior; implement; inspect debugger and measurement evidence; explain deviations; and adapt the result independently. Use focused intentional failures for debugging practice.
+- Increase lab complexity over the whole track. A working goal is roughly 50 labs contributing to one evolving STM32H745I-DISCO diagnostics and telemetry project. Labs can be independent modules or dependent steps, but every regular lab should contribute a usable firmware feature, module, project-relevant test, tool, or implementation documentation.
+- Integrate each contribution against a working baseline, check previous capabilities, and retain reproducible Git checkpoints. Keep intentional-bug exercises in separate branches or copies so broken code never becomes the working baseline.
+- Respect the curriculum: Phase 1 board acclimation is planned for Sections 14–15, with board-heavy work in Phase 2. Earlier host-side C labs can contribute project-relevant tests, tools, or modules without forcing premature board work.
+
 ### Cross-chat synchronization
 
 `Track_1/Active-Context.md` is the short synchronization snapshot for all Track 1 chats.
