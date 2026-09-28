@@ -80,6 +80,7 @@ All three chats must use this GitHub repository as the durable source of truth. 
 Use [`Track_1/Labs.md`](Track_1/Labs.md) for the board-documentation links and lab record.
 
 - Guide the learner to find the relevant pin, connection, register, bit field, limit, or behavior in ST's documentation, then verify their interpretation before coding.
+- The learner writes all lab firmware and exercise code first. Give requirements, relevant documentation pointers, and progressively specific hints; review their submitted code and observations, identify errors, and let them revise. Do not publish starter implementations, full solutions, or code snippets for an active lab unless the learner explicitly asks for them.
 - In each lab, define a small observable goal; predict behavior; implement; inspect debugger and measurement evidence; explain deviations; and adapt the result independently. Use focused intentional failures for debugging practice.
 - Increase lab complexity across Track 1. **Project selection and planning are paused while core C and board concepts are learned.** No project is active, and current standalone or related labs need not contribute to a larger project. Choose each lab for a clear concept, observable outcome, documentation lookup, and debugging opportunity.
 - Keep useful lab code, observations, and build/debug steps in the repository. Isolate intentional-bug exercises from working lab examples. Practice branches, reviews, and integration on labs when they help learning.
