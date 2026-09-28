@@ -58,7 +58,9 @@ Documentation checkpoints:
 3. UM2488 Table 7 and revision-matched schematic: identify a user LED and its MCU connection before any GPIO code.
 4. MCU datasheet and RM0399 later: locate the relevant GPIO and clock behavior before register-level work.
 
-First interactive checkpoint: learner reports the observed JP8 position and locates CN14 on their board before connecting/programming. Subsequent build/flash/debug and LED observations will be recorded as they occur. No successful flash or running firmware has been claimed yet.
+Observed checkpoint (2026-09-27): learner reports the physical JP8 jumper at STLK and connected CN14 to the PC. Green LD4 illuminates. STM32CubeProgrammer screenshot shows ST-LINK Connected, board STM32H745I-DK, device ID 0x450, target voltage 3.25 V, and a successful 1024-byte read from 0x08000000. The board LCD is illuminated solid white; its cause and the current firmware state are not yet established. No new firmware has been built or flashed yet.
+
+Next checkpoint: disconnect the CubeProgrammer debug session, press the board reset button B2, and observe whether the LCD behavior changes before replacing existing firmware.
 
 The full board-acclimation sequence remains planned for **Phase 1 Sections 14–15**. The learner requested a narrow build/flash/hardware-documentation preview during Section 6; this preview does not advance conceptual mastery or replace the later sequence.
 
