@@ -60,7 +60,9 @@ Documentation checkpoints:
 
 Observed checkpoint (2026-09-27): learner reports the physical JP8 jumper at STLK and connected CN14 to the PC. Green LD4 illuminates. STM32CubeProgrammer screenshot shows ST-LINK Connected, board STM32H745I-DK, device ID 0x450, target voltage 3.25 V, and a successful 1024-byte read from 0x08000000. The board LCD is illuminated solid white; its cause and the current firmware state are not yet established. No new firmware has been built or flashed yet.
 
-Next checkpoint: disconnect the CubeProgrammer debug session, press the board reset button B2, and observe whether the LCD behavior changes before replacing existing firmware.
+Observed checkpoint (2026-09-27): after disconnecting STM32CubeProgrammer, the LCD shows an ST-branded demonstration menu with icons. This is consistent with the factory demonstration firmware described in UM2488 Section 3.3. The LCD had appeared white during the active debug connection. Debug attachment pausing the application is a plausible explanation, not yet proven; reset-button behavior was not reported.
+
+Next checkpoint: preserve or identify a way to restore the demonstration image before overwriting it, then locate the user LED in UM2488 Table 7 and a revision-matched schematic before writing the learner's first firmware.
 
 The full board-acclimation sequence remains planned for **Phase 1 Sections 14–15**. The learner requested a narrow build/flash/hardware-documentation preview during Section 6; this preview does not advance conceptual mastery or replace the later sequence.
 
