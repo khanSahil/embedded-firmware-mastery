@@ -79,6 +79,8 @@ All three chats must use this GitHub repository as the durable source of truth. 
 
 Use the [`Track_1/docs/` documentation register](Track_1/docs/README.md) for primary-source links and document usage, and [`Track_1/Labs.md`](Track_1/Labs.md) for lab checkpoints and observations.
 
+When adding a document to the Track 1 register, include the date it was added in the learner's local time zone (America/Los_Angeles), separately from the source's own revision/publication date.
+
 - At the start of a lab lookup, name only the relevant primary document and ask one open-ended question about the learner's choice or observation. Let the learner locate the LED, page, table, pin, bit, or register independently. After their attempt, confirm or correct it; provide a section hint or more detail when they ask or get stuck. Do not reveal lookup answers in advance.
 - The learner writes all lab firmware and exercise code first. Give requirements, relevant documentation pointers, and progressively specific hints; review their submitted code and observations, identify errors, and let them revise. Do not publish starter implementations, full solutions, or code snippets for an active lab unless the learner explicitly asks for them.
 - In each lab, define a small observable goal; predict behavior; implement; inspect debugger and measurement evidence; explain deviations; and adapt the result independently. Use focused intentional failures for debugging practice.
