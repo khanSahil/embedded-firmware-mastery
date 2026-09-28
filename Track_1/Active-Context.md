@@ -95,6 +95,7 @@ The integrated set is paused after beginning Question 21 so project organization
 - Relevant coding experiments can be done as concepts become ready.
 - The curriculum still intentionally ramps board usage, with light STM32H745I-DISCO acclimation in Phase 1 Sections 14–15 and board-heavy conceptual work from Phase 2 onward.
 - Do not turn Phase 1 Sections 1–13 into board-heavy work unless there is a deliberate reason to preview something.
+- Lab policy is now documented in `Project-Instructions.md` and `Track_1/Labs.md`: guide primary-document lookups, increase complexity gradually, and have every regular lab contribute to an evolving STM32H745I-DISCO diagnostics and telemetry project. Labs can be independent or dependent; isolate intentional-bug exercises from the working project.
 
 ## Design readiness
 
@@ -162,4 +163,4 @@ This snapshot was refreshed after the latest updates to:
 - `Design-Exercises.md`
 - `Project-Instructions.md`
 
-Last synchronized: 2026-09-26
+Last synchronized: 2026-09-27
