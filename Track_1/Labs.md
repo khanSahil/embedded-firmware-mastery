@@ -16,7 +16,7 @@ The learner should find and explain the relevant passage, table, or register fie
 
 ## Cumulative projects and lab progression
 
-Track 1 may have several substantial projects. [Project 1 – Connected Device Supervisor and Recovery Platform](Projects/01-device-health-and-recovery.md) is the first. It models production firmware work: supervise a managed device, diagnose failures, make bounded recovery decisions, and provide a trustworthy event history. Select later projects for distinct, realistic engineering challenges.
+Track 1 may have several substantial projects. [Project 1 – Connected Device Supervisor and Recovery Platform](Projects/01-device-health-and-recovery.md) is the first. It models production firmware work: supervise a managed device, diagnose failures, make bounded recovery decisions, and provide a trustworthy event history. Select later projects for distinct, realistic engineering challenges. Its [source layout and team workflow](Projects/01-architecture-and-team-workflow.md) defines module boundaries, multi-folder C/header organization, and a feature-branch/PR integration exercise.
 
 Each regular lab must make a useful contribution to its active project: firmware, a module, a project-relevant test, a build/debug tool, or implementation documentation. Labs may be independent contributions or direct continuations. Increase difficulty and independence as demonstrated capability grows. Earlier host-side C labs should serve a real project need without forcing demonstration code into the firmware runtime.
 
