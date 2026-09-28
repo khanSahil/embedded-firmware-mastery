@@ -56,7 +56,9 @@ Observed checkpoint (2026-09-27): after disconnecting STM32CubeProgrammer, the L
 
 Observed checkpoint (2026-09-27): learner identified LD6 (red) and LD7 (green) as user LEDs, chose LD7 to represent normal activity, and found PJ2 as its MCU pin. A photo of the main-board sticker reads `MB1381-H745XI-B03`, so the matching B03 schematic is now linked in `docs/README.md`.
 
-Next checkpoint: learner examines the B03 schematic to predict which PJ2 output level illuminates LD7. Determine a restoration path for the demonstration image before overwriting its firmware.
+Observed checkpoint (2026-09-27): learner read the B03 LED schematic and correctly predicted LD7 is active low. Its anode is tied to 3V3, so driving PJ2 low sinks current through LD7 and R233; driving high removes that forward voltage. No firmware has been written.
+
+Next checkpoint: use the STM32CubeProgrammer manual UM2237 to identify a way to preserve the existing internal flash image before replacing the factory demonstration; do not assume this alone captures external demo assets. Then the learner writes their first LED firmware.
 
 The full board-acclimation sequence remains planned for **Phase 1 Sections 14–15**. The learner requested a narrow build/flash/hardware-documentation preview during Section 6; this preview does not advance conceptual mastery or replace the later sequence.
 
