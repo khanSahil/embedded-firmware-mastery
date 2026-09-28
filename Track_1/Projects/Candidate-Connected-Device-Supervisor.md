@@ -14,7 +14,7 @@ A program on the development computer could simulate the managed device initiall
 
 It can connect portable C modules, board bring-up, timers, interrupts, protocols, persistence, watchdogs, fault injection, update/recovery design, resource budgets, and cross-system interfaces. Its engineering questions include false failure detection, escalation, loss of power during writes, diagnostic retention, safe defaults, and compatibility across firmware versions.
 
-Potential scope is broad. A real BMC or certified production device requires more than this Discovery board; the goal would be to practice production engineering methods and make the limits explicit.
+Potential scope is broad. The Discovery board would serve as a learning platform for production engineering methods; any claim of deployment readiness would require separate product hardware, validation, and qualification.
 
 ## Questions to settle before selecting it
 
