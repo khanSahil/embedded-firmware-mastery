@@ -2,6 +2,26 @@
 
 This file records implementation exercises, experiments, debugger work, and larger projects.
 
+## STM32H745I-DISCO documentation
+
+Use ST's [board documentation page](https://www.st.com/en/evaluation-tools/stm32h745i-disco.html#documentation) as the standing starting point. For each board lab, locate the needed facts in the appropriate primary source:
+
+- [Board data brief](https://www.st.com/resource/en/data_brief/stm32h745i-disco.pdf): feature overview.
+- [Board user manual UM2488](https://www.st.com/resource/en/user_manual/um2488-discovery-kits-with-stm32h745xi-and-stm32h750xb-mcus-stmicroelectronics.pdf): layout, connectors, power, and on-board debugger.
+- [STM32H745XI datasheet DS12923](https://www.st.com/resource/en/datasheet/stm32h745xi.pdf): MCU pinout, specifications, and electrical limits.
+- [MCU reference manual RM0399](https://www.st.com/resource/en/reference_manual/rm0399-stm32h745755-and-stm32h747757-advanced-armbased-32bit-mcus-stmicroelectronics.pdf): peripheral registers and behavior.
+- A board schematic from the [board documentation page](https://www.st.com/en/evaluation-tools/stm32h745i-disco.html#documentation) that matches the physical board revision: actual signal wiring.
+
+The learner should find and explain the relevant passage, table, or register field before using it in code. Provide section or search hints when needed.
+
+## Cumulative project and lab progression
+
+Working project concept: an STM32H745I-DISCO diagnostics and telemetry station. Across roughly 50 progressively more demanding labs, grow it from a minimal boot/status indicator into a system with timing, input, serial commands, measurements, persistent logs, interfaces, fault diagnosis, and recovery. Refine the detailed backlog according to curriculum readiness and observed results; Phase 1 Sections 14–15 are the planned board acclimation point.
+
+Labs may be independent contributions or direct continuations. Every regular lab should leave something useful in the project repository: firmware, a module, a project-relevant test, a build/debug tool, or implementation documentation. Early host-side C work should relate to a real project need without forcing toy code into the firmware runtime.
+
+Integrate contributions against the last stable version, verify earlier capabilities, and keep a reproducible Git checkpoint for each completed lab. An independent module can be developed separately and integrated when ready. Document deliberate interface or data-format changes and their migration when needed. Intentional-bug exercises belong in a separate branch or copy; only a verified fix and regression check should enter the working project.
+
 ## Lab tracking format
 
 For each lab record:
