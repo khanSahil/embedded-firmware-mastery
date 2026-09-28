@@ -77,7 +77,7 @@ All three chats must use this GitHub repository as the durable source of truth. 
 
 ### Hands-on lab workflow
 
-Use [`Track_1/Labs.md`](Track_1/Labs.md) for the board-documentation links and lab record.
+Use the [`Track_1/docs/` documentation register](Track_1/docs/README.md) for primary-source links and document usage, and [`Track_1/Labs.md`](Track_1/Labs.md) for lab checkpoints and observations.
 
 - Guide the learner to find the relevant pin, connection, register, bit field, limit, or behavior in ST's documentation, then verify their interpretation before coding.
 - The learner writes all lab firmware and exercise code first. Give requirements, relevant documentation pointers, and progressively specific hints; review their submitted code and observations, identify errors, and let them revise. Do not publish starter implementations, full solutions, or code snippets for an active lab unless the learner explicitly asks for them.
