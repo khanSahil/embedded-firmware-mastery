@@ -14,13 +14,15 @@ Use ST's [board documentation page](https://www.st.com/en/evaluation-tools/stm32
 
 The learner should find and explain the relevant passage, table, or register field before using it in code. Provide section or search hints when needed.
 
-## Cumulative project and lab progression
+## Cumulative projects and lab progression
 
-Working project concept: an STM32H745I-DISCO diagnostics and telemetry station. Across roughly 50 progressively more demanding labs, grow it from a minimal boot/status indicator into a system with timing, input, serial commands, measurements, persistent logs, interfaces, fault diagnosis, and recovery. Refine the detailed backlog according to curriculum readiness and observed results; Phase 1 Sections 14–15 are the planned board acclimation point.
+Track 1 may have several substantial projects. [Project 1 – Connected Device Supervisor and Recovery Platform](Projects/01-device-health-and-recovery.md) is the first. It models production firmware work: supervise a managed device, diagnose failures, make bounded recovery decisions, and provide a trustworthy event history. Select later projects for distinct, realistic engineering challenges.
 
-Labs may be independent contributions or direct continuations. Every regular lab should leave something useful in the project repository: firmware, a module, a project-relevant test, a build/debug tool, or implementation documentation. Early host-side C work should relate to a real project need without forcing toy code into the firmware runtime.
+Each regular lab must make a useful contribution to its active project: firmware, a module, a project-relevant test, a build/debug tool, or implementation documentation. Labs may be independent contributions or direct continuations. Increase difficulty and independence as demonstrated capability grows. Earlier host-side C labs should serve a real project need without forcing demonstration code into the firmware runtime.
 
-Integrate contributions against the last stable version, verify earlier capabilities, and keep a reproducible Git checkpoint for each completed lab. An independent module can be developed separately and integrated when ready. Document deliberate interface or data-format changes and their migration when needed. Intentional-bug exercises belong in a separate branch or copy; only a verified fix and regression check should enter the working project.
+Integrate contributions against a stable baseline, verify affected earlier capabilities, and retain reproducible Git checkpoints. Document deliberate interface or format changes and migration when needed. Keep intentional-bug exercises in a separate branch or copy; only verified fixes with regression evidence enter the working project.
+
+Board acclimation remains planned for Phase 1 Sections 14–15. Later hardware and cross-system features follow the curriculum and measured readiness.
 
 ## Lab tracking format
 
