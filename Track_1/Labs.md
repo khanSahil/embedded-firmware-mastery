@@ -4,15 +4,7 @@ This file records implementation exercises, experiments, debugger work, and larg
 
 ## STM32H745I-DISCO documentation
 
-Use ST's [board documentation page](https://www.st.com/en/evaluation-tools/stm32h745i-disco.html#documentation) as the standing starting point. For each board lab, locate the needed facts in the appropriate primary source:
-
-- [Board data brief](https://www.st.com/resource/en/data_brief/stm32h745i-disco.pdf): feature overview.
-- [Board user manual UM2488](https://www.st.com/resource/en/user_manual/um2488-discovery-kits-with-stm32h745xi-and-stm32h750xb-mcus-stmicroelectronics.pdf): layout, connectors, power, and on-board debugger.
-- [STM32H745XI datasheet DS12923](https://www.st.com/resource/en/datasheet/stm32h745xi.pdf): MCU pinout, specifications, and electrical limits.
-- [MCU reference manual RM0399](https://www.st.com/resource/en/reference_manual/rm0399-stm32h745755-and-stm32h747757-advanced-armbased-32bit-mcus-stmicroelectronics.pdf): peripheral registers and behavior.
-- A board schematic from the [board documentation page](https://www.st.com/en/evaluation-tools/stm32h745i-disco.html#documentation) that matches the physical board revision: actual signal wiring.
-
-The learner should find and explain the relevant passage, table, or register field before using it in code. Provide section or search hints when needed.
+Use the [Track 1 documentation register](docs/README.md) for official board/MCU source links, document revisions, and the exact sections used by labs. The learner should find and explain the relevant passage, table, schematic connection, or register field before using it in code. Provide section or search hints when needed.
 
 For active labs, the learner writes the code first. Record requirements and checkpoints here, not a starter implementation or solution; review their code and suggest targeted corrections or hints after they submit it.
 
