@@ -58,7 +58,9 @@ Observed checkpoint (2026-09-27): learner identified LD6 (red) and LD7 (green) a
 
 Observed checkpoint (2026-09-27): learner read the B03 LED schematic and correctly predicted LD7 is active low. Its anode is tied to 3V3, so driving PJ2 low sinks current through LD7 and R233; driving high removes that forward voltage. No firmware has been written.
 
-Next checkpoint: use the STM32CubeProgrammer manual UM2237 to identify a way to preserve the existing internal flash image before replacing the factory demonstration; do not assume this alone captures external demo assets. Then the learner writes their first LED firmware.
+Observed checkpoint (2026-09-28, learner's local date): learner used STM32CubeProgrammer Read all and Save As to create a local BIN file of the factory internal flash. Windows Explorer reports 2,048 KB, consistent with the STM32H745XI's 2 MiB internal flash capacity. File contents have not yet been compared with the board, and external demo assets are not included in this internal-flash backup.
+
+Next checkpoint: use UM2237 to identify and perform a file-to-device comparison of the saved image before flashing any new firmware. Then the learner writes their first LED firmware.
 
 The full board-acclimation sequence remains planned for **Phase 1 Sections 14–15**. The learner requested a narrow build/flash/hardware-documentation preview during Section 6; this preview does not advance conceptual mastery or replace the later sequence.
 
