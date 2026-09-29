@@ -1,170 +1,159 @@
 # Track 1 – Active Context
 
-This file is the cross-chat synchronization snapshot for Track 1.
+This file is the short cross-chat dashboard for Track 1.
 
-It is **not** an independent source of truth. If it conflicts with `Curriculum.md`, `Progress.md`, `Mastery-Ledger.md`, `Revision-Queue.md`, `Labs.md`, or `Design-Exercises.md`, the canonical file wins and this snapshot must be refreshed.
+It is **derived state**, not an independent source of truth. If it conflicts with the owning stream files, the owning stream wins and this dashboard must be refreshed.
 
-## Chat roles
+## Track 1 working model
 
-Track 1 uses three coordinated chat types:
+Three synchronized chat/learning streams:
 
 1. **Concepts & Mastery**
-   - deep teaching
-   - section-by-section conceptual progression
-   - quizzes and mastery validation
-   - interview-depth reasoning
-   - revision of weak areas
+2. **Design & Architecture**
+3. **Hands-On Labs & Board**
 
-2. **Hands-On Labs & Board**
-   - coding
-   - STM32H745I-DISCO work
-   - build / flash / debug
-   - register-level experiments
-   - fault injection and measurements
-   - mini-projects and lab troubleshooting
+All three may read the full repo for context. Each stream owns its detailed state; `Integration/` tracks dependencies/readiness between them.
 
-3. **Design & Architecture**
-   - firmware design questions
-   - subsystem and API design
-   - tradeoffs
-   - reliability / performance / debuggability
-   - Principal-level design exercises
+## Canonical paths
 
-All three chats use the same GitHub repository as the durable source of truth.
+### Concepts
+- `Concepts/Curriculum.md`
+- `Concepts/Progress.md`
+- `Concepts/Mastery-Ledger.md`
+- `Concepts/Revision-Queue.md`
 
-## Current curriculum location
+### Design
+- `Design/Progress.md`
+- `Design/Design-Index.md`
+- `Design/Concept-Coverage.md`
+- reviewed design artifacts under `Design/`
 
-- Phase 1 – Embedded C and Bare-Metal Foundations
-- Section 6 – C Memory & Pointer Foundations
-- Section status: `IN_PROGRESS`
+### Labs
+- `Labs/Progress.md`
+- `Labs/Lab-Index.md`
+- supporting docs/artifacts under `docs/`, `firmware-backups/`, and related folders
 
-## Current conceptual checkpoint
+### Integration
+- `Integration/Learning-Map.md`
+- `Integration/Dependency-Graph.md`
+- `Integration/Milestones.md`
 
-Section 6 core material has now been covered across:
+---
 
-- pointer declaration, address-of, dereference, typed-pointer semantics
-- pointer size vs pointed-to object size
-- pointer arithmetic, subtraction, comparison, and one-past rules
-- arrays vs pointers, `sizeof`, `arr` vs `&arr`
-- multidimensional arrays, pointer-to-array, true 2D arrays vs `int **`
-- 2D array function parameters and row-stride reasoning
-- const pointer combinations
-- structures, padding, alignment, and `memcmp` caveats
-- `void *`
-- null, dangling, and wild pointers
-- object lifetime
-- pointer casts
-- byte/object representation and character-type inspection
-- strict-aliasing / incompatible typed access basics
-- alignment-sensitive pointer access
-- integer / pointer conversion and `uintptr_t`
-- function pointers and dispatch tables
-- MMIO pointers
-- volatile pointer patterns and important corner cases
-- pointer-related undefined behavior
-- pointer debugging with watchpoints
-- firmware failure scenarios including silent corruption, delayed faults, and MMIO side effects
+# Current dashboard
 
-A 20-question hard Section 6 interview pass was completed. The learner showed strong conceptual and firmware-debug reasoning, with a few precision areas still worth revisiting.
+## Concepts & Mastery
 
-## Current weak / refinement areas
+Current phase: **Phase 1 – Embedded C and Bare-Metal Foundations**
 
-These are not broad conceptual failures; they are precision areas to reinforce:
+Last completed section:
+- **Section 6 – C Memory & Pointer Foundations**
+- status: `COMPLETED` for the current conceptual-validation pass
+- completion date: 2026-09-28
 
-- strict aliasing / effective-type reasoning and optimizer assumptions
-- distinguishing pointer casts from creation of a valid object of the cast-to type
-- W1C register semantics and why read-modify-write can be unsafe
-- precise explanation of delayed stack corruption vs the later fault site
-- exact type wording for array lvalues vs pointer conversion in expressions
-- occasional arithmetic slips while otherwise reasoning correctly
+Validation completed:
+- 20 hard Section 6-only questions
+- 20 hard integrated Sections 1–6 questions
 
-Principal-level wording is secondary for now; technical depth and correctness take priority.
+Next concept section:
+- **Section 7 – Embedded-C Semantics**
+- status: `READY_TO_START`
 
-## Current validation activity
+Non-blocking refinement areas:
+- strict aliasing / effective-type precision
+- W1C register semantics and RMW hazards
+- cache coherency vs `volatile`
+- array-lvalue vs pointer-conversion wording
+- delayed-corruption vs eventual fault-site wording
+- occasional arithmetic precision under interview pressure
 
-Planned validation sequence:
+Technical correctness/depth remains the priority; Principal-level phrasing can be polished after the model is solid.
 
-- Questions 1–20: hard Section 6 only — completed
-- Questions 21–40: hard integrated questions across Sections 1–6 — started
+## Design & Architecture
 
-The integrated set is paused after beginning Question 21 so project organization could be formalized.
+Current reviewed design:
+- **01 — Startup readiness LED**
+- status: completed as a guided conceptual design
+- board-specific implementation remains open
 
-## Hands-on readiness
+Current design readiness:
+- may use concepts established through Phase 1 Section 6
+- appropriate themes include buffer/pointer interfaces, ownership/lifetime, MMIO/register boundaries, startup/safe-state policy, and low-level debuggability
 
-- Dedicated hands-on work should live in the **Hands-On Labs & Board** chat.
-- Relevant coding experiments can be done as concepts become ready.
-- The curriculum still intentionally ramps board usage, with light STM32H745I-DISCO acclimation in Phase 1 Sections 14–15 and board-heavy conceptual work from Phase 2 onward.
-- Do not turn Phase 1 Sections 1–13 into board-heavy work unless there is a deliberate reason to preview something.
-- The learner requested early STM32H745I-DISCO build, flash, and documentation practice. `Labs.md` Board Lab 00 is `IN_PROGRESS` as a narrow Section 6 preview; the conceptual checkpoint and planned Sections 14–15 board acclimation remain in place. Physical JP8 at STLK, LD4 power LED on, STM32CubeProgrammer target connection, device ID 0x450, and flash read were observed on 2026-09-27. The LCD was white during the CubeProgrammer connection, then showed an ST-branded demonstration menu after disconnecting; this is consistent with preloaded demonstration firmware. Whether the debugger halted the application is not yet proven. No new firmware has been flashed yet.
-- Primary document sources, revisions, lab usage, and the America/Los_Angeles date each source was added are indexed in [`docs/README.md`](docs/README.md); the physical board is MB1381-H745XI-B03 and its schematic is linked; the learner chose LD7 (PJ2) and traced its active-low drive through the B03 schematic. A 2 MiB BIN backup of internal flash saved on 2026-09-28 PT is stored in [`firmware-backups/`](firmware-backups/) with checksum and provenance. STM32CubeProgrammer reported “No difference found with file” for the full `0x08000000`–`0x08200000` comparison range on 2026-09-28 PT. External demo assets were not backed up. UM2237 is indexed in the docs register. Next Board Lab 00 checkpoint is learner-written LD7 firmware, build, flash, and observation. Lab policy is documented in `Project-Instructions.md` and `Track_1/Labs.md`: use focused standalone or related C/board labs, primary-document lookups, observation, and gradually harder debugging. The learner explicitly wants to find hardware facts and write all lab code independently. Start each lookup by naming only the primary document and asking one open-ended question; wait for their answer before confirming, correcting, or offering sections/pins/LEDs as hints. Review submitted code and observations. Avoid starter implementations or solution snippets unless explicitly requested. **Project planning is paused; no project is active.** Do not require current labs to contribute to a larger product. Revisit several project options after substantial MCU and board foundations are demonstrated. The [device supervisor](Projects/Candidate-Connected-Device-Supervisor.md) remains a parked candidate; the [engineering workflow](Projects/Engineering-Workflow.md) is for a future chosen project.
+Do not silently assume later concepts such as interrupt architecture, DMA ownership, RTOS synchronization, linker/startup internals, cache-maintenance design, or boot/update architecture. Label those as previews until formally learned.
 
-## Design readiness
+## Hands-On Labs & Board
 
-The **Design & Architecture** chat may currently use concepts established through Phase 1 Sections 1–6.
+Current active lab:
+- **Board Lab 00 – First connection and firmware flash**
+- status: `IN_PROGRESS`
+- this is a narrow early preview; formal board acclimation still belongs to Phase 1 Sections 14–15
 
-Good current design areas include:
+Verified practical checkpoints:
+- STLINK-V3E connection working
+- physical board identified as MB1381-H745XI-B03
+- target/device read through STM32CubeProgrammer
+- LD7 traced to PJ2 and correctly identified as active low
+- 2 MiB factory internal-Flash BIN backup saved
+- backup stored under `firmware-backups/`
+- full `0x08000000`–`0x08200000` compare reported **No difference found with file** before new firmware programming
 
-- memory and pointer API choices
-- array / buffer interfaces
-- ownership and lifetime reasoning
-- MMIO access abstractions
-- volatile/register-access design
-- failure containment and pointer-debuggability considerations
+Next lab checkpoint:
+- learner writes first LD7 firmware
+- build
+- flash
+- observe/debug behavior
 
-Do not assume mastery of later concepts such as interrupt architecture, DMA ownership models, RTOS synchronization, cache coherency design, boot/update architecture, or linker/startup internals until those sections are taught. Previewing is allowed only when explicitly labeled.
+No large Track 1 project is currently active. Project selection remains paused until stronger MCU/board foundations are demonstrated.
 
-## Design & Architecture checkpoint
+## Integrated readiness
 
-- The reviewed introductory startup readiness LED design is recorded in [`Design/01-startup-readiness-led.md`](Design/01-startup-readiness-led.md), with the hardware diagram in `Design/assets/` and the evolving format in `Design/README.md`.
-- It covers hardware connections, firmware responsibility boundaries, reset/off-state behavior, required clock gating, safe failure handling, and validation. It was guided design work, not implemented or independently mastered.
-- Design exercises should advance one learned concept at a time, retain earlier concepts cumulatively, and use the standard format at a depth appropriate to current readiness. Do not silently assume later-track concepts.
-- The learned-concept baseline, demonstrated design coverage, and proposed next single-concept increment are in [`Design/Concept-Coverage.md`](Design/Concept-Coverage.md). Before each design question, state the new concept and curriculum location, plus relevant earlier design concepts; mark design coverage only after a reviewed write-up. The six-stage MCU-independent interview flow lives in `Design/README.md`.
+Design and Labs may consume Concepts through Section 6 as established prerequisites.
 
-## Cross-chat synchronization rule
+The streams do **not** need to be at identical positions. They must remain coherent:
+- Concepts establishes readiness.
+- Design applies concepts and exposes tradeoffs.
+- Labs validates behavior and exposes practical gaps.
+- Lab/design evidence can feed back into Concepts revision/mastery decisions.
 
-Before substantive work, each chat should:
+See `Integration/Learning-Map.md` for the current dependency map.
 
-1. read `Active-Context.md`
-2. read the canonical file(s) relevant to that chat
-3. align the work with the current curriculum and readiness state
+---
 
-After a meaningful checkpoint, the chat should:
+# Cross-chat operating protocol
 
-1. update the relevant canonical file(s)
-2. update `Mastery-Ledger.md` if demonstrated capability changed
-3. update `Revision-Queue.md` if a persistent gap was discovered or resolved
-4. refresh `Active-Context.md` **last**
+Before substantive Track 1 work:
 
-## When this file must be refreshed
+1. Read this file.
+2. Read the owning stream's canonical files.
+3. Read other stream files when their latest state affects the task.
+4. Use `Integration/Learning-Map.md` / `Dependency-Graph.md` when choosing work that crosses streams.
 
-Refresh `Active-Context.md` when the effective project state changes in a way another chat needs to know, including:
+After a meaningful checkpoint:
 
-- a topic or section is completed
-- a mastery status changes
-- a meaningful weak area is added or resolved
-- a lab milestone is completed
-- a design exercise is completed
-- hands-on or design readiness changes
-- the current / next topic changes
-- project workflow or chat organization changes
+1. Update the owning stream's canonical file(s).
+2. Record cross-stream dependency/evidence changes in `Integration/` when relevant.
+3. Update concept mastery/revision state only when the evidence supports it.
+4. Refresh this file **last** if another chat needs to know the effective state changed.
 
-Do not refresh it for every individual message or minor correction. Use checkpoint-based updates.
+## Refresh triggers
 
-## Next recommended concept step
+Refresh this dashboard when:
+- a concept topic/section completes
+- mastery status meaningfully changes
+- a significant revision item is added/resolved
+- a lab milestone completes
+- a reviewed design completes
+- design/lab readiness changes
+- current/next work changes
+- project workflow/structure changes
 
-Resume the integrated Sections 1–6 validation set at Question 21/40, then use the results to decide whether Section 6 can be closed or whether a small targeted revision pass is needed before Section 7.
+Do not refresh it for every individual message or small correction.
 
-## Synchronization checkpoint
+## Latest milestone
 
-This snapshot was refreshed after the latest updates to:
+**2026-09-28:** Section 6 conceptual validation completed and the Track 1 Concepts / Design / Labs / Integration repo model was adopted.
 
-- `Progress.md`
-- `Mastery-Ledger.md`
-- `Revision-Queue.md`
-- `Design-Exercises.md`
-- `Project-Instructions.md`
-- `Labs.md` (early Board Lab 00)
-- `docs/README.md` (primary-document register)
-- `Labs.md` and `firmware-backups/README.md` (factory internal-flash backup artifact)
+Detailed milestones: `Integration/Milestones.md`.
 
 Last synchronized: 2026-09-28
