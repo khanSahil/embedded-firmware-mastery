@@ -12,14 +12,46 @@ See [Tracks-Overview.md](Tracks-Overview.md) for the cross-track roadmap.
 
 ## Source-of-truth rule
 
-GitHub is authoritative for curriculum, progress, mastery, revision queues, and labs. Chat history is supporting context, not the durable state.
+GitHub is authoritative for curriculum, progress, mastery evidence, revision queues, labs, design work, and cross-stream integration. Chat history is supporting context, not the durable project state.
 
-At the end of a meaningful learning session, update the active track's `Progress.md` and `Mastery-Ledger.md`, and update `Revision-Queue.md` / `Labs.md` when relevant.
+## Track 1 structure
+
+Track 1 is organized as three synchronized learning streams plus an integration layer:
+
+```text
+Track_1/
+├── Concepts/
+│   ├── Curriculum.md
+│   ├── Progress.md
+│   ├── Mastery-Ledger.md
+│   └── Revision-Queue.md
+├── Design/
+│   ├── Progress.md
+│   ├── Design-Index.md
+│   ├── Concept-Coverage.md
+│   └── reviewed design artifacts
+├── Labs/
+│   ├── Progress.md
+│   └── Lab-Index.md
+├── Integration/
+│   ├── Learning-Map.md
+│   ├── Dependency-Graph.md
+│   └── Milestones.md
+└── Active-Context.md
+```
+
+Concepts establish readiness, Design applies the learned concepts, and Labs validate them in code/hardware. Design and lab evidence can feed back into concept revision and mastery.
+
+Any Track 1 chat may read all three streams for current context. Each stream owns its detailed state. `Track_1/Active-Context.md` is the short synchronized dashboard and should be refreshed last after meaningful cross-chat state changes.
 
 ## Current active checkpoint
 
-Track 1 → Phase 1 → Section 6: C Memory & Pointer Foundations.
+Track 1 → Phase 1.
 
-Pointer comparison and one-past-the-end basics are understood.
+- Section 6 – C Memory & Pointer Foundations: **completed for the current conceptual-validation pass** on 2026-09-28.
+- Validation completed: 20 hard Section 6-only questions + 20 hard integrated Sections 1–6 questions.
+- Next concept section: **Section 7 – Embedded-C Semantics**.
+- Board Lab 00 remains in progress as a narrow early preview.
+- First reviewed design: Startup readiness LED (guided conceptual design).
 
-Next planned topic: **arrays and pointer decay**.
+See `Track_1/Active-Context.md` for the latest synchronized state.
