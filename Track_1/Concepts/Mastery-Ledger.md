@@ -1,6 +1,6 @@
-# Track 1 – Mastery Ledger
+# Track 1 – Concepts Mastery Ledger
 
-This file tracks demonstrated mastery rather than merely whether a topic was discussed.
+This file tracks demonstrated capability, not merely whether a topic was discussed.
 
 ## Status scale
 
@@ -13,111 +13,73 @@ This file tracks demonstrated mastery rather than merely whether a topic was dis
 - `MASTERED`
 - `NEEDS_REVIEW`
 
----
+`MASTERED` requires successful transfer to unfamiliar scenarios; a completed lesson or quiz alone is not enough.
 
 ## Phase 0 – Tooling, Board, and Debug Environment Orientation
 
 Overall status: `PRACTICED` / phase `COMPLETED`
 
-Validation evidence:
-
-- 20-question Phase 0 test completed on 2026-09-23
+Evidence:
+- 20-question validation completed 2026-09-23
 - score: 19/20
-- the single miss was a haste/misread on precise vs imprecise fault wording; the learner immediately explained the correct distinction
-- no active Phase 0 remediation item required
+- the only miss was a wording/misread issue; the underlying precise-vs-imprecise fault concept was immediately stated correctly
 
-| Topic | Status | Evidence / Notes |
+Strong evidence includes build/debug-chain reasoning, ST-LINK/SWD layering, breakpoints/watchpoints, LR/call-stack reasoning, fault-time stacked context, CFSR/HFSR/BFAR concepts, effective-address reconstruction, and reset/reflash behavior.
+
+## Phase 1 – Sections 1–5
+
+Status: `COVERED_PREVIOUSLY`
+
+Do not assume blanket `MASTERED`. Later integrated questions, labs, designs, and revision provide additional evidence.
+
+## Phase 1 – Section 6: C Memory & Pointer Foundations
+
+Conceptual-validation status: `COMPLETED` on 2026-09-28.
+
+Overall capability status: `PRACTICED`, with selected `DEBUGGED` evidence.
+
+| Area | Status | Evidence |
 |---|---|---|
-| Development/build chain | PRACTICED | Correctly reasoned about compiler, linker, ELF, programming/debug path |
-| ST-LINK vs STM32H745 target | PRACTICED | Correctly distinguished debugger MCU from application MCU |
-| SWD physical/debug path | PRACTICED | Correctly identified SWD purpose and SWDIO / SWCLK roles |
-| External debugger connection basics | UNDERSTOOD | Understood VTref / 3V3, GND, SWDIO, SWCLK purpose |
-| GDB / GDB Server / probe layering | PRACTICED | Correctly diagnosed that GDB cannot reach target registers if probe path is broken |
-| Hardware breakpoints | PRACTICED | Correctly explained comparator-based breakpoint behavior |
-| Software breakpoints | PRACTICED | Correctly explained temporary `BKPT` replacement and restore/step/reinsert flow |
-| Watchpoints | PRACTICED | Correctly chose watchpoints for unknown memory overwrite |
-| Source vs instruction stepping | PRACTICED | Correctly distinguished source stepping from machine-instruction stepping |
-| Step Into / Over / Return | PRACTICED | Correctly reasoned about call-depth behavior |
-| LR and return-address preservation | PRACTICED | Correctly explained why non-leaf functions preserve LR |
-| Call stack / unwinding | UNDERSTOOD | Correctly explained how stack corruption can break return flow and backtraces |
-| Fault-time stacked context | PRACTICED | Correctly preferred stacked PC/registers over live handler state |
-| CFSR / HFSR / BFAR concepts | PRACTICED | Correctly reasoned about FORCED escalation and BFARVALID |
-| Precise vs imprecise faults | UNDERSTOOD | Concept correctly stated after a wording misread |
-| Effective-address reconstruction | PRACTICED | Correctly decoded `STR/LDR` base + offset/register forms |
-| Reset vs reflash / Flash vs RAM | PRACTICED | Correctly reasoned that reset preserves application Flash |
-| End-to-end debug-session model | PRACTICED | Correctly localized a probe-to-target SWD failure |
+| Pointer declaration, address-of, dereference | PRACTICED | Correctly reasoned about pointer values, targets, and indirection |
+| Pointer arithmetic / one-past / subtraction | PRACTICED | Strong element-scaling and range reasoning; subtraction-domain precision remains in revision |
+| Arrays, `arr` vs `&arr`, multidimensional arrays | PRACTICED | Correct row-stride, layout, offset, and pointer-to-array reasoning |
+| Pointer-to-pointer and 2D parameters | PRACTICED | Correctly distinguished true 2D arrays from `int **` and explained column-stride requirement |
+| `const` pointer combinations | PRACTICED | Correctly distinguished pointee constness from pointer constness |
+| Structures, padding, alignment | PRACTICED | Correct layout reasoning and `memcmp` padding caveat |
+| `void *`, null, dangling, wild pointers | PRACTICED | Correct generic-pointer and lifetime/failure reasoning |
+| Object lifetime | PRACTICED | Correct automatic/static/dynamic lifetime reasoning |
+| Pointer casts / strict aliasing | UNDERSTOOD | Core rule understood; effective-type and optimizer precision remains a revision target |
+| Integer-pointer conversion / `uintptr_t` | PRACTICED | Correct pointer-width/truncation reasoning |
+| Function pointers | PRACTICED | Correct declarations, callbacks, and dispatch-table reasoning |
+| MMIO pointers | PRACTICED | Correct connection from address to peripheral transaction and side effects |
+| `volatile` compiler semantics | PRACTICED | Correctly distinguishes compiler access preservation from hardware destination |
+| Read-to-clear / W1C register behavior | UNDERSTOOD | Core semantics repaired; W1C RMW hazards remain a deliberate revision item |
+| `volatile` vs atomicity | PRACTICED | Correctly explained read-modify-write races and why volatile is not synchronization |
+| `volatile` vs cache coherency | PRACTICED | Understands DMA/cache stale-data problem and that cache maintenance is separate from volatile |
+| Pointer-related UB | PRACTICED | Correctly diagnosed out-of-bounds, dangling, wild, misaligned, aliasing, and one-past dereference cases |
+| Pointer/data corruption debugging | DEBUGGED | Correctly chose watchpoints on pointer storage vs target data |
+| Firmware failure scenarios | DEBUGGED | Correctly reasoned about silent corruption, delayed stack faults, and MMIO side effects |
+| Optimization-sensitive UB | UNDERSTOOD | Understands why optimized builds may exploit language assumptions |
 
-## Phase 1 – Embedded C and Bare-Metal Foundations
+## Section 6 validation evidence
 
-### Sections 1–5
+Completed on 2026-09-28:
 
-Status: `COMPLETED_PREVIOUSLY`
+- 20 hard Section 6-only questions
+- 20 hard integrated Sections 1–6 questions
 
-Exact topic-by-topic mastery should continue to be revalidated through the integrated Sections 1–6 question set.
+Observed strengths:
 
-Do not assume `MASTERED` for every subtopic until evidence is recovered or revalidated.
+- pointer/array reasoning
+- stack and delayed-corruption reasoning
+- CPU effective-address reasoning
+- bit manipulation and integer representation
+- endianness and memory representation
+- MMIO vs RAM address-space reasoning
+- pointer-copy and pointer-to-pointer semantics
+- `volatile` vs synchronization/cache-coherency distinctions
+- debugger/watchpoint reasoning
 
-### Section 6 – C Memory & Pointer Foundations
+Section 6 is complete for the current pass and does **not** block Section 7. It is not yet labeled `MASTERED`; future lab, design, debugging, and unfamiliar-scenario evidence should drive any later promotion.
 
-Overall status: `PRACTICED` with selected `DEBUGGED` evidence; section validation still in progress.
-
-| Topic | Status | Evidence / Notes |
-|---|---|---|
-| Pointer declaration | PRACTICED | Correctly interpreted pointer and pointer-to-array declarations in exercises |
-| Address-of operator | PRACTICED | Correctly reasoned about object addresses and pointer targets |
-| Dereference | PRACTICED | Correctly distinguished valid dereference from one-past, null, dangling, wild, misaligned, and incompatible typed access |
-| Typed pointer semantics | PRACTICED | Strong overall; exact object-model wording still being polished |
-| Pointer arithmetic | PRACTICED | Correctly reasoned about element scaling and byte movement |
-| Pointer subtraction | UNDERSTOOD | Correctly reasoned about same-array domain and `ptrdiff_t`; keep as revision item |
-| Pointer comparison | UNDERSTOOD | Correctly reasoned about same-array ordering and portability limits for unrelated objects |
-| One-past-the-end | PRACTICED | Correctly reasoned about what may be formed/compared/subtracted vs dereferenced |
-| Arrays and pointer conversion | PRACTICED | Correctly handled `sizeof`, array vs pointer, and multidimensional cases; occasionally needs exact array-lvalue wording |
-| `arr` vs `&arr` | PRACTICED | Correctly reasoned about `int *` vs pointer-to-array types and arithmetic |
-| Multidimensional arrays | PRACTICED | Correctly reasoned about row stride, contiguous layout, offsets, and 2D indexing |
-| 2D function parameters | PRACTICED | Correctly explained `int m[][N]` / `int (*m)[N]`, row stride, and loss of row count |
-| Pointer-to-pointer | PRACTICED | Correctly distinguished true 2D arrays from `int **` / array-of-pointers layout |
-| const pointer combinations | PRACTICED | Correctly distinguished pointer-to-const, const pointer, and const pointer-to-const |
-| Structures / padding | PRACTICED | Natural alignment, padding, total size, and `memcmp` caveat covered |
-| void pointers | PRACTICED | Correctly reasoned about generic object pointers, casts, dereference restrictions, and standard-C arithmetic limitation |
-| null pointers | PRACTICED | Correctly distinguished null from merely invalid/dangling pointers |
-| dangling pointers | PRACTICED | Correctly reasoned about ended object lifetime and alias persistence after `free` |
-| wild / uninitialized pointers | PRACTICED | Correctly identified indeterminate-address UB and firmware consequences |
-| lifetime | PRACTICED | Correctly distinguished automatic, static, and dynamic lifetimes |
-| pointer casts | UNDERSTOOD | Knows cast changes pointer type, not underlying object; reinforce object-model precision |
-| strict aliasing / effective type | UNDERSTOOD | Recognizes incompatible typed dereference as UB; optimizer reasoning and wording still need reinforcement |
-| alignment | PRACTICED | Correctly identified misaligned typed access and MMIO alignment hazards |
-| integer / pointer conversion | PRACTICED | Correctly explained pointer-width truncation and why `uintptr_t` is preferable when provided |
-| function pointers | PRACTICED | Correctly interpreted declarations, callbacks, and dispatch-table usage |
-| MMIO pointers | PRACTICED | Correctly connected pointers to peripheral register access and hardware side effects |
-| volatile pointer usage | PRACTICED | Strong distinction among volatile pointee, volatile pointer, read-to-clear behavior, and compiler visibility |
-| W1C register semantics | UNDERSTOOD | RMW hazard repaired; should be revisited until direct-mask write semantics are automatic |
-| volatile vs atomicity | PRACTICED | Correctly explained RMW race in `counter++`; volatile does not provide synchronization |
-| volatile vs cache coherency | PRACTICED | Correctly explained DMA-written RAM may remain stale in CPU cache on Cortex-M7-class systems |
-| pointer UB | PRACTICED | Correctly diagnosed one-past dereference, dangling, wild, misaligned, aliasing, and out-of-bounds cases |
-| pointer debugging | DEBUGGED | Correctly selected watchpoint on pointer storage vs target memory depending on corruption mode |
-| firmware failure scenarios | DEBUGGED | Correctly reasoned about silent RAM corruption, delayed stack/control-flow faults, and MMIO side effects |
-| optimization-sensitive UB | UNDERSTOOD | Recognizes `-O0` vs `-O2` behavior and strict-aliasing connection; deepen compiler-assumption explanation |
-| Section 6 interview validation | PRACTICED | Completed 20 hard Section 6 questions; overall strong with targeted precision gaps |
-
-## Guided design evidence (2026-09-26)
-
-- Startup readiness LED: the learner separated startup policy from GPIO control, required the application clock before asserting ready, reasoned about a debuggable safe state, and proposed error indication. The off-state output latch and reset-pin behavior were taught during the exercise.
-- See [`Design/01-startup-readiness-led.md`](Design/01-startup-readiness-led.md). This is guided application of Phase 0 / early Phase 1 concepts, without implementation or independent transfer; no existing topic is promoted to `MASTERED` or `DESIGNED_WITH` on this evidence alone.
-
-## Current validation state
-
-- Section 6 hard-question pass: completed
-- Integrated Sections 1–6 hard-question pass: started
-- Section 6 should not yet be labeled `MASTERED`; practical implementation, broader integrated transfer, and later hands-on/design evidence are still required.
-
-## Mastery policy
-
-`UNDERSTOOD` means the learner has a sound conceptual model.
-
-`PRACTICED` requires solving or implementing examples.
-
-`DEBUGGED` requires diagnosing realistic failures.
-
-`DESIGNED_WITH` requires applying the concept in a system-level design.
-
-`MASTERED` should only be used after the learner can transfer the concept to unfamiliar scenarios without relying on memorized rules.
+See also `Revision-Queue.md` and `../Integration/Milestones.md`.
