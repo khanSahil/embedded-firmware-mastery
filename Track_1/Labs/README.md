@@ -3,12 +3,23 @@
 This area owns hands-on implementation and hardware validation.
 
 Responsibilities:
-- STM32 board work
+- STM32H745I-DISCO board work
 - firmware experiments
+- build/flash/debug workflow
 - debugger usage
 - measurements and observations
-- reproducible lab artifacts
+- reproducible practical artifacts
+- fault injection and practical debugging
 
-Labs should consume validated concepts and designs. Results and discoveries should feed back through `../Integration/`.
+Canonical files:
+- `Progress.md` — detailed lab checkpoints and observations
+- `Lab-Index.md` — concise list of active/planned labs
 
-Existing historical lab notes remain preserved during migration.
+Supporting Track 1 resources remain outside this folder where appropriate:
+- `../docs/` — primary-source documentation register
+- `../firmware-backups/` — preserved firmware images and provenance
+- `../Projects/` — parked/future project material
+
+Labs should consume validated concepts from `../Concepts/` and may apply reviewed design work from `../Design/`. Results, surprises, and evidence should feed back through `../Integration/` and `../Active-Context.md`.
+
+A lab chat may read all three streams for context, but it should write detailed concept mastery only through the agreed cross-stream evidence process rather than silently promoting concept statuses itself.
