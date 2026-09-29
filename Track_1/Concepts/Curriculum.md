@@ -2,7 +2,7 @@
 
 This is the long-term curriculum map. It is intentionally broad and can evolve as the learner progresses.
 
-This file is **Track 1 only**. The overall three-track roadmap is preserved in `Tracks-Overview.md`; Track 2 and Track 3 should not be folded into Track 1 progress.
+This file is **Track 1 only**. The overall three-track roadmap is preserved in `../../Tracks-Overview.md`; Track 2 and Track 3 should not be folded into Track 1 progress.
 
 ## Phase 0 – Tooling, Board, and Debug Environment Orientation
 
@@ -44,7 +44,8 @@ Validation:
 The curriculum intentionally ramps board usage instead of making Phase 1 board-heavy from the beginning.
 
 - Phase 1 Sections 1–13: primarily foundations, reasoning, code reading, and host-side/lightweight experiments.
-- Phase 1 Sections 14–15: begin light STM32H745I-DISCO lab work so board mechanics become familiar before Phase 2.
+- A narrow early board preview is allowed when explicitly requested, without advancing conceptual curriculum position. Board Lab 00 is such a preview.
+- Phase 1 Sections 14–15: formal STM32H745I-DISCO acclimation so board mechanics become routine before Phase 2.
   - build and flash firmware
   - reset / run / halt
   - set and hit breakpoints
@@ -55,9 +56,7 @@ The curriculum intentionally ramps board usage instead of making Phase 1 board-h
   - inspect disassembly
   - perform simple bare-metal / superloop experiments
   - practice basic fault inspection
-- Phase 2 onward: board-heavy conceptual learning. New MCU concepts should be tied to real hardware behavior, registers, measurements, and debugging. Phase 2 should not be spent learning basic flashing/debugger mechanics.
-
-This sequencing is deliberate: by the start of Phase 2, the learner should already be comfortable with the basic firmware development/debug workflow.
+- Phase 2 onward: board-heavy conceptual learning tied to real hardware behavior, registers, measurements, and debugging.
 
 ## Phase 1 – Embedded C and Bare-Metal Foundations
 
@@ -122,6 +121,8 @@ Goal: build a precise model of how C maps to CPU execution, memory, compiler beh
 
 ### Section 6 – C Memory & Pointer Foundations
 
+Status: `COMPLETED` for the current conceptual-validation pass (2026-09-28)
+
 - pointer declaration and types
 - address-of operator
 - dereference operator
@@ -132,7 +133,7 @@ Goal: build a precise model of how C maps to CPU execution, memory, compiler beh
 - pointer subtraction
 - pointer comparison
 - one-past-the-end rule
-- arrays and pointer decay
+- arrays and pointer conversion
 - `&arr` vs `arr`
 - multidimensional arrays
 - pointer-to-pointer
@@ -155,7 +156,15 @@ Goal: build a precise model of how C maps to CPU execution, memory, compiler beh
 - firmware failure scenarios
 - Senior / Principal interview questions
 
+Validation:
+
+- 20 hard Section 6-only questions completed
+- 20 hard integrated Sections 1–6 questions completed
+- remaining precision items are tracked in `Revision-Queue.md` and are non-blocking
+
 ### Section 7 – Embedded-C Semantics
+
+Status: `NEXT`
 
 - `volatile`
 - `const`
@@ -231,9 +240,9 @@ Goal: build a precise model of how C maps to CPU execution, memory, compiler beh
 - polling
 - state-machine thinking
 - driver / application separation
-- light board lab: create/build/flash a simple STM32H745 firmware image
-- light board lab: reset, run, halt, and observe firmware execution
-- light board lab: simple GPIO / superloop behavior where useful
+- formal board lab: create/build/flash a simple STM32H745 firmware image
+- reset, run, halt, and observe firmware execution
+- simple GPIO / superloop behavior where useful
 
 ### Section 15 – Debugging Foundations
 
@@ -245,18 +254,11 @@ Goal: build a precise model of how C maps to CPU execution, memory, compiler beh
 - disassembly
 - stepping
 - debugging optimized code
-- light board lab: set/clear breakpoints and watchpoints
-- light board lab: inspect registers, memory, stack, and call stack
-- light board lab: source stepping vs instruction stepping
-- light board lab: inspect generated disassembly
-- light board lab: basic fault capture / inspection
-
-Current progress:
-
-- Phase 0: completed and validated with a 20-question test (19/20; one wording misread, concept immediately corrected).
-- Sections 1–5: covered previously. Exact mastery should be revalidated where needed rather than assumed.
-- Section 6: in progress.
-- Latest checkpoint before the Phase 0 detour: multidimensional arrays / pointer-to-pointer distinction is mostly covered; function-parameter forms for 2D arrays remain to finish before continuing.
+- board lab: set/clear breakpoints and watchpoints
+- inspect registers, memory, stack, and call stack
+- source stepping vs instruction stepping
+- inspect generated disassembly
+- basic fault capture / inspection
 
 ## Phase 2 – MCU Architecture and Hardware Fundamentals
 
@@ -474,40 +476,11 @@ Current progress:
 
 ---
 
-# Current detailed section
+# Current curriculum checkpoint
 
-## Phase 1 – Section 6: C Memory & Pointer Foundations
+- Phase 0: completed and validated.
+- Sections 1–5: covered previously; mastery continues to be refined through cross-context evidence.
+- Section 6: completed for the current conceptual-validation pass on 2026-09-28.
+- Section 7: next conceptual section.
 
-Planned coverage:
-
-- pointer declaration and types
-- address-of operator
-- dereference operator
-- typed pointer semantics
-- pointer size vs pointed-to type
-- pointer arithmetic
-- scaling by element size
-- pointer subtraction
-- pointer comparison
-- one-past-the-end rule
-- arrays and pointer decay
-- `&arr` vs `arr`
-- multidimensional arrays
-- pointer-to-pointer
-- const with pointers
-- void pointers
-- null pointers
-- dangling pointers
-- wild/uninitialized pointers
-- lifetime
-- strict aliasing
-- alignment
-- pointer casts
-- integer/pointer conversion
-- function pointers
-- MMIO pointers
-- volatile pointer patterns
-- pointer-related undefined behavior
-- debugger inspection
-- firmware failure scenarios
-- interview questions
+Detailed current state belongs in `Progress.md`, while cross-chat readiness belongs in `../Active-Context.md` and `../Integration/`.
