@@ -1,20 +1,19 @@
-# Track 1 – Design Exercises
+# Track 1 – Design Progress
 
-This file records architecture/design exercises for the dedicated **Design & Architecture** chat.
+This file records design/architecture progress for the dedicated **Design & Architecture** chat.
 
-The purpose is to provide design-level evidence without mixing design work into concept progress or hands-on lab history. The interview flow and evolving answer format are defined in [Design/README.md](Design/README.md).
+Design work applies concepts already learned in `../Concepts/` and should not silently assume later-track material. Cross-stream readiness is summarized in `../Active-Context.md` and mapped in `../Integration/`.
 
 ## Operating rules
 
-- Use only concepts that are marked ready in `Active-Context.md`, unless the exercise is explicitly labeled as a preview; add newly learned concepts cumulatively.
-- Maintain [Design/Concept-Coverage.md](Design/Concept-Coverage.md): before each question name the one new concept and curriculum location, list prior design concepts that naturally carry over, and distinguish learned concepts from concepts actually demonstrated in design. Mark new design coverage only after a reviewed exercise.
-- Frame new questions independently of any specific MCU or board. Begin the interview with requirements, constraints, and assumptions.
-- Initially guide the learner one decision at a time and help formulate the design answer; reduce guidance as the learner takes control.
-- Apply the relevant portions of the six-stage framework in `Design/README.md`; early small exercises do not need every stage in depth.
-- Record the problem, constraints, tradeoffs, proposed design, failure modes, and follow-up gaps. Show the complete write-up for learner review before pushing it to `Design/`.
-- When an exercise provides evidence for a mastery-status change, update `Mastery-Ledger.md`.
-- After a meaningful design checkpoint, refresh `Active-Context.md` last.
-- Do not treat completion of a design discussion alone as `MASTERED`.
+- Read `../Active-Context.md` before substantive design work.
+- Use only concepts currently ready unless an item is explicitly labeled as a preview.
+- Maintain `Concept-Coverage.md` to distinguish concepts learned from concepts actually demonstrated in design.
+- Frame exercises independently of a specific MCU unless board-specific detail is the point of the exercise.
+- Start with requirements, constraints, assumptions, and success criteria before proposing architecture.
+- Record tradeoffs, failure modes, observability/debuggability, and open questions.
+- A design discussion alone does not establish `MASTERED`; concept-status promotion belongs in `../Concepts/Mastery-Ledger.md` and must follow the mastery policy.
+- Refresh `../Active-Context.md` after a meaningful design checkpoint.
 
 ## Status values
 
@@ -23,40 +22,32 @@ The purpose is to provide design-level evidence without mixing design work into 
 - `COMPLETED`
 - `NEEDS_REVISIT`
 
-## Exercise template
+## Current state
 
-### Design Exercise: <title>
+### 01 — Startup readiness LED
 
-Status: `PLANNED`
+Status: `COMPLETED` (guided conceptual design)
 
-Relevant curriculum:
-- Phase / Section:
-- Concepts exercised:
+Artifact: `01-startup-readiness-led.md`
 
-Problem:
+Demonstrated:
+- requirements and scope clarification
+- hardware/software responsibility boundaries
+- startup ready/not-ready policy
+- GPIO off-state reasoning
+- clock-failure behavior
+- debuggable safe state
+- SWD-readable error state
+- tradeoff and validation thinking
 
-Constraints:
+Open:
+- board-specific implementation
+- exact pin/register implementation details
+- measurements on hardware
+- independent transfer without guidance
 
-Design / reasoning:
+This design can inform labs that use GPIO/MMIO concepts, but it does not force a lab sequence and does not advance conceptual curriculum position by itself.
 
-Tradeoffs considered:
+## Next design work
 
-Failure modes / edge cases:
-
-Debuggability / observability considerations:
-
-Performance / reliability considerations:
-
-What was demonstrated:
-
-Gaps discovered:
-
-Mastery-ledger impact:
-
-Next step:
-
----
-
-## Completed exercises
-
-| [01 — Startup readiness LED](Design/01-startup-readiness-led.md) | `COMPLETED` (guided) | Phase 0 + Phase 1 hardware and GPIO fundamentals; conceptual design only, board implementation pending. |
+Choose the next exercise from concepts already marked ready in `../Concepts/Progress.md` and `../Active-Context.md`. Add only a genuinely new design dimension at a time while carrying earlier design concepts forward.
