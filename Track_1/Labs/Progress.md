@@ -1,139 +1,87 @@
-# Track 1 – Labs and Hands-On Work
+# Track 1 – Labs Progress
 
-This file records implementation exercises, experiments, debugger work, and larger projects.
+This file records implementation exercises, experiments, debugger work, board observations, and practical milestones for the **Hands-On Labs & Board** chat.
 
-## STM32H745I-DISCO documentation
+Labs should consume concepts that are ready in `../Concepts/` and may apply reviewed designs from `../Design/`. Cross-stream readiness is summarized in `../Active-Context.md` and mapped in `../Integration/`.
 
-Use the [Track 1 documentation register](docs/README.md) for official board/MCU source links, document revisions, and the exact sections used by labs. Present only the relevant official document at the start of each lookup, ask one open-ended question, and let the learner find the component and supporting passage independently. Offer section or search hints after an attempt or on request.
+## Lab workflow
 
-For active labs, the learner writes the code first. Record requirements and checkpoints here, not a starter implementation or solution; review their code and suggest targeted corrections or hints after they submit it.
+- Read `../Active-Context.md` before starting substantive lab work.
+- Use the primary documentation register at `../docs/README.md` for board/MCU facts.
+- Let the learner locate hardware facts and write lab code first; provide progressively stronger hints only as needed.
+- Define a small observable goal, predict behavior, implement, inspect evidence, explain deviations, and record the result.
+- Keep intentional-bug exercises separate from known-good examples.
+- Lab evidence can support mastery, but concept-status promotion belongs in `../Concepts/Mastery-Ledger.md`.
+- Refresh `../Active-Context.md` after a meaningful lab checkpoint.
 
-## Current lab progression
-
-**Projects are paused. No active project has been selected.** Use focused C experiments and later board labs to establish core concepts, documentation habits, build/flash/debug competence, and hardware understanding. Labs may stand alone or build on one another. Increase their difficulty with demonstrated skill; do not force an early lab to become product code.
-
-For each lab, locate the relevant facts in primary documentation, predict behavior, implement or inspect a small change, observe it with suitable tools, explain discrepancies, and record the result. Keep reproducible code and configurations in the repository when useful. Intentional-bug exercises remain separate from working examples.
-
-Board acclimation remains planned for Phase 1 Sections 14–15; board-heavy conceptual work follows in Phase 2. After substantial MCU and board foundations are demonstrated, compare multiple production-relevant project options for broad, transferable embedded engineering learning. The [connected device supervisor](Projects/Candidate-Connected-Device-Supervisor.md) is a parked candidate. The [modular source and team workflow](Projects/Engineering-Workflow.md) is reserved for a future chosen project, though Git branches and reviews can be practiced during labs.
-
-## Lab tracking format
-
-For each lab record:
-
-- objective
-- hardware / emulator / environment
-- source files
-- expected behavior
-- observed behavior
-- bugs encountered
-- debugging method
-- lessons learned
-- mastery topics exercised
-
----
-
-## Phase 1 labs
-
-## Phase 1 board-acclimation labs
+## Current lab state
 
 ### Board Lab 00 – First connection and firmware flash
 
 Status: `IN_PROGRESS` (early preview requested 2026-09-27)
 
-Objective: use the board manual to identify power/debug connections, build a minimal firmware image, flash it through the on-board STLINK-V3E, verify execution with the debugger, and relate a visible behavior to hardware documentation.
+Purpose: become comfortable with the STM32H745I-DISCO development/debug path before the formal Phase 1 Sections 14–15 board-acclimation sequence.
 
-Hardware and environment: STM32H745I-DISCO, Windows host, STM32CubeIDE, STM32CubeProgrammer, STM32CubeH7 package, USB data cable. The physical board revision and JP8 position must be observed, not assumed.
+Hardware/environment:
+- STM32H745I-DISCO
+- physical board: MB1381-H745XI-B03
+- Windows host
+- STM32CubeIDE
+- STM32CubeProgrammer
+- on-board STLINK-V3E
 
-Documentation checkpoints:
-1. UM2488 Figure 5 (board bottom layout): locate the STLINK-V3E USB connector CN14.
-2. UM2488 Sections 6.3–6.4: identify embedded debugger, power route, and JP8 selection for CN14.
-3. Board user manual, followed by the revision-matched schematic: choose and investigate a user-controlled LED before any GPIO code.
-4. MCU datasheet and RM0399 later: locate the relevant GPIO and clock behavior before register-level work.
+Verified/observed checkpoints:
 
-Observed checkpoint (2026-09-27): learner reports the physical JP8 jumper at STLK and connected CN14 to the PC. Green LD4 illuminates. STM32CubeProgrammer screenshot shows ST-LINK Connected, board STM32H745I-DK, device ID 0x450, target voltage 3.25 V, and a successful 1024-byte read from 0x08000000. The board LCD is illuminated solid white; its cause and the current firmware state are not yet established. No new firmware has been built or flashed yet.
+- **2026-09-27:** JP8 observed at STLK; CN14 connected to PC; LD4 power LED on.
+- **2026-09-27:** STM32CubeProgrammer connected successfully; device ID `0x450`, target voltage about 3.25 V, and internal Flash read succeeded.
+- **2026-09-27:** LCD was white during active programmer/debug connection and later showed the ST demonstration menu after disconnecting; preloaded demonstration firmware is present. Whether debug attachment halted the application was not proven.
+- **2026-09-27:** learner identified LD6/LD7, selected LD7, found MCU pin PJ2, and used the B03 schematic to determine that LD7 is **active low**: PJ2 low sinks current through the LED path; PJ2 high turns it off.
+- **2026-09-28:** learner used STM32CubeProgrammer Read All / Save As to back up the full 2 MiB internal Flash to a BIN file.
+- **2026-09-28:** the backup artifact is stored under `../firmware-backups/`; recorded SHA-256: `961d7faa8833fb785141d3e9af8d6dee751661c4c3f67a3680e709d6a91d562c`.
+- **2026-09-28:** STM32CubeProgrammer **Compare flash memory with file** reported “No difference found with file” across `0x08000000`–`0x08200000`, verifying the saved internal-Flash image before new firmware is flashed.
 
-Observed checkpoint (2026-09-27): after disconnecting STM32CubeProgrammer, the LCD shows an ST-branded demonstration menu with icons. This is consistent with the factory demonstration firmware described in UM2488 Section 3.3. The LCD had appeared white during the active debug connection. Debug attachment pausing the application is a plausible explanation, not yet proven; reset-button behavior was not reported.
+Not yet done:
+- learner-written LD7 firmware
+- build
+- first new firmware flash
+- execution observation/debugging of the new image
 
-Observed checkpoint (2026-09-27): learner identified LD6 (red) and LD7 (green) as user LEDs, chose LD7 to represent normal activity, and found PJ2 as its MCU pin. A photo of the main-board sticker reads `MB1381-H745XI-B03`, so the matching B03 schematic is now linked in `docs/README.md`.
+Next checkpoint:
 
-Observed checkpoint (2026-09-27): learner read the B03 LED schematic and correctly predicted LD7 is active low. Its anode is tied to 3V3, so driving PJ2 low sinks current through LD7 and R233; driving high removes that forward voltage. No firmware has been written.
+> Learner writes the first LD7 firmware using board/MCU documentation, builds it, flashes it, and verifies the observed behavior.
 
-Observed checkpoint (2026-09-28, learner's local date): learner used STM32CubeProgrammer Read all and Save As to create a local BIN file of the factory internal flash. Windows Explorer reports 2,048 KB, consistent with the STM32H745XI's 2 MiB internal flash capacity. File contents have not yet been compared with the board, and external demo assets are not included in this internal-flash backup.
+This early board preview does **not** advance the conceptual curriculum position. Formal board acclimation remains in Phase 1 Sections 14–15.
 
-Artifact checkpoint (2026-09-28, learner's local date): the uploaded 2,097,152-byte image is stored in [`firmware-backups/`](firmware-backups/). Its SHA-256 is `961d7faa8833fb785141d3e9af8d6dee751661c4c3f67a3680e709d6a91d562c`; the first two vector words match the earlier CubeProgrammer view.
-
-Verified checkpoint (2026-09-28, learner's local date): learner found UM2237's **Compare flash memory with file** action and ran it in STM32CubeProgrammer. The screenshot shows the saved BIN selected, size `0x200000`, device range `0x08000000`–`0x08200000`, and the result “No difference found with file.” The internal-flash backup matched the board across that comparison range before new firmware was flashed.
-
-Next checkpoint: learner creates and writes the first LD7 firmware, using the board and MCU documentation to guide implementation, then builds, flashes, and observes it.
-
-The full board-acclimation sequence remains planned for **Phase 1 Sections 14–15**. The learner requested a narrow build/flash/hardware-documentation preview during Section 6; this preview does not advance conceptual mastery or replace the later sequence.
-
-Goal:
-
-Become comfortable with the STM32H745I-DISCO development/debug workflow before Phase 2 becomes board-heavy.
-
-Planned skills:
-
-- create/build a firmware project
-- flash firmware to the board
-- reset / run / halt
-- set and hit breakpoints
-- set a watchpoint
-- inspect CPU registers
-- inspect memory
-- inspect SP / stack contents / call stack
-- use Step Into / Step Over / Step Return
-- perform instruction stepping
-- inspect disassembly
-- observe a simple bare-metal superloop
-- perform a basic fault-inspection exercise
-
-Exit criterion before Phase 2:
-
-Basic tooling mechanics should feel routine. Phase 2 should focus on MCU architecture and hardware concepts rather than spending lesson time learning how to flash firmware or operate the debugger.
-
----
-
+## Planned host/C micro-labs
 
 ### Pointer arithmetic micro-lab
 
 Status: `PLANNED`
 
-Goal:
-
-Demonstrate how pointer arithmetic differs across pointed-to types.
-
-Task:
-
-Write a small C program that creates arrays with 8-bit, 16-bit, and 32-bit unsigned elements. Inspect the addresses of adjacent elements, predict the differences before running it, and explain the relationship to `sizeof(*ptr)`. Submit your own code and output for review.
+Goal: observe element-size scaling for 8-bit, 16-bit, and 32-bit pointer arithmetic.
 
 ### Pointer subtraction micro-lab
 
 Status: `PLANNED`
 
-Goal:
+Goal: verify same-array pointer subtraction and element-distance semantics.
 
-Verify that pointer subtraction returns an element distance.
-
-Task:
-
-Write a small C program using two pointers into the same array. Compute their difference in both orders; predict the result before running it. Submit your own code and observations for review. Do not subtract unrelated pointers.
-
----
+These are optional reinforcement labs rather than blockers now that Section 6 conceptual validation is complete.
 
 ## Future lab categories
 
-- memory layout experiments
+- memory-layout experiments
 - compiler/assembly inspection
-- linker map inspection
-- MMIO simulation
-- volatile optimization experiment
-- interrupt latency measurement
-- UART driver
-- SPI driver
-- I2C bus recovery
-- DMA experiment
-- RTOS scheduling lab
-- bootloader lab
-- Linux driver lab
-- OpenBMC service/debugging lab
+- linker-map inspection
+- MMIO/register experiments
+- volatile optimization experiments
+- interrupt/timing measurement
+- UART/SPI/I2C
+- DMA and cache-coherency experiments
+- RTOS scheduling/debugging
+- bootloader/update work
+- production fault-injection and recovery exercises
+
+## Project policy
+
+No large Track 1 project is currently active. Current labs should be chosen for learning value and observable evidence, not forced into a product architecture. Revisit multiple project options after stronger MCU and board foundations are demonstrated. Existing parked project ideas remain under `../Projects/`.
