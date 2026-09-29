@@ -1,6 +1,8 @@
-# Track 1 – Revision Queue
+# Track 1 – Concepts Revision Queue
 
-This file contains topics that should be revisited because they are weak, subtle, easy to forget, or foundational for later work.
+This file contains topics that should be revisited because they are subtle, easy to forget, foundational for later work, or still need greater precision.
+
+Section 6 was completed for the current conceptual-validation pass on 2026-09-28. Items below are **reinforcement targets**, not blockers for moving to Section 7.
 
 ## Active review items
 
@@ -12,9 +14,9 @@ Review later:
 
 A pointer cast changes the pointer type but does not create a new object of the cast-to type. Accessing an object through an incompatible typed pointer can invoke undefined behavior even when the numeric address, size, and hardware alignment all appear valid.
 
-Reason to revisit:
+Progress update 2026-09-28:
 
-The learner recognizes the UB but should make the compiler/object-model reasoning automatic, especially why optimization may exploit aliasing assumptions and why `-O0` vs `-O2` can differ.
+The learner recognizes the UB and can connect it to `-O0` vs `-O2`. Continue reinforcing the object-model and optimizer-assumption explanation until it becomes automatic.
 
 ### W1C register semantics
 
@@ -24,9 +26,21 @@ Review later:
 
 For write-one-to-clear registers, writing `1` clears a flag and writing `0` leaves it unchanged. Ordinary read-modify-write idioms such as `reg &= ~BIT` can therefore clear unrelated flags while failing to clear the intended one.
 
-Reason to revisit:
+Progress update 2026-09-28:
 
-This was repaired during Section 6 and should become automatic before heavy peripheral-register work.
+The rule was repaired during Section 6. Keep it active until direct-mask writes and RMW hazards are demonstrated naturally in real peripheral-register work.
+
+### Cache coherency vs `volatile`
+
+Priority: High
+
+Review later:
+
+`volatile` forces the compiler to preserve accesses; it does not invalidate stale CPU cache lines or make DMA/CPU memory coherent.
+
+Progress update 2026-09-28:
+
+The learner understands the distinction conceptually. Reinforce it later with DMA/cache maintenance, memory attributes, and barriers when those topics formally arrive.
 
 ### Array lvalue vs pointer conversion precision
 
@@ -36,9 +50,9 @@ Review later:
 
 For pointer-to-array expressions such as `*p`, distinguish the actual array type/lvalue from the pointer value produced when that array is used in most ordinary expressions.
 
-Reason to revisit:
+Progress update 2026-09-28:
 
-The conceptual model is strong, but exact type wording matters for advanced C reasoning and interviews.
+The conceptual model is strong; retain for exact C type-language precision.
 
 ### Delayed stack corruption vs fault site
 
@@ -48,21 +62,21 @@ Review later:
 
 An out-of-bounds write may corrupt saved registers or return state without faulting immediately. The eventual HardFault can occur later when corrupted state is consumed, so the crash site is not necessarily the corruption site.
 
-Reason to revisit:
+Progress update 2026-09-28:
 
-The learner understood delayed corruption but should keep the distinction between the original bad write and the later consumer of corrupted state precise.
+The learner now reasons correctly about delayed consumption of corrupted state. Revisit during real fault-debug labs.
 
-### Pointer subtraction domain rule
+### Pointer subtraction / relational comparison domain rules
 
 Priority: Medium
 
 Review later:
 
-Pointer subtraction is only defined for pointers into the same array object, including the permitted one-past position.
+Pointer subtraction and relational ordering are defined within the appropriate same-array object domain, including the permitted one-past position. Numeric machine-address ordering alone is not a portable C substitute for those language rules.
 
-Reason to revisit:
+Progress update 2026-09-28:
 
-This rule becomes important when discussing undefined behavior, compiler optimization, iterators/ranges, DMA buffers, MMIO, and low-level pointer manipulation.
+The same-array comparison rule was repaired during the integrated validation and confirmed with a nearby example.
 
 ### `ptrdiff_t`
 
@@ -78,9 +92,7 @@ Priority: Medium
 
 Review later:
 
-Pointer arithmetic is expressed in units of the pointed-to type, while raw address differences are byte-oriented at the machine level.
-
-This distinction should become automatic before moving into arrays, buffers, DMA descriptors, and MMIO.
+Pointer arithmetic is expressed in units of the pointed-to type, while raw machine addresses are byte-oriented.
 
 ### Arithmetic precision under interview pressure
 
@@ -88,17 +100,17 @@ Priority: Low
 
 Review later:
 
-Pause long enough to distinguish element count from byte count when computing multidimensional-array sizes and offsets.
+Pause long enough to distinguish element count, byte count, offset, and total object size when doing multidimensional-array calculations.
 
-Reason to revisit:
+Progress update 2026-09-28:
 
-A few arithmetic slips occurred despite otherwise correct type and layout reasoning.
+A few arithmetic slips occurred despite otherwise correct type/layout reasoning.
 
 ---
 
 ## Backfill queue
 
-- Recover any earlier exercises or weak areas from the original Track 1 chat that are worth preserving.
-- Mark earlier Sections 1–5 with proper mastery states rather than assuming full mastery.
+- Recover any earlier exercises or weak areas from the original Track 1 chats that are worth preserving.
+- Continue refining Sections 1–5 mastery states as new evidence appears rather than assuming full mastery.
 
-The exact Section 1–5 titles have now been recovered and are preserved in `Track_1/Curriculum.md`.
+The Section 1–5 titles are preserved in `Curriculum.md`.
