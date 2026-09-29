@@ -14,6 +14,8 @@ Three synchronized chat/learning streams:
 
 All three may read the full repo for context. Each stream owns its detailed state; `Integration/` tracks dependencies/readiness between them.
 
+Repo-structure migration status: `COMPLETE` (2026-09-28).
+
 ## Canonical paths
 
 ### Concepts
@@ -152,7 +154,7 @@ Do not refresh it for every individual message or small correction.
 
 ## Latest milestone
 
-**2026-09-28:** Section 6 conceptual validation completed and the Track 1 Concepts / Design / Labs / Integration repo model was adopted.
+**2026-09-28:** Section 6 conceptual validation completed and the Track 1 Concepts / Design / Labs / Integration repo model was fully migrated and synchronized.
 
 Detailed milestones: `Integration/Milestones.md`.
 
