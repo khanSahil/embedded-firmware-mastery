@@ -10,6 +10,7 @@ Design work applies concepts already learned in `../Concepts/` and should not si
 - Use only concepts currently ready unless an item is explicitly labeled as a preview.
 - Maintain `Concept-Coverage.md` to distinguish concepts learned from concepts actually demonstrated in design.
 - Frame exercises independently of a specific MCU unless board-specific detail is the point of the exercise.
+- Before each new design, show the proposed question and a concise coverage map: relevant framework aspects, expected depth, and exclusions/deferred topics. Let the learner adjust it before beginning the interview; do not pre-answer the requirements.
 - Start with requirements, constraints, assumptions, and success criteria before proposing architecture.
 - Record tradeoffs, failure modes, observability/debuggability, and open questions.
 - A design discussion alone does not establish `MASTERED`; concept-status promotion belongs in `../Concepts/Mastery-Ledger.md` and must follow the mastery policy.
