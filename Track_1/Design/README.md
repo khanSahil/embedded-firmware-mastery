@@ -13,6 +13,7 @@ This folder contains reviewed design questions, their resulting answers, diagram
 | Exercise | Curriculum scope | Status |
 |---|---|---|
 | [01 — Startup readiness LED](01-startup-readiness-led.md) | Phase 0; Phase 1 hardware, clock, reset, GPIO, basic firmware structure | Guided design completed; board-specific implementation open |
+| [02 — Development board debug access](02-development-board-debug-access.md) | Phase 0 probe placement and debug path; earlier reset, memory, and fault reasoning | Guided conceptual design completed; target-specific validation open |
 
 ## Design discussion guide
 

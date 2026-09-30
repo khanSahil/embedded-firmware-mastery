@@ -48,6 +48,27 @@ Open:
 
 This design can inform labs that use GPIO/MMIO concepts, but it does not force a lab sequence and does not advance conceptual curriculum position by itself.
 
+### 02 — Development board debug access
+
+Status: `COMPLETED` (guided conceptual design)
+
+Artifact: `02-development-board-debug-access.md`, with `assets/debug-probe-to-target-signals.png`.
+
+Demonstrated:
+- clarification of programming and debugging capabilities for a board whose application may fail before startup
+- PC → external probe → board/target debug path and the external-probe placement tradeoff
+- separation of host ELF/symbol work, probe communication, target debug hardware, and application firmware
+- GND and target-voltage reference roles; reset access for early-failure recovery
+- readback verification and build-ID matching to the ELF
+- breakpoint/watchpoint resource and timing tradeoffs, and a focused recovery validation plan
+
+Open:
+- actual target protocol, connector/pinout, probe model, reset/halt mechanism, and flash algorithm
+- measurements and tests on real hardware
+- independent transfer to an unfamiliar debug-access scenario
+
+The original exercise is one-board architecture. The 20-board/eight-engineer discussion was a scaling example; shared-probe counts and queueing are not settled by this design. Guided discussion does not establish independent mastery.
+
 ## Next design work
 
-Choose the next exercise from concepts already marked ready in `../Concepts/Progress.md` and `../Active-Context.md`. Add only a genuinely new design dimension at a time while carrying earlier design concepts forward.
+Choose the next exercise from concepts already marked ready in `../Concepts/Progress.md` and `../Active-Context.md`. Announce its one new design dimension and carry relevant earlier concepts forward. Do not assume any target-specific validation has occurred for Design 02.

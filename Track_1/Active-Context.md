@@ -74,9 +74,11 @@ Technical correctness/depth remains the priority; Principal-level phrasing can b
 ## Design & Architecture
 
 Current reviewed design:
-- **01 — Startup readiness LED**
-- status: completed as a guided conceptual design
-- board-specific implementation remains open
+- **02 — Development board debug access**
+- status: completed as a guided MCU-independent conceptual design on 2026-09-30
+- external probe selected for the single-board architecture; the probe-to-target signal diagram is under `Design/assets/`
+- target-specific protocol/connector/reset behavior and hardware validation remain open
+- Design 01 startup readiness LED remains a completed guided design with board-specific implementation open
 
 Current design readiness:
 - may use concepts established through Phase 1 Section 6
@@ -154,8 +156,10 @@ Do not refresh it for every individual message or small correction.
 
 ## Latest milestone
 
+**2026-09-30:** Design 02 debug access completed as a guided conceptual exercise, with an MCU-independent probe-to-target signal diagram. Probe fleet sizing remains a later scaling question.
+
 **2026-09-28:** Section 6 conceptual validation completed and the Track 1 Concepts / Design / Labs / Integration repo model was fully migrated and synchronized.
 
 Detailed milestones: `Integration/Milestones.md`.
 
-Last synchronized: 2026-09-28
+Last synchronized: 2026-09-30

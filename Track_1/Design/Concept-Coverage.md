@@ -1,6 +1,6 @@
 # Track 1 – Design Concept Coverage
 
-Last updated: 2026-09-28
+Last updated: 2026-09-30
 
 This file tracks the difference between:
 
@@ -80,6 +80,7 @@ Important limits:
 | Exercise | Demonstrated design concepts | Guidance / limits |
 |---|---|---|
 | [01 — Startup readiness LED](01-startup-readiness-led.md) | Requirements clarification; reset/default off-state reasoning; GPIO output policy; required clock as readiness condition; separation of startup policy from low-level GPIO control; failure-safe behavior; RAM error evidence observable through debug path; validation thinking | Guided exercise. Board-specific implementation and independent transfer remain open. This does not make every involved concept `DESIGNED_WITH` or `MASTERED`. |
+| [02 — Development board debug access](02-development-board-debug-access.md) | On-board versus external probe placement; host/probe/target responsibility boundaries; reset-dependent early-failure recovery; shared GND and target-voltage reference; image readback/build-ID/ELF matching; finite hardware debug resources; focused validation | Guided, MCU-independent one-board design. Actual protocol, wiring, measurements, and independent transfer remain open. The 20-board sharing analysis was exploratory, not the core design. |
 
 Do not infer that all concepts available above have been used in design. Only reviewed evidence in this table counts as demonstrated design coverage.
 
@@ -93,4 +94,4 @@ Choose one genuinely new design dimension from concepts already available throug
 4. ask the learner to clarify requirements first
 5. update this file only after the reviewed write-up is complete
 
-The current proposed next increment remains a debug-probe placement/architecture exercise unless a newer design priority is chosen from the latest `../Active-Context.md`.
+Debug-probe placement was exercised in Design 02. Select the next small increment using the latest `../Active-Context.md`; do not repeat probe placement as if it were new.
