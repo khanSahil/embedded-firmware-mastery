@@ -1,16 +1,16 @@
 # Track 1 – Concepts Progress
 
-Last updated: 2026-09-28
+Last updated: 2026-10-03
 
 ## Current location
 
 **Phase 1 – Embedded C and Bare-Metal Foundations**
 
-**Next section: Section 7 – Embedded-C Semantics**
+**Next section: Section 8 – Concurrency Foundations**
 
 Status: `READY_TO_START`
 
-The previous section, **Section 6 – C Memory & Pointer Foundations**, is `COMPLETED` for the current conceptual-validation pass.
+The previous section, **Section 7 – Embedded-C Semantics**, is `COMPLETED` for the current conceptual-validation pass.
 
 ## Phase 0 – Tooling, Board, and Debug Environment Orientation
 
@@ -102,7 +102,73 @@ Remaining refinement areas are **non-blocking revision items**, not reasons to h
 
 These remain tracked in `Revision-Queue.md` and should be reinforced naturally in later sections, labs, and design work.
 
+## Section 7 – Embedded-C Semantics
+
+Status: `COMPLETED` for the current conceptual-validation pass
+
+Completed on: 2026-10-03
+
+Core material covered and exercised:
+
+- `volatile` access semantics and the limits of `volatile`
+- `const` and `const volatile`
+- casting away `const` and the distinction between const-qualified access and an actually const object
+- fixed-width integer types and the role of `CHAR_BIT`
+- MMIO access width vs implemented field width
+- safe bit manipulation, field masks, range validation, and shift-count rules
+- read-modify-write hazards on MMIO
+- W1C and read-to-clear semantics
+- signed vs unsigned overflow
+- integer promotions
+- usual arithmetic conversions
+- implementation-defined, unspecified, and undefined behavior
+- compiler assumptions around signed-overflow UB
+- uninitialized values and invalid pointer use
+- allocation lifetime, dangling pointers, double free, and aliasing after `free`
+- one-past pointer rules and pointer subtraction in elements
+- `ptrdiff_t`
+- strict aliasing and character-type access to object representation
+- sequencing / unsequenced side effects
+- short-circuit evaluation as a safety guard
+- struct padding, tail padding, `memcmp` caveats, and serialization concerns
+- endianness in persisted/wire representations
+- bit-field layout portability limits
+
+## Section 7 validation
+
+A 15-question integrated validation pass was completed on 2026-10-03.
+
+Demonstrated strengths:
+
+- integer-promotion outcomes on the assumed 32-bit STM32 environment
+- signed/unsigned comparison consequences
+- `volatile` access preservation vs atomicity
+- W1C read-modify-write hazard reasoning
+- signed-overflow UB and precondition-first checks
+- dangling-pointer and lifetime reasoning
+- sequencing and short-circuit safety
+- struct-padding / `memcmp` reasoning
+- pointer subtraction and one-past rules
+- oversized shift-count UB
+- MMIO read-modify-write hazard analysis
+
+Non-blocking refinement areas:
+
+- when explaining promotions, preserve the full path (`small type -> int/unsigned int -> common type`) instead of jumping directly to the final type
+- strict-aliasing rationale and why character types are specially permitted to inspect object representation
+- keep `volatile` access semantics separate from synchronization, atomicity, and cache coherency
+- continue reinforcing W1C/direct-mask writes in real peripheral work
+
+Section 7 is complete for this pass, but is not blanket `MASTERED`; later labs, design work, debugging, and unfamiliar scenarios should drive further promotion.
+
 ## Progress history
+
+### 2026-10-03 — Section 7 completion checkpoint
+
+- Completed the Section 7 teaching sequence and 15-question integrated validation pass.
+- Section 7 moved from active learning/validation to revision-and-transfer mode.
+- Section 8 – Concurrency Foundations is now next.
+- No blanket promotion to `MASTERED`; practical and unfamiliar-scenario transfer evidence remains necessary.
 
 ### 2026-09-28 — Section 6 completion checkpoint
 
@@ -123,15 +189,13 @@ These remain tracked in `Revision-Queue.md` and should be reinforced naturally i
 
 ## Next planned concept work
 
-Begin **Section 7 – Embedded-C Semantics**.
+Begin **Section 8 – Concurrency Foundations**.
 
-Section 7 should build on Section 6 rather than repeat it, with emphasis on:
+Section 8 should build directly on Section 7 and deepen:
 
-- `volatile`
-- `const`
-- `const volatile`
-- fixed-width integer types
-- safe bit manipulation
-- implementation-defined behavior
-- undefined behavior
-- compiler assumptions relevant to firmware
+- atomicity
+- read-modify-write operations
+- race conditions
+- shared state
+- interrupts and concurrent modification
+- why `volatile` does not imply atomicity or thread safety
