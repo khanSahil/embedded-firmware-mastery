@@ -2,6 +2,45 @@
 
 This file records major checkpoints that matter across Concepts, Design, and Labs. Detailed evidence stays in the owning stream.
 
+## 2026-10-03 — Section 7 conceptual validation completed
+
+Concepts:
+- completed Section 7 – Embedded-C Semantics
+- completed a 15-question integrated validation pass
+- Section 7 moved from active learning/validation to revision-and-transfer mode
+- Section 8 – Concurrency Foundations is next
+
+Strong demonstrated areas:
+- `volatile` access semantics and separation from atomicity
+- W1C / MMIO read-modify-write hazard reasoning
+- signed/unsigned conversion consequences
+- signed-overflow UB and compiler assumptions
+- pointer lifetime, one-past, and `ptrdiff_t` reasoning
+- sequencing and short-circuit safety
+- struct padding, serialization, and bit-field portability
+
+Non-blocking revision areas:
+- complete integer-promotion-path wording
+- strict-aliasing / character-type exception rationale
+- cache coherency vs `volatile`
+- real-peripheral transfer of W1C/direct-mask handling
+
+Cross-stream impact:
+- Design and Labs may use concepts established through Section 7 as prerequisites.
+- Later concurrency, interrupt architecture, DMA/cache maintenance, linker/startup internals, and memory-ordering/barrier concepts remain previews until formally learned.
+- Section 7 is not blanket `MASTERED`; later design/lab/debugging/unfamiliar-scenario evidence should drive promotion.
+
+## 2026-09-30 — Development board debug access design completed
+
+Design:
+- Design 02 completed as a guided MCU-independent conceptual exercise
+- external probe selected for the single-board architecture
+- probe-to-target signal diagram recorded under `../Design/assets/`
+- board-specific protocol/connector/reset behavior and hardware validation remain open
+
+Cross-stream impact:
+- reinforces Phase 0 tooling/debug-path understanding and Section 6 low-level interface reasoning without advancing Concepts independently.
+
 ## 2026-09-28 — Section 6 conceptual validation completed
 
 Concepts:
@@ -77,4 +116,4 @@ Rule:
 
 ## Next major milestone
 
-Begin Section 7 while continuing Board Lab 00 and design work only at a depth consistent with the latest concept readiness.
+Begin Section 8 while continuing Board Lab 00 and design work only at a depth consistent with readiness through Section 7.
