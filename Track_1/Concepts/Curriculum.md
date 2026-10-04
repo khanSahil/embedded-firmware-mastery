@@ -164,7 +164,7 @@ Validation:
 
 ### Section 7 – Embedded-C Semantics
 
-Status: `NEXT`
+Status: `COMPLETED` for the current conceptual-validation pass (2026-10-03)
 
 - `volatile`
 - `const`
@@ -172,10 +172,26 @@ Status: `NEXT`
 - fixed-width integer types
 - safe bit manipulation
 - implementation-defined behavior
+- unspecified behavior
 - undefined behavior
 - compiler assumptions relevant to firmware
+- integer promotions
+- usual arithmetic conversions
+- MMIO read-modify-write hazards
+- W1C / read-to-clear semantics
+- sequencing and short-circuit rules
+- strict aliasing / object representation reinforcement
+- struct padding / serialization / bit-field portability
+
+Validation:
+
+- 15-question integrated Section 7 validation completed
+- core concepts are non-blocking for Section 8
+- remaining precision/reinforcement items are tracked in `Revision-Queue.md`
 
 ### Section 8 – Concurrency Foundations
+
+Status: `NEXT`
 
 - atomicity
 - read-modify-write operations
@@ -481,6 +497,7 @@ Status: `NEXT`
 - Phase 0: completed and validated.
 - Sections 1–5: covered previously; mastery continues to be refined through cross-context evidence.
 - Section 6: completed for the current conceptual-validation pass on 2026-09-28.
-- Section 7: next conceptual section.
+- Section 7: completed for the current conceptual-validation pass on 2026-10-03.
+- Section 8: next conceptual section.
 
 Detailed current state belongs in `Progress.md`, while cross-chat readiness belongs in `../Active-Context.md` and `../Integration/`.
