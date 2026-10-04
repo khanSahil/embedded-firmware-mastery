@@ -129,7 +129,7 @@ The streams do **not** need to be at identical positions. They must remain coher
 - Labs validates behavior and exposes practical gaps.
 - Lab/design evidence can feed back into Concepts revision/mastery decisions.
 
-See `Integration/Learning-Map.md` for the current dependency map.
+See `Integration/Learning-Map.md` and `Integration/Dependency-Graph.md` for the synchronized dependency boundary through Section 7.
 
 ---
 
@@ -165,7 +165,7 @@ Do not refresh it for every individual message or small correction.
 
 ## Latest milestone
 
-**2026-10-03:** Section 7 – Embedded-C Semantics completed for the current conceptual-validation pass, including a 15-question integrated validation. Section 8 – Concurrency Foundations is next; Design and Labs may now consume concepts through Section 7.
+**2026-10-03:** Section 7 – Embedded-C Semantics completed for the current conceptual-validation pass, including a 15-question integrated validation. Section 8 – Concurrency Foundations is next; Design and Labs may now consume concepts through Section 7. Integration readiness/dependency files are synchronized to the same boundary.
 
 **2026-09-30:** Design 02 debug access completed as a guided conceptual exercise, with an MCU-independent probe-to-target signal diagram. Probe fleet sizing remains a later scaling question.
 
