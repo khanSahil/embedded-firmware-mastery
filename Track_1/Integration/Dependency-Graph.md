@@ -90,9 +90,10 @@ Every Track 1 chat reads it first, then reads the canonical stream files relevan
 
 ## Current dependency boundary
 
-As of 2026-09-28:
+As of 2026-10-03:
 
-- Concepts are ready through Phase 1 Section 6; Section 7 is next.
-- Design may use concepts through Section 6 without calling them previews.
-- Labs may use concepts through Section 6 and Phase 0 tooling/debug foundations.
-- Later concepts such as interrupts, DMA ownership, RTOS synchronization, cache-maintenance mechanics, linker/startup internals, and boot/update architecture must be labeled preview material until formally learned.
+- Concepts are ready through Phase 1 Section 7; Section 8 is next.
+- Design may use concepts through Section 7 without calling them previews.
+- Labs may use concepts through Section 7 and Phase 0 tooling/debug foundations.
+- Section 7 readiness includes embedded-C semantics needed for safer register/API reasoning: `volatile`/`const`, fixed-width types, integer promotions/conversions, safe masking/shifting, W1C/RMW awareness, UB/implementation-defined behavior, sequencing, strict-aliasing basics, padding/serialization, and bit-field portability limits.
+- Later concepts such as true concurrency/interrupt architecture, DMA ownership, RTOS synchronization, memory barriers/order, cache-maintenance mechanics, linker/startup internals, and boot/update architecture must be labeled preview material until formally learned.
