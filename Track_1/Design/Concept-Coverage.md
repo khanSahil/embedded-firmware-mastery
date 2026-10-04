@@ -1,6 +1,6 @@
 # Track 1 – Design Concept Coverage
 
-Last updated: 2026-09-30
+Last updated: 2026-10-03
 
 This file tracks the difference between:
 
@@ -70,10 +70,30 @@ Available:
 - watchpoint-based memory-corruption debugging
 - delayed stack/control-flow corruption reasoning
 
+### Phase 1 Section 7 – Embedded-C Semantics
+
+Status: conceptually validated and available for design as of 2026-10-03.
+
+Available:
+- `volatile`, `const`, and `const volatile` API/register intent
+- fixed-width integer type selection
+- integer-promotion and signed/unsigned conversion awareness
+- safe masks, shifts, and register-field manipulation
+- access-width vs field-width reasoning
+- MMIO read-modify-write hazards
+- W1C / read-to-clear aware register handling
+- implementation-defined, unspecified, and undefined behavior awareness
+- compiler assumptions around UB
+- sequencing / short-circuit safety
+- strict-aliasing / object-representation constraints
+- struct padding and layout tradeoffs
+- explicit serialization / endianness contracts
+- bit-field portability limits
+
 Important limits:
-- strict-aliasing precision, W1C semantics, cache coherency vs `volatile`, and a few exact C-language rules remain reinforcement items in `../Concepts/Revision-Queue.md`.
-- availability for design does **not** imply mastery of later interrupt, DMA, RTOS, cache-maintenance, linker/startup, bootloader, or security architecture.
-- Section 7 and later concepts are not yet part of the established design baseline unless explicitly labeled as previews.
+- strict-aliasing precision, character-type object-representation rationale, cache coherency vs `volatile`, and real-peripheral W1C transfer remain reinforcement items in `../Concepts/Revision-Queue.md`.
+- availability for design does **not** imply mastery of interrupt architecture, DMA ownership, RTOS synchronization, memory barriers/order, linker/startup internals, cache-maintenance architecture, bootloader, or security architecture.
+- Section 8 and later concepts are not yet part of the established design baseline unless explicitly labeled as previews.
 
 ## Concepts actually demonstrated in reviewed designs
 
@@ -86,7 +106,7 @@ Do not infer that all concepts available above have been used in design. Only re
 
 ## Next design increment
 
-Choose one genuinely new design dimension from concepts already available through Section 6. Before starting:
+Choose one genuinely new design dimension from concepts already available through Section 7. Before starting:
 
 1. name the one new concept and its curriculum location
 2. identify previously demonstrated design concepts that naturally carry forward
