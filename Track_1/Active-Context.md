@@ -49,22 +49,31 @@ Repo-structure migration status: `COMPLETE` (2026-09-28).
 Current phase: **Phase 1 – Embedded C and Bare-Metal Foundations**
 
 Last completed section:
-- **Section 6 – C Memory & Pointer Foundations**
+- **Section 7 – Embedded-C Semantics**
 - status: `COMPLETED` for the current conceptual-validation pass
-- completion date: 2026-09-28
+- completion date: 2026-10-03
 
 Validation completed:
-- 20 hard Section 6-only questions
-- 20 hard integrated Sections 1–6 questions
+- 15-question integrated Section 7 validation pass
+
+Strong demonstrated areas:
+- `volatile` access semantics and separation from atomicity
+- W1C / MMIO read-modify-write hazards
+- signed/unsigned conversion consequences
+- signed-overflow UB and compiler assumptions
+- pointer lifetime, one-past, and `ptrdiff_t` reasoning
+- sequencing and short-circuit safety
+- struct padding, serialization, and bit-field portability
 
 Next concept section:
-- **Section 7 – Embedded-C Semantics**
+- **Section 8 – Concurrency Foundations**
 - status: `READY_TO_START`
 
 Non-blocking refinement areas:
-- strict aliasing / effective-type precision
-- W1C register semantics and RMW hazards
+- complete integer-promotion-path wording
+- strict aliasing / character-type object-representation rationale
 - cache coherency vs `volatile`
+- W1C/direct-mask transfer to real peripheral work
 - array-lvalue vs pointer-conversion wording
 - delayed-corruption vs eventual fault-site wording
 - occasional arithmetic precision under interview pressure
@@ -81,10 +90,10 @@ Current reviewed design:
 - Design 01 startup readiness LED remains a completed guided design with board-specific implementation open
 
 Current design readiness:
-- may use concepts established through Phase 1 Section 6
-- appropriate themes include buffer/pointer interfaces, ownership/lifetime, MMIO/register boundaries, startup/safe-state policy, and low-level debuggability
+- may use concepts established through Phase 1 Section 7
+- appropriate themes now include buffer/pointer interfaces, ownership/lifetime, MMIO/register boundaries, safe field/mask handling, W1C/read-to-clear awareness, representation/serialization choices, startup/safe-state policy, and low-level debuggability
 
-Do not silently assume later concepts such as interrupt architecture, DMA ownership, RTOS synchronization, linker/startup internals, cache-maintenance design, or boot/update architecture. Label those as previews until formally learned.
+Do not silently assume later concepts such as interrupt architecture, DMA ownership, RTOS synchronization, memory-ordering/barrier design, linker/startup internals, cache-maintenance design, or boot/update architecture. Label those as previews until formally learned.
 
 ## Hands-On Labs & Board
 
@@ -112,7 +121,7 @@ No large Track 1 project is currently active. Project selection remains paused u
 
 ## Integrated readiness
 
-Design and Labs may consume Concepts through Section 6 as established prerequisites.
+Design and Labs may consume Concepts through Section 7 as established prerequisites.
 
 The streams do **not** need to be at identical positions. They must remain coherent:
 - Concepts establishes readiness.
@@ -156,10 +165,12 @@ Do not refresh it for every individual message or small correction.
 
 ## Latest milestone
 
+**2026-10-03:** Section 7 – Embedded-C Semantics completed for the current conceptual-validation pass, including a 15-question integrated validation. Section 8 – Concurrency Foundations is next; Design and Labs may now consume concepts through Section 7.
+
 **2026-09-30:** Design 02 debug access completed as a guided conceptual exercise, with an MCU-independent probe-to-target signal diagram. Probe fleet sizing remains a later scaling question.
 
 **2026-09-28:** Section 6 conceptual validation completed and the Track 1 Concepts / Design / Labs / Integration repo model was fully migrated and synchronized.
 
 Detailed milestones: `Integration/Milestones.md`.
 
-Last synchronized: 2026-09-30
+Last synchronized: 2026-10-03
