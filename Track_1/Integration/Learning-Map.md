@@ -33,40 +33,50 @@ They are not independent tracks. Concepts create readiness; design applies readi
 
 ---
 
-## Current integrated checkpoint — 2026-09-28
+## Current integrated checkpoint — 2026-10-03
 
 ### Concepts
 
-Section 6 — **C Memory & Pointer Foundations** is complete for the current conceptual-validation pass.
+Section 7 — **Embedded-C Semantics** is complete for the current conceptual-validation pass.
 
-Validated readiness includes:
-- pointer and array semantics
-- object lifetime
-- alignment and representation basics
-- strict-aliasing basics
-- MMIO pointer reasoning
-- `volatile` compiler semantics
-- read-to-clear / W1C awareness
-- `volatile` vs atomicity
-- `volatile` vs cache coherency at a conceptual level
-- pointer/data corruption debugging
-- stack/delayed-fault reasoning
+Validated readiness now includes Sections 1–7, with Section 7 adding/reinforcing:
+- `volatile`, `const`, and `const volatile`
+- fixed-width integer reasoning
+- integer promotions and usual arithmetic conversions
+- safe shifts and field masking
+- MMIO read-modify-write hazards
+- W1C / read-to-clear semantics
+- implementation-defined, unspecified, and undefined behavior
+- compiler assumptions around UB
+- sequencing and short-circuit safety
+- strict-aliasing / object-representation reasoning
+- struct padding, serialization, and bit-field portability limits
 
-Next concept section: **Section 7 — Embedded-C Semantics**.
+Remaining non-blocking reinforcement includes:
+- complete integer-promotion-path wording
+- strict-aliasing / character-type exception rationale
+- cache coherency vs `volatile`
+- W1C/direct-mask transfer to real peripheral work
+
+Next concept section: **Section 8 — Concurrency Foundations**.
 
 ### Design
 
-Completed reviewed exercise:
+Completed reviewed exercises:
 - **01 — Startup readiness LED** (guided conceptual design)
+- **02 — Development board debug access** (guided conceptual design)
 
-Currently appropriate design themes based on concept readiness:
+Currently appropriate design themes based on concept readiness through Section 7:
 - buffer/pointer API choices
 - ownership/lifetime reasoning
 - MMIO/register access boundaries
+- safe bit manipulation and register-field policy
+- W1C/read-to-clear aware register handling
 - startup/safe-state decisions
-- debuggability of low-level firmware interfaces
+- representation/serialization choices
+- low-level debuggability
 
-Do not yet assume mastery of interrupt architecture, DMA ownership, RTOS synchronization, linker/startup internals, or cache-coherency design.
+Do not yet assume mastery of interrupt architecture, DMA ownership, RTOS synchronization, memory-ordering/barrier design, linker/startup internals, or cache-maintenance architecture. Section 8 and later material should remain previews until formally learned.
 
 ### Labs
 
@@ -82,7 +92,7 @@ Verified practical readiness/evidence:
 Next lab checkpoint:
 - learner-written LD7 firmware -> build -> flash -> observe/debug
 
-This preview does not move the Concepts curriculum ahead of Section 7.
+Labs may now rely on concepts established through Section 7, while keeping true concurrency, interrupt architecture, DMA/cache maintenance, linker/startup internals, and later topics explicitly labeled as previews.
 
 ---
 
