@@ -54,11 +54,18 @@ Owns:
 
 ## Current checkpoint
 
-As of 2026-09-28:
-- Phase 1 Section 6 – C Memory & Pointer Foundations is complete for the current conceptual-validation pass.
-- Section 7 – Embedded-C Semantics is next.
+As of 2026-10-06:
+
+- Sections 1–5: foundation established / covered previously.
+- Section 6 – C Memory & Pointer Foundations: completed for the current conceptual-validation pass (2026-09-28).
+- Section 7 – Embedded-C Semantics: completed for the current conceptual-validation pass (2026-10-03; 15-question integrated validation).
+- Section 8 – Concurrency Foundations: `IN_PROGRESS`.
+- Sections 9–15: `NOT_STARTED`.
+
+Foundation/completion status does not imply blanket `MASTERED` status.
+
 - Board Lab 00 remains in progress as a narrow early preview.
-- The startup readiness LED is the first reviewed design exercise.
+- Startup readiness LED and development board debug access are completed guided conceptual designs.
 
 See `Active-Context.md` for the latest state.
 

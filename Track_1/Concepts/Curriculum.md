@@ -191,7 +191,7 @@ Validation:
 
 ### Section 8 – Concurrency Foundations
 
-Status: `NEXT`
+Status: `IN_PROGRESS` (confirmed 2026-10-06)
 
 - atomicity
 - read-modify-write operations
@@ -201,6 +201,8 @@ Status: `NEXT`
 - why `volatile` does not imply atomicity or thread safety
 
 ### Section 9 – Compiler & Build Pipeline
+
+Status: `NOT_STARTED`
 
 - preprocessing
 - compilation
@@ -214,6 +216,8 @@ Status: `NEXT`
 
 ### Section 10 – Program Memory Layout
 
+Status: `NOT_STARTED`
+
 - `.text`
 - `.rodata`
 - `.data`
@@ -224,6 +228,8 @@ Status: `NEXT`
 
 ### Section 11 – ELF Fundamentals
 
+Status: `NOT_STARTED`
+
 - ELF sections
 - symbols
 - map files
@@ -232,6 +238,8 @@ Status: `NEXT`
 - inspecting compiled firmware artifacts
 
 ### Section 12 – Linker Script Fundamentals
+
+Status: `NOT_STARTED`
 
 - Flash / RAM placement
 - `MEMORY`
@@ -242,6 +250,8 @@ Status: `NEXT`
 
 ### Section 13 – Startup / Boot Fundamentals
 
+Status: `NOT_STARTED`
+
 - reset
 - initial stack pointer concept
 - startup code
@@ -250,6 +260,8 @@ Status: `NEXT`
 - transition into `main()`
 
 ### Section 14 – Bare-Metal Firmware Structure
+
+Status: `NOT_STARTED`
 
 - initialization
 - superloop architecture
@@ -261,6 +273,8 @@ Status: `NEXT`
 - simple GPIO / superloop behavior where useful
 
 ### Section 15 – Debugging Foundations
+
+Status: `NOT_STARTED`
 
 - debugger mental model
 - breakpoints
@@ -498,6 +512,7 @@ Status: `NEXT`
 - Sections 1–5: covered previously; mastery continues to be refined through cross-context evidence.
 - Section 6: completed for the current conceptual-validation pass on 2026-09-28.
 - Section 7: completed for the current conceptual-validation pass on 2026-10-03.
-- Section 8: next conceptual section.
+- Section 8: Concurrency Foundations is `IN_PROGRESS` (confirmed 2026-10-06).
+- Sections 9–15: `NOT_STARTED`.
 
 Detailed current state belongs in `Progress.md`, while cross-chat readiness belongs in `../Active-Context.md` and `../Integration/`.

@@ -90,9 +90,9 @@ Every Track 1 chat reads it first, then reads the canonical stream files relevan
 
 ## Current dependency boundary
 
-As of 2026-10-03:
+As of 2026-10-06:
 
-- Concepts are ready through Phase 1 Section 7; Section 8 is next.
+- Concepts are ready through Phase 1 Section 7; Section 8 – Concurrency Foundations is `IN_PROGRESS`. Sections 9–15 are `NOT_STARTED`; beginning Section 8 does not promote its full prerequisite readiness.
 - Design may use concepts through Section 7 without calling them previews.
 - Labs may use concepts through Section 7 and Phase 0 tooling/debug foundations.
 - Section 7 readiness includes embedded-C semantics needed for safer register/API reasoning: `volatile`/`const`, fixed-width types, integer promotions/conversions, safe masking/shifting, W1C/RMW awareness, UB/implementation-defined behavior, sequencing, strict-aliasing basics, padding/serialization, and bit-field portability limits.

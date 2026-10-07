@@ -46,12 +46,17 @@ Any Track 1 chat may read all three streams for current context. Each stream own
 
 ## Current active checkpoint
 
-Track 1 → Phase 1.
+Track 1 → Phase 1 (as of 2026-10-06).
 
-- Section 6 – C Memory & Pointer Foundations: **completed for the current conceptual-validation pass** on 2026-09-28.
-- Validation completed: 20 hard Section 6-only questions + 20 hard integrated Sections 1–6 questions.
-- Next concept section: **Section 7 – Embedded-C Semantics**.
+- Sections 1–5: foundation established / covered previously.
+- Section 6 – C Memory & Pointer Foundations: completed for the current conceptual-validation pass (2026-09-28).
+- Section 7 – Embedded-C Semantics: completed for the current conceptual-validation pass (2026-10-03; 15-question integrated validation).
+- Section 8 – Concurrency Foundations: `IN_PROGRESS`.
+- Sections 9–15: `NOT_STARTED`.
+
+Foundation/completion status does not imply blanket `MASTERED` status.
+
 - Board Lab 00 remains in progress as a narrow early preview.
-- First reviewed design: Startup readiness LED (guided conceptual design).
+- Reviewed designs: startup readiness LED and development board debug access (guided conceptual designs).
 
 See `Track_1/Active-Context.md` for the latest synchronized state.

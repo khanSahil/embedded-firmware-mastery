@@ -164,6 +164,10 @@ Phase 1 is intentionally architecture-neutral wherever possible. We establish st
 
 ## Phase 1 Progress Dashboard
 
+Synchronized 2026-10-06 from [Concepts progress](Concepts/Progress.md). This handbook preserves historical learning material; current curriculum and cross-stream state are owned by `Concepts/` and `Active-Context.md`.
+
+Sections 1–7 have established foundations / completed the current conceptual pass, not blanket mastery.
+
 | Section | Topic | Status |
 |---:|---|---|
 | 1 | MCU / Hardware Foundations | ✅ Foundation established |
@@ -171,9 +175,9 @@ Phase 1 is intentionally architecture-neutral wherever possible. We establish st
 | 3 | Binary & Bit Manipulation | ✅ Foundation established |
 | 4 | Integer Representation / Arithmetic | ✅ Foundation established |
 | 5 | Memory Representation | ✅ Foundation established |
-| 6 | C Memory & Pointer Foundations | ⬜ Not started — next |
-| 7 | Embedded-C-Specific Semantics | ⬜ Not started |
-| 8 | Concurrency Foundation | ⬜ Not started |
+| 6 | C Memory & Pointer Foundations | ✅ Completed — current conceptual-validation pass |
+| 7 | Embedded-C Semantics | ✅ Completed — current conceptual-validation pass |
+| 8 | Concurrency Foundations | 🟡 IN_PROGRESS |
 | 9 | Compiler & Build Pipeline | ⬜ Not started |
 | 10 | Program Memory Layout | ⬜ Not started |
 | 11 | ELF Fundamentals | ⬜ Not started |
@@ -182,7 +186,7 @@ Phase 1 is intentionally architecture-neutral wherever possible. We establish st
 | 14 | Bare-Metal Firmware Structure | ⬜ Not started |
 | 15 | Debugging Foundations | ⬜ Not started |
 
-After every completed section, design practice integrates all concepts covered so far using an evolving template appropriate to the current learning depth. The current Sections 1–4 mini-design is intentionally paused during travel and will resume from the existing control-flow step rather than restart. At the end of Phase 1 we will do a cumulative test across all Phase-1 material, review/re-test weaknesses, and perform a final Phase-1 consolidation before moving to Phase 2.
+After every completed section, design practice integrates all concepts covered so far using an evolving template appropriate to the current learning depth. Current design readiness and reviewed exercises are tracked in `Design/Progress.md` and `Active-Context.md`. At the end of Phase 1 we will do a cumulative test across all Phase-1 material, review/re-test weaknesses, and perform a final Phase-1 consolidation before moving to Phase 2.
 
 ---
 
@@ -2070,7 +2074,9 @@ The short cumulative Sections 1–5 test revalidated MMIO/base-plus-offset reaso
 
 ---
 
-# Phase 1 — Sections 6–15: Planned Sequence
+# Phase 1 — Sections 6–15: Sequence Reference
+
+Current status: Sections 6–7 completed for the current conceptual-validation pass; Section 8 in progress; Sections 9–15 not started. The outlines below preserve the sequence rather than detailed current teaching evidence; see `Concepts/Progress.md`.
 
 ## Section 6 — C Memory & Pointer Foundations
 Pointers, addresses, dereferencing, arrays versus pointers, pointer arithmetic, `const`, structures, padding/alignment.
@@ -2199,10 +2205,13 @@ Track 1
     ├── Section 3 — Binary & Bit Manipulation      ✅
     ├── Section 4 — Integer Representation         ✅
     ├── Section 5 — Memory Representation          ✅
-    └── Section 6 — C Memory & Pointer Foundations ← NEXT
+    ├── Section 6 — C Memory & Pointer Foundations ✅ Current pass completed
+    ├── Section 7 — Embedded-C Semantics           ✅ Current pass completed
+    ├── Section 8 — Concurrency Foundations        🟡 IN_PROGRESS
+    └── Sections 9–15                             ⬜ Not started
 ```
 
-Sections 1–5 have been consolidated into this single handbook. Section 6 — C Memory & Pointer Foundations is the next active learning block. The guided mini-design remains paused and will resume from its existing control-flow step when convenient.
+Sections 1–5 have been consolidated into this handbook. Sections 6–7 are completed for the current conceptual-validation pass, and Section 8 — Concurrency Foundations is in progress. Current design/lab checkpoints are maintained in `Design/Progress.md`, `Labs/Progress.md`, and `Active-Context.md`.
 
 ---
 
@@ -2236,7 +2245,7 @@ We will normally consolidate and push after each completed Phase-1 section. Late
 
 **Primary board:** STM32H745I-DISCO  
 **Current phase:** Phase 1 — Embedded C + Bare-Metal Foundations  
-**Current section:** Section 6 — C Memory & Pointer Foundations (next)  
+**Current section:** Section 8 — Concurrency Foundations (`IN_PROGRESS`)  
 **Primary RTOS:** FreeRTOS  
 **Secondary RTOS:** Zephyr (later)  
 **Primary languages:** C and C++  

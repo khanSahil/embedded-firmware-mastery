@@ -33,7 +33,7 @@ They are not independent tracks. Concepts create readiness; design applies readi
 
 ---
 
-## Current integrated checkpoint — 2026-10-03
+## Current integrated checkpoint — 2026-10-06
 
 ### Concepts
 
@@ -58,7 +58,7 @@ Remaining non-blocking reinforcement includes:
 - cache coherency vs `volatile`
 - W1C/direct-mask transfer to real peripheral work
 
-Next concept section: **Section 8 — Concurrency Foundations**.
+Current concept section: **Section 8 — Concurrency Foundations**, `IN_PROGRESS`. Sections 9–15 are `NOT_STARTED`; established prerequisite readiness remains through Section 7.
 
 ### Design
 
@@ -76,7 +76,7 @@ Currently appropriate design themes based on concept readiness through Section 7
 - representation/serialization choices
 - low-level debuggability
 
-Do not yet assume mastery of interrupt architecture, DMA ownership, RTOS synchronization, memory-ordering/barrier design, linker/startup internals, or cache-maintenance architecture. Section 8 and later material should remain previews until formally learned.
+Do not yet assume mastery of interrupt architecture, DMA ownership, RTOS synchronization, memory-ordering/barrier design, linker/startup internals, or cache-maintenance architecture. Section 8 is actively being learned; incomplete Section 8 concepts and later material remain previews until their readiness is established.
 
 ### Labs
 

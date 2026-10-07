@@ -2,6 +2,15 @@
 
 This file records major checkpoints that matter across Concepts, Design, and Labs. Detailed evidence stays in the owning stream.
 
+## 2026-10-06 — Section 8 active checkpoint and dashboard synchronization
+
+- Learner confirmed Section 8 – Concurrency Foundations is `IN_PROGRESS`.
+- Current Concepts discussion includes producer/consumer queue rates, burst capacity, and a proposed drop-oldest policy for latest-temperature telemetry.
+- Sections 1–5 remain covered foundations; Sections 6–7 remain completed for their current conceptual-validation passes.
+- Sections 9–15 remain `NOT_STARTED`.
+- Refreshed the stale handbook Phase 1 dashboard, repository/Track 1 overviews, canonical Concepts status, and Integration state.
+- Design/Labs established prerequisite readiness remains through Section 7; no new blanket mastery or completed Section 8 validation is claimed.
+
 ## 2026-10-03 — Section 7 conceptual validation completed
 
 Concepts:

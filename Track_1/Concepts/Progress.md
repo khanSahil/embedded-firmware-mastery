@@ -1,14 +1,16 @@
 # Track 1 – Concepts Progress
 
-Last updated: 2026-10-03
+Last updated: 2026-10-06
 
 ## Current location
 
 **Phase 1 – Embedded C and Bare-Metal Foundations**
 
-**Next section: Section 8 – Concurrency Foundations**
+**Current section: Section 8 – Concurrency Foundations**
 
-Status: `READY_TO_START`
+Status: `IN_PROGRESS`
+
+Sections 1–7 are foundation-established / completed for the current conceptual pass; Sections 9–15 are `NOT_STARTED`. This does not imply blanket topic mastery.
 
 The previous section, **Section 7 – Embedded-C Semantics**, is `COMPLETED` for the current conceptual-validation pass.
 
@@ -161,7 +163,24 @@ Non-blocking refinement areas:
 
 Section 7 is complete for this pass, but is not blanket `MASTERED`; later labs, design work, debugging, and unfamiliar scenarios should drive further promotion.
 
+## Section 8 – Concurrency Foundations
+
+Status: `IN_PROGRESS` (confirmed 2026-10-06)
+
+Current discussion evidence includes producer/consumer rates, queue growth and burst capacity, and a proposed drop-oldest circular-buffer policy for latest-temperature telemetry. This records the active learning checkpoint; it does not establish a completed validation pass or a verified concurrent implementation.
+
+## Sections 9–15
+
+Status: `NOT_STARTED`
+
 ## Progress history
+
+### 2026-10-06 — Section 8 active checkpoint
+
+- Confirmed Section 8 is in progress from the current Concepts conversation and learner correction.
+- Synchronized the Phase 1 dashboard and current overview files.
+- Sections 1–5 remain covered foundations, Sections 6–7 remain completed for their conceptual-validation passes, and Sections 9–15 remain not started.
+
 
 ### 2026-10-03 — Section 7 completion checkpoint
 
@@ -189,7 +208,7 @@ Section 7 is complete for this pass, but is not blanket `MASTERED`; later labs, 
 
 ## Next planned concept work
 
-Begin **Section 8 – Concurrency Foundations**.
+Continue **Section 8 – Concurrency Foundations**.
 
 Section 8 should build directly on Section 7 and deepen:
 
