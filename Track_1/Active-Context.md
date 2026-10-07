@@ -65,9 +65,16 @@ Strong demonstrated areas:
 - sequencing and short-circuit safety
 - struct padding, serialization, and bit-field portability
 
-Next concept section:
+Current concept section:
 - **Section 8 – Concurrency Foundations**
-- status: `READY_TO_START`
+- status: `IN_PROGRESS` (confirmed 2026-10-06)
+- current discussion: producer/consumer queue rates, burst capacity, and a proposed drop-oldest policy for latest-temperature telemetry
+
+Phase 1 overview:
+- Sections 1–5: covered previously / foundation established
+- Sections 6–7: completed for the current conceptual-validation pass
+- Sections 9–15: `NOT_STARTED`
+- foundation/completion status does not imply blanket `MASTERED` status
 
 Non-blocking refinement areas:
 - complete integer-promotion-path wording
@@ -165,6 +172,8 @@ Do not refresh it for every individual message or small correction.
 
 ## Latest milestone
 
+**2026-10-06:** Section 8 – Concurrency Foundations confirmed `IN_PROGRESS`; handbook Phase 1 dashboard, repository/Track 1 overviews, Concepts, and Integration synchronized. Sections 9–15 remain `NOT_STARTED`. Design/Labs established prerequisite readiness remains through Section 7.
+
 **2026-10-03:** Section 7 – Embedded-C Semantics completed for the current conceptual-validation pass, including a 15-question integrated validation. Section 8 – Concurrency Foundations is next; Design and Labs may now consume concepts through Section 7. Integration readiness/dependency files are synchronized to the same boundary.
 
 **2026-09-30:** Design 02 debug access completed as a guided conceptual exercise, with an MCU-independent probe-to-target signal diagram. Probe fleet sizing remains a later scaling question.
@@ -173,4 +182,4 @@ Do not refresh it for every individual message or small correction.
 
 Detailed milestones: `Integration/Milestones.md`.
 
-Last synchronized: 2026-10-03
+Last synchronized: 2026-10-06
