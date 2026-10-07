@@ -2,6 +2,14 @@
 
 This file records major checkpoints that matter across Concepts, Design, and Labs. Detailed evidence stays in the owning stream.
 
+## 2026-10-06 — Lab 1 LED firmware verified and saved
+
+- Learner-built CM7 firmware flashed with successful download verification; LED7 on/off reported verified on hardware.
+- Reviewed source and CubeIDE project saved under Labs/Board/Track1_Board_Labs, excluding generated build output.
+- Shared LED module and per-lab folders established; missing-main source-folder error repaired.
+- FPU initialization warning and mask/comment cleanup remain open. Timed blinking is next; generic GPIO is deferred.
+- Practical evidence does not advance the conceptual section or imply blanket mastery.
+
 ## 2026-10-06 — Section 8 active checkpoint and dashboard synchronization
 
 - Learner confirmed Section 8 – Concurrency Foundations is `IN_PROGRESS`.

@@ -104,25 +104,29 @@ Do not silently assume later concepts such as interrupt architecture, DMA owners
 
 ## Hands-On Labs & Board
 
-Current active lab:
-- **Board Lab 00 – First connection and firmware flash**
-- status: `IN_PROGRESS`
-- this is a narrow early preview; formal board acclimation still belongs to Phase 1 Sections 14–15
+Latest completed lab:
+- **Board Lab 01 — Register-level LED on/off** (2026-10-06)
+- learner reported successful build/flash and both LED states verified on hardware
+- Board Lab 00 narrow connection/build/flash preview completed; formal Sections 14–15 board acclimation remains later
+- reviewed source/project saved under `Labs/Board/Track1_Board_Labs`
 
 Verified practical checkpoints:
-- STLINK-V3E connection working
-- physical board identified as MB1381-H745XI-B03
-- target/device read through STM32CubeProgrammer
-- LD7 traced to PJ2 and correctly identified as active low
-- 2 MiB factory internal-Flash BIN backup saved
-- backup stored under `firmware-backups/`
-- full `0x08000000`–`0x08200000` compare reported **No difference found with file** before new firmware programming
+- STLINK-V3E connection and flash download verification working
+- physical board MB1381-H745XI-B03; active-low LD7/PJ2
+- factory 2 MiB internal-Flash backup saved and compared before programming
+- volatile register access, RCC readback, output preload before mode, direct BSRR commands
+- shared LED module and `Src/Labs/Lab01_LED` folder; missing-main source-folder link error repaired
 
-Next lab checkpoint:
-- learner writes first LD7 firmware
-- build
-- flash
-- observe/debug behavior
+Next lab:
+- **Board Lab 02 — timed LED blinking** (planned)
+- establish clock/timing assumptions before writing delay code
+- preserve one IDE project with per-lab folders and only one lab main in each build
+- apply professional review/refactoring practice to each lab
+
+Open limitations:
+- FPU initialization warning unresolved
+- derive remaining literal pin masks and improve reason-focused comments when revisiting the shared module
+- vendor CMSIS header integration and generic GPIO deferred
 
 No large Track 1 project is currently active. Project selection remains paused until stronger MCU/board foundations are demonstrated.
 
