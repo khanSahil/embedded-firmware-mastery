@@ -201,6 +201,13 @@ Status: `NOT_STARTED`
 
 ## Progress history
 
+### 2026-10-11 — Sections 6–8 handbook consolidation
+
+- Restored detailed reference notes for Sections 6–8 in `../Track-1-Embedded-Firmware-Mastery.md`, using the established Sections 1–5 format.
+- Consolidated recorded coverage with explanatory examples; unavailable original transcript/questions and undocumented experiments are not represented as recovered evidence.
+- Section 9 remains active at preprocessing; no capability or assessment status changed.
+
+
 ### 2026-10-11 — Section 8 completion and Section 9 activation
 
 - Completed the 15-question cumulative Sections 1–8 assessment; confirmed scores and corrections are recorded above.

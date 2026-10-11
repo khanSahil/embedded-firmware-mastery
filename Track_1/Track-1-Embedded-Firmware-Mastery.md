@@ -164,9 +164,9 @@ Phase 1 is intentionally architecture-neutral wherever possible. We establish st
 
 ## Phase 1 Progress Dashboard
 
-Synchronized 2026-10-06 from [Concepts progress](Concepts/Progress.md). This handbook preserves historical learning material; current curriculum and cross-stream state are owned by `Concepts/` and `Active-Context.md`.
+Synchronized 2026-10-11 from [Concepts progress](Concepts/Progress.md). This handbook preserves detailed learning notes for later reference; current curriculum, assessment evidence, and cross-stream state are owned by `Concepts/` and `Active-Context.md`.
 
-Sections 1–7 have established foundations / completed the current conceptual pass, not blanket mastery.
+Sections 1–8 have established foundations / completed the current conceptual pass, not blanket mastery.
 
 | Section | Topic | Status |
 |---:|---|---|
@@ -2074,18 +2074,1082 @@ The short cumulative Sections 1–5 test revalidated MMIO/base-plus-offset reaso
 
 ---
 
-# Phase 1 — Sections 6–15: Sequence Reference
+## Consolidation Basis for Sections 6–8
 
-Current status: Sections 6–7 completed for the current conceptual-validation pass; Section 8 in progress; Sections 9–15 not started. The outlines below preserve the sequence rather than detailed current teaching evidence; see `Concepts/Progress.md`.
+Consolidated 2026-10-11 from the recorded coverage, demonstrated reasoning, and assessment checkpoints in [Concepts Progress](Concepts/Progress.md), [Mastery Ledger](Concepts/Mastery-Ledger.md), and [Revision Queue](Concepts/Revision-Queue.md), plus the available Q15 conversation answer.
 
-## Section 6 — C Memory & Pointer Foundations
-Pointers, addresses, dereferencing, arrays versus pointers, pointer arithmetic, `const`, structures, padding/alignment.
+These are durable explanatory notes in the same reference format as Sections 1–5. They are not a recovered verbatim transcript. Illustrative examples clarify recorded topics; they do not claim additional learner submissions, hardware experiments, or mastery. Exact missing assessment questions and undocumented observations have not been reconstructed.
 
-## Section 7 — Embedded-C-Specific Semantics
-`volatile`, `const volatile`, fixed-width types, safe register bit operations, undefined and implementation-defined behavior.
+Language reference for follow-up: [WG14 C11 draft N1570](https://www.open-std.org/jtc1/sc22/wg14/www/docs/n1570.pdf), particularly its clauses on lifetime, conversions, expressions, declarators, qualifiers, and object access. Implementation-specific volatile behavior is discussed in [GCC's documentation](https://gcc.gnu.org/onlinedocs/gcc/Volatiles.html). The notes use the C11/C17 learning model and explicitly stated STM32 assumptions; MMIO and ISR guarantees require the actual target/compiler contract.
 
-## Section 8 — Concurrency Foundation
-Atomicity, read-modify-write, race conditions, and why `volatile` does not mean atomic.
+---
+
+# Phase 1 — Section 6: C Memory & Pointer Foundations
+
+> **Status: ✅ Completed — current conceptual-validation pass (2026-09-28)**
+
+## Interview Refresh
+
+A pointer is an object that stores a pointer value. Its type tells C what object type an access expects and how pointer arithmetic scales. The pointer's own storage, its stored value, and the pointed-to object are three different things.
+
+```text
+&p → location of pointer object p
+ p → stored pointer value
+*p → object designated by that value, if the access is valid
+```
+
+An address that looks plausible is not sufficient for a valid dereference. Check lifetime, bounds, alignment, permitted access type, and—for MMIO—the target's access contract.
+
+Pointer arithmetic is in elements. Byte offsets require a byte-oriented view. Arrays are objects, not pointer variables; their conversion to a pointer in many expressions does not erase the distinction.
+
+A cast changes an expression's type. It does not allocate storage, extend lifetime, fix alignment, or create an object of the destination type.
+
+## 6.1 Pointer Objects, Values, and Dereference
+
+```c
+uint32_t value = 10;
+uint32_t *p = &value;
+uint32_t *q = p;
+
+*q = 20;            /* value is now 20 */
+q = NULL;           /* changes q, not p or value */
+```
+
+Copying a pointer copies the pointer value, not the object it designates. Both pointers initially designate the same object, so writes through either affect that object. Reassigning one pointer does not reassign the other.
+
+A pointer type carries an access interpretation. On a typical STM32 ABI, a pointer to an 8-bit object and a pointer to a 32-bit object have the same pointer storage size, but their dereferences and arithmetic differ. Pointer size is a target/ABI property; do not infer it from the pointee size.
+
+```text
+sizeof(p)  → size of pointer object
+sizeof(*p) → size of uint32_t object
+```
+
+For a non-VLA type, `sizeof(*p)` does not evaluate the dereference. That fact does not make an actual `*p` access valid when p is NULL.
+
+## 6.2 Typed Pointer Arithmetic and Byte Offsets
+
+```c
+uint32_t arr[5] = {10, 20, 30, 40, 50};
+uint32_t *p = &arr[1];
+uint32_t *q = p + 2;       /* &arr[3], not address + 2 bytes */
+```
+
+Under the STM32 assumption of 8-bit bytes and four-byte uint32_t:
+
+```text
+arr base       = 0x20000000
+&arr[1]        = 0x20000004
+&arr[3]        = 0x2000000C
+element offset = 2
+byte offset    = 8
+```
+
+These illustrative addresses describe placement, not a license to perform arbitrary integer-address arithmetic in portable C.
+
+For byte inspection within an object's representation:
+
+```c
+unsigned char *bytes = (unsigned char *)&arr;
+unsigned char third_byte = bytes[2];
+```
+
+Character-type access is specifically permitted to inspect object representation. It is not permitted merely because a processor can load one byte.
+
+A common firmware mistake is adding a register offset in bytes to a `uint32_t *`: adding 4 advances four uint32_t elements, typically 16 bytes. Establish the unit of each offset before forming an MMIO address; target-defined integer base-plus-byte-offset conventions are different from ordinary array pointer arithmetic.
+
+## 6.3 Pointer Subtraction and Comparison
+
+The recorded Section 6 example:
+
+```c
+uint32_t arr[5];
+uint32_t *p1 = &arr[1];
+uint32_t *p2 = &arr[4];
+
+ptrdiff_t forward = p2 - p1;  /*  3 elements */
+ptrdiff_t reverse = p1 - p2;  /* -3 elements */
+```
+
+Use `<stddef.h>` for `ptrdiff_t`. Subtraction is defined in the appropriate same-array domain, including its one-past position, and the result must fit in ptrdiff_t. It is not a portable way to subtract unrelated allocation addresses.
+
+Within the same array, relational comparison can express position:
+
+```c
+bool earlier = p1 < p2;  /* true; include <stdbool.h> */
+```
+
+Numeric address ordering alone does not justify ordering unrelated objects in portable C. Equality comparisons are useful for NULL checks and identity, but equality and relational ordering have different rules.
+
+## 6.4 One-Past and Bounds
+
+```c
+uint32_t arr[5];
+uint32_t *begin = arr;
+uint32_t *end = arr + 5;     /* legal one-past value */
+
+for (uint32_t *p = begin; p != end; ++p) {
+    *p = 0;
+}
+```
+
+One-past is a range boundary, not an element. `*end` is invalid; forming `arr + 6` is already outside the allowed arithmetic range even without dereferencing it.
+
+A useful checking order is:
+
+```text
+validate index / length
+        ↓
+form an in-range pointer
+        ↓
+perform the access
+```
+
+An address can fall inside mapped SRAM and still be outside the C object being accessed. Hardware accessibility and C bounds are separate checks.
+
+## 6.5 Arrays, Conversion, and sizeof
+
+```c
+uint32_t arr[5];
+uint32_t *p = arr;
+```
+
+In most expressions, arr converts to a pointer to its first element. The array itself still contains five objects.
+
+```text
+sizeof(arr) → 5 × sizeof(uint32_t)
+sizeof(p)   → sizeof(uint32_t *)
+```
+
+The common array-length expression works where the actual array type is available:
+
+```c
+size_t count = sizeof(arr) / sizeof(arr[0]);
+```
+
+An array parameter is adjusted to a pointer parameter:
+
+```c
+void clear_values(uint32_t arr[], size_t count);
+```
+
+Inside this function, `sizeof(arr)` is pointer size. Pass the length separately or design an interface that preserves the required shape. A pointer does not carry a general runtime array length.
+
+Arrays do not support whole-array assignment; structures containing arrays can be assigned as structures.
+
+## 6.6 arr Versus &arr
+
+```c
+uint32_t arr[5];
+uint32_t *element = arr;
+uint32_t (*whole)[5] = &arr;
+```
+
+These can begin at the same storage location while having different types:
+
+```text
+arr, after conversion → uint32_t *
+&arr                  → uint32_t (*)[5]
+
+element + 1 → next uint32_t
+whole + 1   → one-past the entire five-element array
+```
+
+Do not decide that two expressions are interchangeable merely because a debugger prints the same address. Type controls stride and valid use.
+
+`*whole` is an array lvalue. It converts to a pointer to its first element in many ordinary expressions, but `sizeof(*whole)` measures the whole array. This is the array-lvalue versus conversion distinction retained in the revision queue.
+
+## 6.7 Multidimensional Arrays and Row Stride
+
+```c
+uint32_t grid[2][3];
+uint32_t (*row)[3] = grid;
+
+row[1][2] = 99;    /* grid[1][2] */
+```
+
+grid is an array of two row arrays; each row contains three uint32_t objects. Its ordinary conversion produces a pointer to a row, not uint32_t **.
+
+Under the four-byte-element assumption:
+
+```text
+row size                  = 3 × 4 = 12 bytes
+grid[1][2] byte placement  = (1 × 3 + 2) × 4 = 20 bytes from grid base
+row + 1                   = next row, 12 bytes later
+```
+
+That offset explains physical layout. Preserve the row type for C indexing rather than assuming a pointer into one inner array permits traversal beyond its bounds.
+
+```c
+void process_rows(uint32_t (*rows)[3], size_t row_count);
+/* Equivalent adjusted parameter spelling: uint32_t rows[][3] */
+```
+
+A uint32_t ** expects pointers to uint32_t, typically a table of row pointers. A true 2D array stores row elements directly. Casting one representation to the other does not create a pointer table.
+
+## 6.8 Pointer-to-Pointer and Changing the Caller
+
+```c
+void redirect(uint32_t **out, uint32_t *target)
+{
+    *out = target;
+}
+
+uint32_t a = 1;
+uint32_t b = 2;
+uint32_t *p = &a;
+redirect(&p, &b);     /* p now designates b */
+```
+
+Parameters are passed by value. Passing p alone gives the callee a copy of p; passing &p lets it access the caller's pointer object.
+
+```text
+uint32_t *  → can designate a uint32_t
+uint32_t ** → can designate a uint32_t * object
+```
+
+Additional indirection means additional objects and access steps. It does not by itself mean a multidimensional contiguous array.
+
+## 6.9 const Combinations
+
+| Declaration | Can reassign pointer? | Can modify pointee through it? |
+|---|---|---|
+| `uint32_t *p` | Yes | Yes |
+| `const uint32_t *p` | Yes | No |
+| `uint32_t * const p = &x` | No | Yes |
+| `const uint32_t * const p = &x` | No | No |
+
+Const on an access path does not prove every alias is read-only:
+
+```c
+uint32_t x = 1;
+const uint32_t *view = &x;
+x = 2;              /* valid: underlying object is not const */
+```
+
+Conversely, casting away const does not permit modification of an object actually defined const. Pointer-to-pointer qualification is also stricter than adding const to a simple pointee: uint32_t ** cannot simply be treated as const uint32_t **.
+
+## 6.10 Object Lifetime, NULL, and Dangling Pointers
+
+| Storage/lifetime | Useful model |
+|---|---|
+| Automatic local | Lives during its block execution; returning its address does not extend lifetime |
+| Static storage | Lives for program execution; persistent lifetime does not imply synchronization |
+| Allocated storage | Lives until released; ownership must determine who may free/reuse it |
+
+Returning a pointer to an automatic local creates a lifetime bug. The old bytes might still appear intact, but a later function can reuse the storage.
+
+A null pointer designates no object or function. It is a language-level null value; do not equate that with a universal physical all-zero representation or safe access to address zero.
+
+An uninitialized pointer has no valid established target. A dangling pointer refers to an object whose lifetime has ended. Neither is repaired by the fact that a debugger still displays a plausible address.
+
+After free, all aliases lose the right to access the released allocation. Setting one variable to NULL does not repair other aliases, and a second free is invalid. In firmware, DMA retaining a pointer to a local or reused buffer can produce delayed corruption; this remains lifecycle reinforcement, not completed DMA implementation evidence.
+
+## 6.11 void Pointers and API Contracts
+
+In C, a void * can represent a generic object pointer and be converted back to a suitable object pointer type. It does not carry the object's size, type, ownership, or lifetime.
+
+```c
+void consume_bytes(const void *data, size_t length);
+```
+
+The API still needs a contract: length unit, valid access range, whether data is copied or retained, mutability, and lifetime through completion.
+
+Dereferencing void * and arithmetic on void * are not ISO C operations. Some compilers support arithmetic as an extension; do not make an ordinary portable interface depend on it. Function pointers are a separate category from generic object pointers.
+
+## 6.12 Casts, Alignment, and Strict Aliasing
+
+For a typed dereference, ask:
+
+```text
+Does an object with a valid lifetime exist here?
+Is the access within its bounds?
+Is the address suitably aligned?
+Is access through this type permitted?
+```
+
+A cast answers none of those questions by itself. For example, casting a byte buffer to uint32_t * can introduce alignment and access-type problems as well as endian dependence.
+
+For copying representation, use an appropriate byte copy:
+
+```c
+uint32_t bits;
+float f = 1.0f;
+_Static_assert(sizeof(bits) == sizeof(f), "example requires equal sizes");
+memcpy(&bits, &f, sizeof(bits));  /* include <string.h> */
+```
+
+This avoids incompatible typed dereference. It still does not establish a universally portable floating-point wire format; float representation is a separate assumption.
+
+For a declared object, its declared type matters. Storage obtained without a declared type has additional effective-type rules. Keep this distinction available for later allocator and optimizer reasoning.
+
+## 6.13 Structures, Padding, and Field Access
+
+```c
+struct Sample {
+    uint8_t id;
+    uint32_t value;
+};
+
+struct Sample sample;
+struct Sample *p = &sample;
+p->value = 42;       /* equivalent member access: (*p).value */
+```
+
+Under a common 1/4-byte alignment ABI, value can begin at offset 4 and the structure can occupy 8 bytes. Verify actual layout with sizeof, _Alignof, and offsetof rather than assuming that sum-of-member-sizes is the structure size.
+
+Structure assignment copies logical structure values; padding is not a field-level equality contract. Field comparisons are appropriate for logical equality. Raw struct persistence/transmission inherits padding, ABI, and endian assumptions; Section 7 consolidates the serialization consequence.
+
+## 6.14 Integer Addresses, uintptr_t, and MMIO
+
+uintptr_t, when provided, supports the specified void-pointer/integer round trip. It is optional and does not make arbitrary integers valid pointer values. Storing an address in a narrower integer can lose information.
+
+MMIO uses implementation-defined target/compiler conventions:
+
+```c
+/* Illustrative target-specific register address, not a runnable board mapping. */
+volatile uint32_t * const reg =
+    (volatile uint32_t *)(uintptr_t)0x40000000u;
+```
+
+Dereferencing reg requests an access; the memory map determines which hardware responds. Volatile does not make the address mapped, the access width legal, or the register safe to read/write. Check clock/reset state and side effects against the target reference manual.
+
+## 6.15 Function Pointers and Callbacks
+
+```c
+typedef void (*handler_t)(uint32_t event);
+
+void on_event(uint32_t event);
+handler_t handler = on_event;
+handler(7);
+```
+
+The declaration describes the callback's return and parameter types. Call through a compatible function type; a cast cannot safely repair a mismatched signature.
+
+A callback API also needs ownership/lifetime rules for any context pointer and a defined execution context. A function pointer stored in corrupted data can turn a data bug into control-flow failure.
+
+## 6.16 Pointer Debugging and Delayed Failures
+
+Choose a watchpoint based on what is changing:
+
+```text
+p unexpectedly changes       → watch the pointer object p
+*p unexpectedly changes      → watch the designated data
+valid p gives bad content    → inspect lifetime, producer, size, and interpretation
+```
+
+An out-of-bounds write can corrupt adjacent data or saved return state without faulting at the write. The eventual fault may occur when the corrupted state is consumed. A mapped address is not a proof of valid object access.
+
+Useful failure analysis:
+
+1. Inspect the pointer value, expected target, and containing object.
+2. Reconstruct index, element stride, and byte offset.
+3. Check whether the target is live and whether storage was reused.
+4. Check width, alignment, and access type.
+5. Find the earliest incorrect write with a watchpoint where possible.
+6. Connect the eventual fault back to corruption rather than treating the fault site as the origin.
+
+## 6.17 Section 6 Foundation Gate and Retention
+
+Be able to explain pointer storage versus target storage; element scaling versus byte offsets; same-array subtraction and ptrdiff_t; one-past boundaries; arrays versus pointers; arr versus &arr; row stride; 2D arrays versus pointer tables; pointer-to-pointer APIs; const placement; lifetime/ownership; generic pointers; casts/alignment/aliasing; MMIO access; callbacks; and delayed-corruption debugging.
+
+Recorded validation: 20 hard Section 6-only questions and 20 hard integrated Sections 1–6 questions completed. Completion is for this pass, not permanent mastery.
+
+Keep reinforcing strict-aliasing rationale, array-lvalue/conversion wording, byte offsets, pointer-domain rules, W1C behavior, and DMA/cache visibility distinctions. Current evidence and open targets remain in [Mastery Ledger](Concepts/Mastery-Ledger.md) and [Revision Queue](Concepts/Revision-Queue.md).
+
+---
+
+# Phase 1 — Section 7: Embedded-C Semantics
+
+> **Status: ✅ Completed — current conceptual-validation pass (2026-10-03)**
+
+## Interview Refresh
+
+C expressions have language rules before they become instructions. Hardware behavior does not override signed-overflow UB, invalid shifts, lifetime rules, or incompatible typed access.
+
+For integer expressions, reason in stages:
+
+```text
+operand types
+      ↓
+integer promotions
+      ↓
+usual arithmetic conversions, where applicable
+      ↓
+operation in resulting type
+      ↓
+conversion to destination type
+```
+
+Volatile describes compiler-visible access semantics. Const restricts modification through an access path. Neither is a general synchronization primitive.
+
+For MMIO, the register contract matters as much as the C expression: width, readable/writable fields, W1C/read-to-clear effects, reserved bits, and concurrency determine whether an access is appropriate.
+
+## 7.1 volatile and Observable Accesses
+
+A peripheral, ISR, or other external agent can change data independently of the ordinary execution path being optimized. Volatile-qualified access tells the implementation to treat accesses according to its volatile contract.
+
+```c
+volatile uint32_t *status = /* target-defined status address */;
+uint32_t first = *status;
+uint32_t second = *status;
+```
+
+These are distinct volatile access expressions. Do not casually assume the compiler may replace the second read with first. What constitutes a volatile access and its mapping to machine transactions depends on the implementation.
+
+A repeated read can also be undesirable if hardware changes between reads or reading has a side effect:
+
+```c
+uint32_t snapshot = *status;
+/* Derive several decisions from this one documented snapshot. */
+```
+
+Use a snapshot when a coherent single sample is intended. Use repeated reads when fresh accesses are required. This is a semantic choice, not merely a performance choice.
+
+Volatile does not guarantee:
+
+- an atomic multi-step operation;
+- mutual exclusion or thread safety;
+- ordering of unrelated ordinary memory accesses;
+- fresh data from a cache-coherent DMA buffer;
+- a valid address or permitted register operation.
+
+[GCC's volatile documentation](https://gcc.gnu.org/onlinedocs/gcc/Volatiles.html) specifically distinguishes volatile accesses from ordering ordinary memory. Inspect target/compiler rules when making a low-level guarantee.
+
+## 7.2 const, const volatile, and Underlying Objects
+
+```c
+volatile const uint32_t *status = /* hardware-updated read-only register */;
+```
+
+Through this pointer, software may read with volatile semantics and may not assign to the pointed-to object. Hardware may still update the register.
+
+Compare:
+
+```c
+uint32_t x = 1;
+const uint32_t *view = &x;
+x = 2;                       /* underlying x is mutable */
+
+const uint32_t immutable = 1;
+/* Modifying immutable through a cast-away-const pointer is UB. */
+```
+
+Const is not synonymous with Flash placement, compile-time evaluation, or hardware immutability. Placement and hardware effects are separate implementation/target properties.
+
+For pointer declarations, distinguish the pointee qualifier from the pointer qualifier:
+
+```c
+volatile uint32_t * const reg = /* fixed pointer to volatile register */;
+```
+
+reg cannot be reassigned; the register can be accessed through it.
+
+## 7.3 Widths, CHAR_BIT, and Fixed-Width Types
+
+sizeof counts C bytes. CHAR_BIT from <limits.h> describes bits per byte. STM32 examples normally assume CHAR_BIT == 8; make that explicit when discussing octets on a wire.
+
+Exact-width types such as uint32_t are provided where a suitable exact-width type exists. They express representation intent; they do not override promotions in an expression.
+
+```text
+C type width          → language representation
+CPU instruction width → generated access/operation
+register width        → hardware access contract
+implemented bits      → fields meaningful within register
+```
+
+A register with only eight meaningful bits can still require a 32-bit access. Do not substitute uint8_t access solely because the field fits in eight bits.
+
+Use size_t for sizes and lengths, ptrdiff_t for pointer differences, and suitable fixed-width types for explicit external numeric fields. Signedness must match the intended domain, not merely the available storage width.
+
+## 7.4 Integer Promotions Before Arithmetic
+
+On a target with 32-bit int that can represent every uint8_t and uint16_t value:
+
+```c
+uint8_t a = 250;
+uint8_t b = 10;
+int sum = a + b;      /* both promote to int; sum is 260 */
+uint8_t small = a + b;/* int result 260 converts to uint8_t: 4 */
+```
+
+The addition did not overflow in eight bits. The narrowing conversion produced 4.
+
+Likewise, ~ on a uint8_t first operates on its promoted type. If an eight-bit complement is intended, explicitly convert the result back to uint8_t and understand the target's integer representation.
+
+Promotion depends on whether int can represent the source type's full range; otherwise the applicable promotion is to unsigned int. Avoid memorizing the final result while skipping the type path.
+
+## 7.5 Mixed Signed/Unsigned Expressions
+
+Under the common 32-bit int/unsigned int model:
+
+```c
+int s = -1;
+unsigned int u = 1;
+bool less = s < u;    /* false: s converts to unsigned int */
+```
+
+The comparison operates on a common type. It does not first compare mathematical -1 and 1 and then convert the answer.
+
+For mixed types of different ranks, do not assume that unsigned always wins. Rank and representable ranges determine the common type.
+
+A boundary example is a negative index compared with an unsigned length. Validate negativity before converting:
+
+```c
+bool valid_index(int index, size_t count)
+{
+    return index >= 0 && (size_t)index < count;
+}
+```
+
+This is useful where nonnegative int values fit size_t, as on the intended STM32 environment. Short-circuiting prevents the second test when index is negative.
+
+Keep the operation type separate from the destination type. Assignment to a wider destination does not retroactively widen an already evaluated narrow operation.
+
+## 7.6 Unsigned Wrap Versus Signed Overflow
+
+Unsigned arithmetic uses modulo arithmetic in its unsigned result type. Signed arithmetic that produces a result outside its representable range has undefined behavior under the C11/C17 model used in these notes.
+
+```c
+uint32_t u = UINT32_MAX;
+u += 1u;                /* 0 on the intended 32-bit arithmetic model */
+```
+
+Do not detect signed overflow by computing the overflowing result first. The optimizer can reason under the assumption that defined execution did not overflow.
+
+For signed int addition, establish preconditions:
+
+```c
+bool add_int(int a, int b, int *out)
+{
+    if ((b > 0 && a > INT_MAX - b) ||
+        (b < 0 && a < INT_MIN - b)) {
+        return false;
+    }
+    *out = a + b;
+    return true;
+}
+```
+
+Include <limits.h> and <stdbool.h>; out must designate a writable int on success. The guarded expressions avoid overflowing before the check.
+
+This is a nearby reference example for the retained signed-arithmetic target, not a claim that this exact function was submitted during assessment. Wider intermediate types work only if the widened calculation itself is guaranteed representable.
+
+## 7.7 Undefined, Implementation-Defined, and Unspecified Behavior
+
+| Category | Meaning | Studied example |
+|---|---|---|
+| Defined | Language rules establish the relevant outcome | Unsigned modulo arithmetic |
+| Implementation-defined | Implementation chooses and documents behavior | Negative signed right shift in C11/C17; some integer/pointer conversions |
+| Unspecified | Several allowed choices; documentation of the choice is not required | Order of evaluating independent function arguments |
+| Undefined | Language imposes no requirements for that execution | Signed overflow, invalid dereference, unsequenced conflicting scalar accesses |
+
+Different unspecified evaluation orders are not automatically UB. UB arises when the operation violates a language rule, such as conflicting unsequenced accesses.
+
+These notes use the C11/C17 model reflected in the learning records. Check language-version and compiler documentation rather than assuming every version defines signed representation, conversions, and shifts identically.
+
+## 7.8 Shifts and Field Masks
+
+Shift operands undergo integer promotions. The shift count must be nonnegative and less than the width of the promoted left operand.
+
+```c
+1u << 32    /* UB when unsigned int is 32 bits */
+```
+
+Unsigned wraparound does not make that shift legal. Signed left shift requires additional operand/representability conditions; prefer deliberate unsigned types for masks.
+
+For an illustrative two-bit field at bits 5:4 of an ordinary read/write snapshot:
+
+```c
+uint32_t field_mask = UINT32_C(3) << 4;
+uint32_t value = 2;              /* validate value <= 3 */
+uint32_t next = (old & ~field_mask) | (value << 4);
+```
+
+Clearing the field before inserting its replacement differs from simply OR-ing in new bits. The latter cannot clear a bit left over from the previous value.
+
+This expression does not establish that a real register can safely be read-modify-written. Its hardware contract and competing writers still matter. If the original MODE already meets the requirement, identify that before proposing an unnecessary change—the retained Q12 correction reflects precisely this grading issue.
+
+## 7.9 MMIO Read-Modify-Write Hazards
+
+```c
+*reg |= mask;
+```
+
+Conceptually:
+
+```text
+read register
+      ↓
+compute old | mask
+      ↓
+write result
+```
+
+Potential hazards include a competing update between read and write, read side effects, write side effects, and fields that must not be echoed back.
+
+A volatile qualifier preserves the relevant accesses; it does not turn them into one indivisible transaction. Where provided, documented set/clear registers can implement specific field changes without a software read-modify-write of the data register.
+
+Register debugging should distinguish a wrong expression from a correct expression applied to the wrong register semantics.
+
+## 7.10 W1C and Read-to-Clear
+
+For write-one-to-clear flags:
+
+```text
+write 1 → clear corresponding flag
+write 0 → leave corresponding flag unchanged
+```
+
+Recorded revision example:
+
+```text
+read status                  = 00001010
+desired clear bit            = 00001000
+read value OR desired mask   = 00001010
+write back to W1C            → clears BOTH bit 3 and bit 1
+```
+
+For a dedicated W1C register whose contract permits it, write the intended clear mask directly. Mixed-function registers may require a more specific documented write procedure.
+
+A read-to-clear register changes state when read. Repeated polling, logging, or a debugger memory window can consume evidence. Preserve a suitable snapshot and understand the documented side effect before observing it.
+
+This is why “I only read it” is not sufficient to conclude that software or the debugger had no effect.
+
+## 7.11 Sequencing and Short-Circuit Guards
+
+```c
+if (p != NULL && p->ready) {
+    /* dereference evaluated only after the NULL test succeeds */
+}
+```
+
+&& and || evaluate their left operand first and conditionally evaluate the right. Use this ordering for valid guards.
+
+Independent function arguments do not have a general left-to-right evaluation guarantee in C:
+
+```c
+consume(read_a(), read_b());  /* do not rely on which read happens first */
+```
+
+If hardware accesses must happen in a specific order, separate them into explicitly sequenced steps.
+
+Expressions such as `i++ + i++` have unsequenced modifications of the same scalar and are UB in this C model. Split state changes into clear statements; apparent behavior in one build is not a contract.
+
+## 7.12 Object Representation, Aliasing, and Bit Copies
+
+Section 6's pointer-access checks still apply. Accessing a float through uint32_t * does not become valid simply because both objects occupy four bytes.
+
+Character-type access can inspect an object's representation. memcpy can copy representation into an appropriately sized destination without an incompatible typed dereference. Neither operation independently defines the semantic meaning of an external packet.
+
+Separate these questions:
+
+```text
+Can I inspect/copy these bytes legally?
+What logical value do those bytes represent?
+What representation does the external format require?
+```
+
+The remaining strict-aliasing refinement is the language's character-type permission, not a simplistic explanation about moving one byte at a time.
+
+## 7.13 Portable Serialization and Padding
+
+A structure is a logical collection of members with ABI-selected placement. A wire message is an externally defined byte contract.
+
+For an example contract of a two-octet unsigned value in big-endian order, with CHAR_BIT == 8:
+
+```c
+void encode_u16_be(uint8_t out[2], uint16_t value)
+{
+    out[0] = (uint8_t)(value >> 8);
+    out[1] = (uint8_t)value;
+}
+
+uint16_t decode_u16_be(const uint8_t in[2])
+{
+    return (uint16_t)(((uint32_t)in[0] << 8) | (uint32_t)in[1]);
+}
+```
+
+The casts before the shift make the calculation's width/sign intent explicit. The caller must provide at least two valid elements.
+
+For value 0x1234, the defined message is 12 34 regardless of sender-native byte order.
+
+Raw transmission of sizeof(struct Message) can expose padding, change when ABI/member order changes, and use native endian order. A packed attribute does not by itself solve endian order, type representation, bounds, or unaligned typed access.
+
+Compare meaningful fields for logical equality. Define widths, offsets, signed encoding, byte order, length validation, and versioning where needed for external formats.
+
+## 7.14 Bit-Fields and Register Layout
+
+Bit-fields can provide compact language-level members, but allocation order, storage details, and some access behavior depend on the implementation. Do not assume a C bit-field declaration is a portable hardware or wire map.
+
+For MMIO, the generated access width and read-modify-write behavior can matter. Masks/shifts applied under the documented register contract often make those assumptions clearer. Compiler-specific bit-field mappings require an explicit target contract and verification.
+
+## 7.15 Optimization-Sensitive Failure Analysis
+
+When debug and optimized builds differ, investigate lifetime violations, uninitialized state, aliasing, bounds, sequencing, and signed arithmetic before concluding that the compiler is broken.
+
+Useful questions:
+
+- Did the operation have defined language semantics?
+- Were the required external accesses represented through the right qualifiers/interface?
+- Was the read-modify-write vulnerable to a competing writer?
+- Did the code confuse CPU cache state with compiler access preservation?
+- Does generated assembly perform the expected width and number of accesses?
+
+Compiler inspection is evidence for a particular build. It cannot turn an undefined source operation into a portable guarantee.
+
+## 7.16 Section 7 Foundation Gate and Retention
+
+Be able to separate volatile, const, atomicity, synchronization, and cache coherency; trace promotions and common-type selection; distinguish operation overflow from destination conversion; check shifts; classify behavior; reason about MMIO/W1C/read side effects; use sequencing guards; and define portable serialization independently of struct layout.
+
+Recorded validation: 15 integrated Section 7 questions completed. Current capability is practiced conceptual reasoning, with remaining refinement recorded in the canonical ledger.
+
+Signed arithmetic/conversions and portable serialization/padding remain active reinforcement after the later Sections 1–8 cumulative assessment. Preserve the complete promotion path and demonstrate real-peripheral W1C transfer later. Completion is for this pass, not permanent mastery.
+
+---
+
+# Phase 1 — Section 8: Concurrency Foundations
+
+> **Status: ✅ Completed — current conceptual-validation pass (checkpoint recorded 2026-10-11)**
+
+## Interview Refresh
+
+Concurrency means multiple execution contexts or agents can affect shared state. They need not execute simultaneously: an interrupt can interleave with main on a single CPU.
+
+The central questions are:
+
+```text
+Who writes each object?
+Who reads it?
+Which operations must be indivisible?
+When is the payload valid?
+What publishes that validity?
+What happens if the consumer falls behind?
+```
+
+A source statement is not necessarily an atomic operation. Volatile does not provide ownership, mutual exclusion, cache coherence, or a general publication-order guarantee.
+
+A queue preserves events only within its capacity and overflow policy. A latest-value mailbox serves a different requirement: preserve freshness rather than every intermediate sample.
+
+## 8.1 Interleaving on One CPU
+
+Consider main and an ISR both incrementing a counter. A conceptual interleaving is:
+
+```text
+counter initially 10
+
+main: read 10
+interrupt:
+    ISR: read 10
+    ISR: add 1
+    ISR: write 11
+main resumes:
+    main: add 1 to its old value
+    main: write 11
+
+two increments requested; final counter is 11, not 12
+```
+
+Each individual read or write may be indivisible on a given target while the combined increment is not. A shared read-modify-write can lose an update even with a volatile counter.
+
+Real timing bugs often disappear under stepping because observation changes the interleaving. Reason about all permitted interleavings rather than only one observed execution.
+
+## 8.2 Atomicity Depends on the Operation
+
+```text
+single access atomic?
+      ≠
+read + compute + write atomic?
+      ≠
+several related fields updated atomically?
+```
+
+For an MCU access, width, alignment, instruction selection, memory region, and target rules affect whether another participant can observe a torn value.
+
+A wide counter accessed through several smaller instructions can produce a mixed snapshot. Reading two individually atomic fields also does not establish that the pair comes from the same logical update.
+
+Define the invariant first. “This variable is 32-bit” does not prove every operation on it is safe.
+
+## 8.3 Shared-State Ownership
+
+Document ownership at object granularity:
+
+| Shared object | Writer | Reader | What must be established |
+|---|---|---|---|
+| SPSC head | Producer | Consumer | Valid publication of initialized payload |
+| SPSC tail | Consumer | Producer | Slot released only after consumption |
+| Queue slot | Producer while free; consumer while occupied | Depends on ownership phase | No premature reuse |
+| Drop counter | Assigned owner or protected writers | Monitoring code | Correct update/snapshot semantics |
+
+A single writer removes competing writes to that object. Readers can still race with the writer unless accesses and ordering follow a valid implementation contract.
+
+“Both contexts write different variables” is useful ownership evidence; it is not a complete portable synchronization proof for the whole shared structure.
+
+## 8.4 Critical Sections and Their Limits
+
+For a single-core main/ISR shared operation, temporarily excluding the relevant interrupt can prevent that ISR from interleaving with the operation.
+
+```text
+save relevant interrupt state
+      ↓
+exclude relevant ISR
+      ↓
+perform minimal protected operation
+      ↓
+restore prior state
+```
+
+Restore the prior state rather than unconditionally enabling interrupts, which could violate an enclosing critical section.
+
+A critical section must be short and have a clear scope. Delaying interrupt service can affect latency and overflow elsewhere. Avoid slow I/O or waiting for an event that requires the excluded interrupt.
+
+Disabling interrupts on one core does not stop DMA, another core, or every possible execution context. Exact masking, barriers, and interrupt architecture belong in later formal sections. The reference lesson here is to match the protection mechanism to the actual competing agent.
+
+## 8.5 Flags, Check-and-Clear, and Event Loss
+
+A flag answers “has something happened?” but cannot represent an arbitrary count of events.
+
+```text
+event sets flag
+another event sets already-set flag
+consumer reads flag once
+      → cannot distinguish one event from two
+```
+
+A check followed by a later clear can also discard an intervening event:
+
+```text
+main sees flag set
+ISR sets flag for another event
+main clears flag
+      → new event indication lost
+```
+
+Decide whether the requirement is a Boolean condition, a count, latest state, or a sequence of payloads. Then choose an appropriately protected snapshot/consume operation or a queue.
+
+The flag and payload must be treated as a protocol: when does a flag publish valid data, and when may the producer overwrite it? A volatile flag alone does not answer those questions.
+
+## 8.6 Producer/Consumer Rates and Queue Growth
+
+Let producer rate be lambda and consumer service rate be mu:
+
+```text
+lambda > mu over sustained operation → backlog grows until finite capacity fills
+lambda < mu on average              → bursts can still fill a queue
+```
+
+A finite buffer absorbs temporary rate mismatch; it does not fix a permanently slower consumer.
+
+For a pause of T seconds with no consumption, incoming demand is approximately lambda × T samples. Allow for existing occupancy, bursts, service variability, and capacity actually usable by the chosen implementation.
+
+Illustrative sizing exercise, not a recorded board measurement:
+
+```text
+producer:         100 samples/second
+consumer pause:   0.2 second
+arrivals in pause: 20 samples
+
+N = 16, reserved-slot ring → usable capacity 15
+empty ring still cannot retain all 20 arrivals
+```
+
+Measure or bound worst-case delay rather than sizing only from average throughput. Define what happens when the bound is exceeded.
+
+## 8.7 State the Ring-Buffer Convention First
+
+For the convention used in the Q15 consolidation:
+
+```text
+head → next producer write position
+tail → next consumer read position
+N    → total storage slots, N >= 2
+
+advance(i) = (i + 1) modulo N
+empty      = head == tail
+full       = advance(head) == tail
+capacity   = N - 1
+```
+
+One slot is reserved to distinguish full from empty without another full-state flag or count.
+
+For N = 4:
+
+```text
+head=0, tail=0 → empty
+produce at 0; head=1
+produce at 1; head=2
+produce at 2; head=3
+advance(head)=0 equals tail → full, 3 occupied slots
+```
+
+These formulas are convention-dependent. A scheme using counts, full flags, monotonically increasing counters, or “head names last written slot” has different details.
+
+Q13 was credited 4/4 because the head-index convention was not specified. Declare the convention before grading an index calculation.
+
+## 8.8 Payload Before Publication
+
+The producer must initialize the slot before making it visible as occupied:
+
+```text
+producer obtains free slot
+      ↓
+write complete payload
+      ↓
+publish new head
+```
+
+Publishing head first can tell the consumer data is available while the slot still contains old or incomplete data. If the code also uses the already-advanced head to select the slot, it may write the wrong slot under the stated convention.
+
+Consumption follows the complementary lifecycle:
+
+```text
+observe occupied slot
+      ↓
+read/copy complete payload
+      ↓
+publish new tail, releasing slot
+```
+
+Advancing tail before the read is complete can allow premature producer reuse.
+
+This is a required logical order. Source order alone is not a universal compiler/CPU synchronization mechanism. A real implementation must establish the relevant atomic access and visibility/order guarantees using the target's ISR contract or an appropriate language/platform mechanism.
+
+Detailed acquire/release, barriers, multicore coherence, and DMA maintenance are later topics; this section preserves the invariant without claiming those mechanisms were implemented.
+
+## 8.9 Q15 Producer/Consumer Walkthrough
+
+The following is algorithm pseudocode that explains the assessed model. It is not ready-to-use portable concurrent C or a board lab solution.
+
+```text
+ISR producer(sample):
+    next = advance(head)
+    if next == tail:
+        record/drop incoming sample
+        return FULL
+    slot[head] = sample
+    publish head = next
+    return ACCEPTED
+
+main consumer:
+    if tail == head:
+        return EMPTY
+    sample = slot[tail]
+    publish tail = advance(tail)
+    process local sample
+```
+
+Assumptions to check before implementation:
+
+- Exactly one producer and one consumer; producer cannot reenter concurrently.
+- Producer writes head, consumer writes tail.
+- Shared index accesses cannot tear under the target contract.
+- Payload visibility precedes head publication.
+- Consumption completes before slot release through tail.
+- Slot objects remain live; indices remain in range.
+- The selected overflow policy preserves these ownership rules.
+
+Processing a copied local sample after releasing the slot can keep queue occupancy lower. A consumer that retains a pointer into a released slot instead of copying needs a different ownership/lifetime contract.
+
+## 8.10 Drop-Newest Versus Drop-Oldest
+
+| Policy | When full | Requirement/tradeoff |
+|---|---|---|
+| Drop newest | Reject incoming sample; preserve queued samples | Simple reserved-slot SPSC ownership; retained backlog may become stale |
+| Drop oldest | Discard oldest retained sample to admit new one | Favors freshness; requires safe coordination of tail/slot ownership |
+| Backpressure | Slow or pause producer if supported | Only possible where source/protocol permits it |
+| Latest-value mailbox | Replace stored state with current sample | Does not preserve every intermediate event |
+
+Q15 assessed **drop-newest**. When full, the ISR can execute, but it discards the incoming sample until capacity is released.
+
+An earlier temperature-telemetry discussion proposed drop-oldest. In the basic SPSC ring above, producer-side tail advancement would give tail two writers. It can conflict with a consumer that is reading the oldest slot. Do not turn drop-newest into drop-oldest by casually advancing tail; design and validate the altered protocol.
+
+Policy selection starts with the requirement. A command/event log can value completeness/order, while temperature telemetry may value latest state. Neither policy is universally best.
+
+## 8.11 What Happens While Main Is Delayed?
+
+If main stops consuming but interrupts remain enabled, the ISR can continue accepting samples while free slots remain. Once full, drop-newest rejects further arrivals.
+
+```text
+main delayed
+      ↓
+ISR still executes
+      ↓
+occupancy grows
+      ↓
+queue full
+      ↓
+new samples discarded until main releases capacity
+```
+
+“Main is busy” and “interrupts are disabled” are different situations. If interrupts are excluded, peripheral hardware may accumulate or lose events according to its own FIFO/status behavior; that is a separate boundary from software queue capacity.
+
+Q15's 5/5 evidence includes recognizing this distinction.
+
+## 8.12 DMA Lifecycle and Cache Visibility: Retained Boundary
+
+DMA is another agent, not an ordinary C function that necessarily finishes before returning.
+
+```text
+prepare live buffer
+      ↓
+transfer ownership / start operation
+      ↓
+keep storage valid and respect ownership
+      ↓
+observe completion
+      ↓
+apply required visibility/cache steps
+      ↓
+consume or reuse buffer
+```
+
+CPU-written data can remain in cache when DMA needs RAM contents; DMA-written RAM can coexist with stale CPU cache data. Volatile does not solve either case.
+
+Detailed cache clean/invalidate sequences depend on direction, memory attributes, cache-line boundaries, target rules, and the DMA engine's reachable memory. Those mechanisms remain future formal work. This section preserves the conceptual distinction and the open lifecycle/coherency revision target, without asserting a verified DMA implementation.
+
+## 8.13 Debugging Concurrency and Overflow
+
+Useful observations include queue high-water mark, accepted/dropped counts, longest consumer delay, and where ownership changes. Instrumentation must itself use a correct access/update contract.
+
+For intermittent corruption:
+
+1. Identify every reader/writer, including ISR, DMA, and another core.
+2. Separate a lost update from a torn access or stale visibility.
+3. Check index convention and empty/full tests.
+4. Check payload publication and slot release order.
+5. Confirm the actual overflow policy and observe saturation.
+6. Check buffer lifetime and pointer retention.
+7. Consider how breakpoints, logging, or masking changed timing.
+
+A stable result under stepping does not prove the race is absent. A lack of hardware faults does not prove the queue preserved data correctly.
+
+## 8.14 Section 8 Foundation Gate and Assessment
+
+Be able to reason about interleaving, atomic access versus atomic operation, lost updates, ownership, critical-section scope, flag/event loss, queue rates/bursts, reserved-slot capacity, index conventions, publication order, slot reuse, and overflow requirements.
+
+The 15-question cumulative Sections 1–8 assessment is completed for this pass:
+
+| Question | Confirmed result | Retained correction/evidence |
+|---|---|---|
+| Q15 | 5/5 | N - 1 capacity, drop-newest, payload-before-head, ISR progress while main delayed, separate index writers |
+| Q14 | 4/4 | Confirmed result |
+| Q13 | 4/4 credited | Head-index convention unspecified |
+| Q12 | 3/3 corrected | Original configuration already had requested MODE |
+| Q10 | 3/4 | Earlier confirmed result retained |
+| Q7 | 3/4 | Earlier confirmed result retained |
+| Q3 | 3/4 | Earlier confirmed result retained |
+
+No missing individual scores or aggregate are reconstructed. Exact Q1–Q14 question text is unavailable in the accessible checkpoint; illustrative examples in these notes are not replacements for that missing assessment transcript.
+
+Remaining revision targets: signed arithmetic overflow/conversions; portable wire serialization/struct padding; DMA lifecycle/cache coherency; pointer byte offsets.
+
+Completion is not permanent mastery. Independent implementation, debugging, design, measurements, and transfer remain future evidence. Section 9 — Compiler & Build Pipeline is active, starting preprocessing.
+
+---
+
+# Phase 1 — Sections 9–15: Sequence Reference
+
+Section 9 is active, starting preprocessing; Sections 10–15 are not started. These future-section outlines preserve the planned sequence. Consolidate detailed reference notes here as each section is studied and completed; progress and assessment records remain in `Concepts/`.
 
 ## Section 9 — Compiler & Build Pipeline
 Preprocessing, compilation, assembly, object files, linking, symbols, relocations, optimization implications.
@@ -2212,7 +3276,7 @@ Track 1
     └── Sections 10–15                            ⬜ Not started
 ```
 
-Sections 1–5 have been consolidated into this handbook. Sections 6–8 are completed for the current conceptual-validation pass. Section 8's 15-question cumulative assessment covers Sections 1–8; completion does not imply permanent mastery. Section 9 — Compiler & Build Pipeline is active, starting preprocessing. Current design/lab checkpoints are maintained in `Design/Progress.md`, `Labs/Progress.md`, and `Active-Context.md`.
+Sections 1–8 have detailed reference notes consolidated into this handbook. Sections 6–8 are completed for the current conceptual-validation pass. Section 8's 15-question cumulative assessment covers Sections 1–8; completion does not imply permanent mastery. Section 9 — Compiler & Build Pipeline is active, starting preprocessing. Current design/lab checkpoints are maintained in `Design/Progress.md`, `Labs/Progress.md`, and `Active-Context.md`.
 
 ---
 

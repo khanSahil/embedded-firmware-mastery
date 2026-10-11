@@ -70,6 +70,8 @@ Foundation/completion status does not imply blanket `MASTERED` status.
 
 See `Active-Context.md` for the latest state.
 
-## Historical file
+## Long-term knowledge reference
 
-`Track-1-Embedded-Firmware-Mastery.md` is preserved as historical material and should not be treated as the current state tracker.
+[Track 1 handbook](Track-1-Embedded-Firmware-Mastery.md) preserves detailed study notes, mental models, examples, failure/debugging lessons, and interview refreshes. Sections 1–8 are consolidated there; later sections retain planned outlines until studied.
+
+Keep consolidating completed sections in the established detailed format. Concepts progress, mastery, and revision records complement these notes; they do not replace them. The owning stream files remain authoritative for current status and evidence.

@@ -172,6 +172,12 @@ When adding a document to the Track 1 register, include the date it was added in
 - After substantial MCU/board foundations are demonstrated, revisit realistic project options and select based on transferable learning toward a general embedded firmware Principal Engineer role.
 - Respect the curriculum: formal Phase 1 board acclimation is planned for Sections 14–15, with board-heavy conceptual work in Phase 2. Narrow earlier previews are allowed when explicitly identified as previews.
 
+## Durable learning notes
+
+`Track_1/Track-1-Embedded-Firmware-Mastery.md` is the long-term knowledge reference. After each completed conceptual section, consolidate detailed notes in the established Sections 1–5 format: interview refresh, numbered explanations, mental models, examples, failure/debugging lessons, and foundation/retention gates.
+
+Preserve studied notes for later reference. Curriculum outlines, progress dashboards, mastery ledgers, and revision queues complement the handbook; they do not replace detailed notes. Do not change this format without the learner's request. Separate confirmed learning evidence from illustrative explanations, and identify unavailable transcript/experiment details instead of inventing them.
+
 ## Continuity rule
 
 At the end of a substantial session:

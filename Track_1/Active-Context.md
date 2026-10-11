@@ -19,6 +19,7 @@ Repo-structure migration status: `COMPLETE` (2026-09-28).
 ## Canonical paths
 
 ### Concepts
+- `Track-1-Embedded-Firmware-Mastery.md` — durable detailed learning reference; Sections 1–8 consolidated
 - `Concepts/Curriculum.md`
 - `Concepts/Progress.md`
 - `Concepts/Mastery-Ledger.md`
@@ -175,6 +176,8 @@ Refresh this dashboard when:
 Do not refresh it for every individual message or small correction.
 
 ## Latest milestone
+
+**2026-10-11 — Reference notes restored:** Sections 6–8 now have detailed handbook notes in the same format as Sections 1–5. Progress/mastery/revision files complement the handbook. Future completed sections should be consolidated in that format. This documentation checkpoint adds no new practical or mastery evidence; Section 9 remains active at preprocessing.
 
 **2026-10-11:** Section 8 completed for the current conceptual-validation pass after the 15-question cumulative Sections 1–8 assessment; Q15 5/5, Q14 4/4, Q13 credited 4/4, Q12 corrected 3/3, earlier Q10/Q7/Q3 each 3/4. Section 9 is active, starting preprocessing. The four revision targets remain open; no permanent mastery or new Design/Labs completion is claimed. Detailed checkpoint: `Integration/History/2026-10-11-Section-8-Completion.md`.
 
