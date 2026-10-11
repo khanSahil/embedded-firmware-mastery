@@ -191,7 +191,7 @@ Validation:
 
 ### Section 8 – Concurrency Foundations
 
-Status: `IN_PROGRESS` (confirmed 2026-10-06)
+Status: `COMPLETED` for the current conceptual-validation pass (checkpoint recorded 2026-10-11)
 
 - atomicity
 - read-modify-write operations
@@ -200,9 +200,11 @@ Status: `IN_PROGRESS` (confirmed 2026-10-06)
 - interrupts and concurrent modification
 - why `volatile` does not imply atomicity or thread safety
 
+Validation: 15-question cumulative assessment covering Sections 1–8 completed; confirmed scores/corrections and remaining revision targets are in `Progress.md` and `Revision-Queue.md`. Completion is not permanent mastery.
+
 ### Section 9 – Compiler & Build Pipeline
 
-Status: `NOT_STARTED`
+Status: `IN_PROGRESS` (2026-10-11), starting preprocessing
 
 - preprocessing
 - compilation
@@ -512,7 +514,8 @@ Status: `NOT_STARTED`
 - Sections 1–5: covered previously; mastery continues to be refined through cross-context evidence.
 - Section 6: completed for the current conceptual-validation pass on 2026-09-28.
 - Section 7: completed for the current conceptual-validation pass on 2026-10-03.
-- Section 8: Concurrency Foundations is `IN_PROGRESS` (confirmed 2026-10-06).
-- Sections 9–15: `NOT_STARTED`.
+- Section 8: completed for the current conceptual-validation pass; 15-question cumulative Sections 1–8 assessment complete (checkpoint recorded 2026-10-11).
+- Section 9: Compiler & Build Pipeline is `IN_PROGRESS`, starting preprocessing.
+- Sections 10–15: `NOT_STARTED`.
 
 Detailed current state belongs in `Progress.md`, while cross-chat readiness belongs in `../Active-Context.md` and `../Integration/`.

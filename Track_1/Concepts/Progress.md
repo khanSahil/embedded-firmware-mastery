@@ -1,18 +1,18 @@
 # Track 1 – Concepts Progress
 
-Last updated: 2026-10-06
+Last updated: 2026-10-11
 
 ## Current location
 
 **Phase 1 – Embedded C and Bare-Metal Foundations**
 
-**Current section: Section 8 – Concurrency Foundations**
+**Current section: Section 9 – Compiler & Build Pipeline**
 
 Status: `IN_PROGRESS`
 
-Sections 1–7 are foundation-established / completed for the current conceptual pass; Sections 9–15 are `NOT_STARTED`. This does not imply blanket topic mastery.
+Sections 1–8 are foundation-established / completed for the current conceptual pass; Section 9 is active, starting preprocessing; Sections 10–15 are `NOT_STARTED`. This does not imply blanket topic mastery.
 
-The previous section, **Section 7 – Embedded-C Semantics**, is `COMPLETED` for the current conceptual-validation pass.
+The previous section, **Section 8 – Concurrency Foundations**, is `COMPLETED` for the current conceptual-validation pass.
 
 ## Phase 0 – Tooling, Board, and Debug Environment Orientation
 
@@ -165,15 +165,49 @@ Section 7 is complete for this pass, but is not blanket `MASTERED`; later labs, 
 
 ## Section 8 – Concurrency Foundations
 
-Status: `IN_PROGRESS` (confirmed 2026-10-06)
+Status: `COMPLETED` for the current conceptual-validation pass
 
-Current discussion evidence includes producer/consumer rates, queue growth and burst capacity, and a proposed drop-oldest circular-buffer policy for latest-temperature telemetry. This records the active learning checkpoint; it does not establish a completed validation pass or a verified concurrent implementation.
+Completed checkpoint recorded on: 2026-10-11
 
-## Sections 9–15
+A 15-question cumulative assessment covering Sections 1–8 is complete (recorded 2026-10-11).
+
+| Question | Confirmed score | Notes |
+|---|---|---|
+| Q15 | 5/5 | SPSC ring buffer: capacity BUFFER_SIZE - 1, drop-newest on full, payload before head publication, ISR can continue while main is delayed, and separate head/tail writers |
+| Q14 | 4/4 | Final confirmed score |
+| Q13 | 4/4 credited | Head-index convention was not specified; do not penalize a convention-dependent answer |
+| Q12 | 3/3 corrected | Original configuration already had the requested MODE; earlier deduction withdrawn |
+| Q10 | 3/4 | Retained earlier score |
+| Q7 | 3/4 | Retained earlier score |
+| Q3 | 3/4 | Retained earlier score |
+
+These are the confirmed individual scores, not an invented aggregate. Other question scores are not reconstructed here.
+
+Remaining revision targets: signed arithmetic overflow/conversions; portable wire serialization and struct padding; DMA lifecycle/cache coherency; pointer byte offsets.
+
+Section 8 is completed for this pass, not permanently mastered. Implementation, debugging, design, and unfamiliar-scenario transfer remain future evidence. DMA/cache-maintenance mechanics remain revision/preview material rather than fully established prerequisites.
+
+The earlier drop-oldest telemetry discussion remains historical context. Q15 specifically assessed drop-newest and separate producer/consumer index ownership; it does not validate a drop-oldest concurrent implementation.
+
+## Section 9 – Compiler & Build Pipeline
+
+Status: `IN_PROGRESS`
+
+Current starting topic: **preprocessing**. No completed Section 9 validation is claimed.
+
+## Sections 10–15
 
 Status: `NOT_STARTED`
 
 ## Progress history
+
+### 2026-10-11 — Section 8 completion and Section 9 activation
+
+- Completed the 15-question cumulative Sections 1–8 assessment; confirmed scores and corrections are recorded above.
+- Section 8 moved to revision-and-transfer mode; Section 9 is active, starting preprocessing.
+- Retained the four remaining revision targets without blanket mastery promotion.
+- Durable checkpoint: `../Integration/History/2026-10-11-Section-8-Completion.md`.
+
 
 ### 2026-10-06 — Section 8 active checkpoint
 
@@ -208,13 +242,6 @@ Status: `NOT_STARTED`
 
 ## Next planned concept work
 
-Continue **Section 8 – Concurrency Foundations**.
+Begin **Section 9 – Compiler & Build Pipeline**, starting with preprocessing, then compilation, assembly, object files, linking, symbols, relocation basics, translation units, and optimization implications.
 
-Section 8 should build directly on Section 7 and deepen:
-
-- atomicity
-- read-modify-write operations
-- race conditions
-- shared state
-- interrupts and concurrent modification
-- why `volatile` does not imply atomicity or thread safety
+Continue short concept blocks with questions after each concept. End-of-section cumulative assessments should sample all previously covered sections, including areas where proficiency has already been demonstrated.

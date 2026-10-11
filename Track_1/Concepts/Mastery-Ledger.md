@@ -134,3 +134,33 @@ Non-blocking refinement targets:
 Section 7 is complete for the current pass and does **not** block Section 8. It is not yet labeled `MASTERED`; future lab, design, debugging, and unfamiliar-scenario evidence should drive later promotion.
 
 See also `Revision-Queue.md` and `../Integration/Milestones.md`.
+
+## Phase 1 – Section 8: Concurrency Foundations
+
+Conceptual-validation status: `COMPLETED` for the current pass (checkpoint recorded 2026-10-11).
+
+Overall capability status: `PRACTICED` in conceptual/code-reading assessment; no new hardware or independent implementation evidence is claimed.
+
+A 15-question cumulative assessment covering Sections 1–8 is complete (recorded 2026-10-11).
+
+| Question | Confirmed score | Notes |
+|---|---|---|
+| Q15 | 5/5 | SPSC ring buffer: capacity BUFFER_SIZE - 1, drop-newest on full, payload before head publication, ISR can continue while main is delayed, and separate head/tail writers |
+| Q14 | 4/4 | Final confirmed score |
+| Q13 | 4/4 credited | Head-index convention was not specified; do not penalize a convention-dependent answer |
+| Q12 | 3/3 corrected | Original configuration already had the requested MODE; earlier deduction withdrawn |
+| Q10 | 3/4 | Retained earlier score |
+| Q7 | 3/4 | Retained earlier score |
+| Q3 | 3/4 | Retained earlier score |
+
+These are the confirmed individual scores, not an invented aggregate. Other question scores are not reconstructed here.
+
+Remaining revision targets: signed arithmetic overflow/conversions; portable wire serialization and struct padding; DMA lifecycle/cache coherency; pointer byte offsets.
+
+Section 8 is completed for this pass, not permanently mastered. Implementation, debugging, design, and unfamiliar-scenario transfer remain future evidence. DMA/cache-maintenance mechanics remain revision/preview material rather than fully established prerequisites.
+
+Q15 provides code-reading evidence for single-producer/single-consumer ownership and publication order under the assessed assumptions. Separate index writers alone are not a general proof of portable synchronization; atomic access and ordering assumptions still matter when transferring the pattern.
+
+## Phase 1 – Section 9: Compiler & Build Pipeline
+
+Status: `INTRODUCED` / curriculum `IN_PROGRESS`, starting preprocessing. No completed assessment or capability promotion is claimed.

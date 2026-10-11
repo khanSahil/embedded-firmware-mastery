@@ -49,41 +49,41 @@ Repo-structure migration status: `COMPLETE` (2026-09-28).
 Current phase: **Phase 1 – Embedded C and Bare-Metal Foundations**
 
 Last completed section:
-- **Section 7 – Embedded-C Semantics**
-- status: `COMPLETED` for the current conceptual-validation pass
-- completion date: 2026-10-03
+- **Section 8 – Concurrency Foundations**
+- status: `COMPLETED` for the current conceptual-validation pass; not permanently mastered
+- checkpoint recorded: 2026-10-11
 
 Validation completed:
-- 15-question integrated Section 7 validation pass
+- 15-question cumulative assessment covering Sections 1–8
+- Q15 5/5; Q14 4/4; Q13 credited 4/4 because head-index convention was unspecified
+- Q12 corrected to 3/3 because the original configuration already had the requested MODE
+- earlier Q10, Q7, Q3 each 3/4; no aggregate score reconstructed
 
-Strong demonstrated areas:
-- `volatile` access semantics and separation from atomicity
-- W1C / MMIO read-modify-write hazards
-- signed/unsigned conversion consequences
-- signed-overflow UB and compiler assumptions
-- pointer lifetime, one-past, and `ptrdiff_t` reasoning
-- sequencing and short-circuit safety
-- struct padding, serialization, and bit-field portability
+Latest demonstrated evidence:
+- Q15 SPSC ring-buffer capacity `BUFFER_SIZE - 1`
+- drop-newest on full and payload-before-head publication
+- ISR can continue while main is delayed; separate producer head / consumer tail ownership under assessed assumptions
+- separate writers do not alone prove portable atomic access or memory ordering
 
 Current concept section:
-- **Section 8 – Concurrency Foundations**
-- status: `IN_PROGRESS` (confirmed 2026-10-06)
-- current discussion: producer/consumer queue rates, burst capacity, and a proposed drop-oldest policy for latest-temperature telemetry
+- **Section 9 – Compiler & Build Pipeline**
+- status: `IN_PROGRESS`, starting **preprocessing**
+- no completed Section 9 assessment claimed
 
 Phase 1 overview:
 - Sections 1–5: covered previously / foundation established
-- Sections 6–7: completed for the current conceptual-validation pass
-- Sections 9–15: `NOT_STARTED`
-- foundation/completion status does not imply blanket `MASTERED` status
+- Sections 6–8: completed for the current conceptual-validation pass
+- Sections 10–15: `NOT_STARTED`
+- foundation/completion status does not imply blanket `MASTERED`
 
-Non-blocking refinement areas:
-- complete integer-promotion-path wording
-- strict aliasing / character-type object-representation rationale
-- cache coherency vs `volatile`
-- W1C/direct-mask transfer to real peripheral work
-- array-lvalue vs pointer-conversion wording
-- delayed-corruption vs eventual fault-site wording
-- occasional arithmetic precision under interview pressure
+Remaining revision targets:
+- signed arithmetic overflow/conversions
+- portable wire serialization and struct padding
+- DMA lifecycle/cache coherency
+- pointer byte offsets
+- earlier refinement items remain in `Concepts/Revision-Queue.md`
+
+Assessment preference: short concept blocks with questions after each concept; cumulative assessments cover all previously covered sections, including demonstrated strengths.
 
 Technical correctness/depth remains the priority; Principal-level phrasing can be polished after the model is solid.
 
@@ -97,8 +97,8 @@ Current reviewed design:
 - Design 01 startup readiness LED remains a completed guided design with board-specific implementation open
 
 Current design readiness:
-- may use concepts established through Phase 1 Section 7
-- appropriate themes now include buffer/pointer interfaces, ownership/lifetime, MMIO/register boundaries, safe field/mask handling, W1C/read-to-clear awareness, representation/serialization choices, startup/safe-state policy, and low-level debuggability
+- may use concepts established through Phase 1 Section 8
+- appropriate themes now include buffer/pointer interfaces, ownership/lifetime, MMIO/register boundaries, safe field/mask handling, W1C/read-to-clear awareness, representation/serialization choices, startup/safe-state policy, low-level debuggability, bounded queue policies, and ISR/main shared-state ownership
 
 Do not silently assume later concepts such as interrupt architecture, DMA ownership, RTOS synchronization, memory-ordering/barrier design, linker/startup internals, cache-maintenance design, or boot/update architecture. Label those as previews until formally learned.
 
@@ -132,7 +132,7 @@ No large Track 1 project is currently active. Project selection remains paused u
 
 ## Integrated readiness
 
-Design and Labs may consume Concepts through Section 7 as established prerequisites.
+Design and Labs may consume Concepts through Section 8 as established prerequisites.
 
 The streams do **not** need to be at identical positions. They must remain coherent:
 - Concepts establishes readiness.
@@ -140,7 +140,7 @@ The streams do **not** need to be at identical positions. They must remain coher
 - Labs validates behavior and exposes practical gaps.
 - Lab/design evidence can feed back into Concepts revision/mastery decisions.
 
-See `Integration/Learning-Map.md` and `Integration/Dependency-Graph.md` for the synchronized dependency boundary through Section 7.
+See `Integration/Learning-Map.md` and `Integration/Dependency-Graph.md` for the synchronized dependency boundary through Section 8 foundations under explicit access/ordering assumptions.
 
 ---
 
@@ -176,6 +176,8 @@ Do not refresh it for every individual message or small correction.
 
 ## Latest milestone
 
+**2026-10-11:** Section 8 completed for the current conceptual-validation pass after the 15-question cumulative Sections 1–8 assessment; Q15 5/5, Q14 4/4, Q13 credited 4/4, Q12 corrected 3/3, earlier Q10/Q7/Q3 each 3/4. Section 9 is active, starting preprocessing. The four revision targets remain open; no permanent mastery or new Design/Labs completion is claimed. Detailed checkpoint: `Integration/History/2026-10-11-Section-8-Completion.md`.
+
 **2026-10-06:** Section 8 – Concurrency Foundations confirmed `IN_PROGRESS`; handbook Phase 1 dashboard, repository/Track 1 overviews, Concepts, and Integration synchronized. Sections 9–15 remain `NOT_STARTED`. Design/Labs established prerequisite readiness remains through Section 7.
 
 **2026-10-03:** Section 7 – Embedded-C Semantics completed for the current conceptual-validation pass, including a 15-question integrated validation. Section 8 – Concurrency Foundations is next; Design and Labs may now consume concepts through Section 7. Integration readiness/dependency files are synchronized to the same boundary.
@@ -186,4 +188,4 @@ Do not refresh it for every individual message or small correction.
 
 Detailed milestones: `Integration/Milestones.md`.
 
-Last synchronized: 2026-10-06
+Last synchronized: 2026-10-11

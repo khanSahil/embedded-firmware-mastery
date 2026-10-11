@@ -2,7 +2,16 @@
 
 This file contains topics that should be revisited because they are subtle, easy to forget, foundational for later work, or still need greater precision.
 
-Section 7 was completed for the current conceptual-validation pass on 2026-10-03. Items below are **reinforcement targets**, not blockers for moving to Section 8.
+Section 8 was completed for the current conceptual-validation pass (checkpoint recorded 2026-10-11). Items below are **reinforcement targets**, not blockers for Section 9, now active at preprocessing.
+
+## Latest cumulative-assessment revision targets — 2026-10-11
+
+- **Signed arithmetic overflow/conversions (High):** reason about promotions, common type, operation representability, and destination conversion separately; use precondition checks before signed arithmetic can overflow.
+- **Portable wire serialization and struct padding (High):** define explicit field widths and byte order; do not transmit raw struct layout as a portable contract. Padding, alignment, and host endianness require separate reasoning.
+- **DMA lifecycle/cache coherency (High):** reinforce buffer lifetime, ownership through completion, and CPU/DMA visibility; `volatile` does not establish cache coherence. Detailed maintenance/barrier mechanics remain future Phase 5 material.
+- **Pointer byte offsets (Medium):** distinguish element-scaled pointer arithmetic from byte offsets; work within valid object bounds and use character-type object-representation access when inspecting bytes.
+
+Earlier Q10, Q7, and Q3 each retained 3/4. The available checkpoint does not specify a question-to-target mapping, so none is invented. Q12 is corrected to 3/3 because the original configuration already had the requested MODE; Q13 is credited 4/4 because the head-index convention was unspecified. These grading issues are not learner weaknesses. Q14 is 4/4 and Q15 is 5/5.
 
 ## Active review items
 

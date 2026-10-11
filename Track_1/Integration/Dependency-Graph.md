@@ -90,10 +90,11 @@ Every Track 1 chat reads it first, then reads the canonical stream files relevan
 
 ## Current dependency boundary
 
-As of 2026-10-06:
+As of 2026-10-11:
 
-- Concepts are ready through Phase 1 Section 7; Section 8 – Concurrency Foundations is `IN_PROGRESS`. Sections 9–15 are `NOT_STARTED`; beginning Section 8 does not promote its full prerequisite readiness.
-- Design may use concepts through Section 7 without calling them previews.
-- Labs may use concepts through Section 7 and Phase 0 tooling/debug foundations.
-- Section 7 readiness includes embedded-C semantics needed for safer register/API reasoning: `volatile`/`const`, fixed-width types, integer promotions/conversions, safe masking/shifting, W1C/RMW awareness, UB/implementation-defined behavior, sequencing, strict-aliasing basics, padding/serialization, and bit-field portability limits.
-- Later concepts such as true concurrency/interrupt architecture, DMA ownership, RTOS synchronization, memory barriers/order, cache-maintenance mechanics, linker/startup internals, and boot/update architecture must be labeled preview material until formally learned.
+- Concepts readiness extends through Phase 1 Section 8, completed for the current conceptual-validation pass after a 15-question cumulative Sections 1–8 assessment.
+- Section 9 – Compiler & Build Pipeline is active, starting preprocessing; Sections 10–15 remain `NOT_STARTED`.
+- Design and Labs may use Sections 1–8 foundations plus Phase 0 tooling/debug foundations, without changing their owned exercise statuses.
+- Section 7 readiness includes embedded-C semantics for register/API reasoning; Section 8 adds atomicity/RMW races, shared-state ownership, ISR/main interaction, queue capacity/overflow policy, and payload-before-index publication under explicit access/ordering assumptions.
+- Signed arithmetic/conversions, portable serialization/padding, DMA lifecycle/cache coherency, and pointer byte offsets remain revision targets.
+- Interrupt architecture, DMA/cache-maintenance implementation, RTOS synchronization, memory barriers/order, linker/startup internals, and boot/update architecture remain previews until formally learned. Separate index writers do not alone establish portable synchronization or permanent mastery.

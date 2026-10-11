@@ -33,13 +33,13 @@ They are not independent tracks. Concepts create readiness; design applies readi
 
 ---
 
-## Current integrated checkpoint — 2026-10-06
+## Current integrated checkpoint — 2026-10-11
 
 ### Concepts
 
-Section 7 — **Embedded-C Semantics** is complete for the current conceptual-validation pass.
+Section 8 — **Concurrency Foundations** is complete for the current conceptual-validation pass after the 15-question cumulative Sections 1–8 assessment. Completion does not imply permanent mastery.
 
-Validated readiness now includes Sections 1–7, with Section 7 adding/reinforcing:
+Validated readiness now includes Sections 1–8, with Section 7 adding/reinforcing:
 - `volatile`, `const`, and `const volatile`
 - fixed-width integer reasoning
 - integer promotions and usual arithmetic conversions
@@ -52,13 +52,11 @@ Validated readiness now includes Sections 1–7, with Section 7 adding/reinforci
 - strict-aliasing / object-representation reasoning
 - struct padding, serialization, and bit-field portability limits
 
-Remaining non-blocking reinforcement includes:
-- complete integer-promotion-path wording
-- strict-aliasing / character-type exception rationale
-- cache coherency vs `volatile`
-- W1C/direct-mask transfer to real peripheral work
+Section 8 adds atomicity/RMW races, shared-state and ISR/main ownership, bounded queue capacity/overflow policy, and payload-before-index publication under explicit target assumptions. Q15 scored 5/5; confirmed scores and grading corrections are in `../Concepts/Progress.md`.
 
-Current concept section: **Section 8 — Concurrency Foundations**, `IN_PROGRESS`. Sections 9–15 are `NOT_STARTED`; established prerequisite readiness remains through Section 7.
+Remaining non-blocking revision targets include signed arithmetic overflow/conversions, portable wire serialization/struct padding, DMA lifecycle/cache coherency, and pointer byte offsets. Earlier refinement items remain in the revision queue.
+
+Current concept section: **Section 9 — Compiler & Build Pipeline**, `IN_PROGRESS`, starting preprocessing. Sections 10–15 are `NOT_STARTED`.
 
 ### Design
 
@@ -66,7 +64,7 @@ Completed reviewed exercises:
 - **01 — Startup readiness LED** (guided conceptual design)
 - **02 — Development board debug access** (guided conceptual design)
 
-Currently appropriate design themes based on concept readiness through Section 7:
+Currently appropriate design themes based on concept readiness through Section 8:
 - buffer/pointer API choices
 - ownership/lifetime reasoning
 - MMIO/register access boundaries
@@ -75,24 +73,17 @@ Currently appropriate design themes based on concept readiness through Section 7
 - startup/safe-state decisions
 - representation/serialization choices
 - low-level debuggability
+- bounded queue policies, ISR/main shared-state ownership, and RMW race analysis
 
-Do not yet assume mastery of interrupt architecture, DMA ownership, RTOS synchronization, memory-ordering/barrier design, linker/startup internals, or cache-maintenance architecture. Section 8 is actively being learned; incomplete Section 8 concepts and later material remain previews until their readiness is established.
+Do not yet assume mastery of interrupt architecture, DMA ownership, RTOS synchronization, memory-ordering/barrier design, linker/startup internals, or cache-maintenance architecture. Section 8 foundation readiness is established for this pass; detailed interrupt architecture, DMA/cache maintenance, RTOS, and memory-ordering implementation remain previews.
 
 ### Labs
 
-Board Lab 00 is `IN_PROGRESS` as a narrow early preview.
+Per Labs-owned progress, Board Lab 00's narrow preview and Board Lab 01's LED-control objective completed on 2026-10-06. Timed LED blinking is next.
 
-Verified practical readiness/evidence:
-- STLINK-V3E connection
-- target identification and Flash read
-- factory internal-Flash backup
-- full Flash-vs-file comparison before new programming
-- LD7/PJ2 schematic trace and active-low reasoning
+Verified evidence includes STLINK-V3E connection, target/Flash inspection, factory backup and comparison, LD7/PJ2 active-low reasoning, and learner-reported successful build/flash and both LED states. No new practical completion is inferred from the Concepts assessment.
 
-Next lab checkpoint:
-- learner-written LD7 firmware -> build -> flash -> observe/debug
-
-Labs may now rely on concepts established through Section 7, while keeping true concurrency, interrupt architecture, DMA/cache maintenance, linker/startup internals, and later topics explicitly labeled as previews.
+Labs may rely on established Sections 1–8 foundations under explicit access/ordering assumptions; detailed interrupt architecture, DMA/cache maintenance, linker/startup internals, RTOS, and memory barriers remain previews.
 
 ---
 

@@ -2,6 +2,15 @@
 
 This file records major checkpoints that matter across Concepts, Design, and Labs. Detailed evidence stays in the owning stream.
 
+## 2026-10-11 — Section 8 cumulative assessment completed; Section 9 active
+
+- Section 8 completed for the current pass after a 15-question cumulative assessment covering Sections 1–8; no permanent mastery claim.
+- Q15 5/5; Q14 4/4; Q13 credited 4/4 (head-index convention unspecified); Q12 corrected to 3/3 (original configuration already had requested MODE); Q10, Q7, Q3 each 3/4.
+- Revision targets: signed arithmetic overflow/conversions, portable wire serialization/struct padding, DMA lifecycle/cache coherency, pointer byte offsets.
+- Section 9 – Compiler & Build Pipeline now active, starting preprocessing; Sections 10–15 remain not started.
+- Design/Labs prerequisite readiness extends through Section 8 foundations, under explicit access/ordering assumptions; their owned records and exercise statuses are unchanged.
+- Detailed evidence: [Section 8 completion](History/2026-10-11-Section-8-Completion.md).
+
 ## 2026-10-06 — Lab 1 LED firmware verified and saved
 
 - Learner-built CM7 firmware flashed with successful download verification; LED7 on/off reported verified on hardware.
