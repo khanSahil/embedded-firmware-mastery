@@ -177,8 +177,8 @@ Sections 1–7 have established foundations / completed the current conceptual p
 | 5 | Memory Representation | ✅ Foundation established |
 | 6 | C Memory & Pointer Foundations | ✅ Completed — current conceptual-validation pass |
 | 7 | Embedded-C Semantics | ✅ Completed — current conceptual-validation pass |
-| 8 | Concurrency Foundations | 🟡 IN_PROGRESS |
-| 9 | Compiler & Build Pipeline | ⬜ Not started |
+| 8 | Concurrency Foundations | ✅ Completed — current conceptual-validation pass (15-question cumulative Sections 1–8 assessment) |
+| 9 | Compiler & Build Pipeline | 🟡 IN_PROGRESS — starting preprocessing |
 | 10 | Program Memory Layout | ⬜ Not started |
 | 11 | ELF Fundamentals | ⬜ Not started |
 | 12 | Linker Script Fundamentals | ⬜ Not started |
@@ -2207,11 +2207,12 @@ Track 1
     ├── Section 5 — Memory Representation          ✅
     ├── Section 6 — C Memory & Pointer Foundations ✅ Current pass completed
     ├── Section 7 — Embedded-C Semantics           ✅ Current pass completed
-    ├── Section 8 — Concurrency Foundations        🟡 IN_PROGRESS
-    └── Sections 9–15                             ⬜ Not started
+    ├── Section 8 — Concurrency Foundations        ✅ Current pass completed
+    ├── Section 9 — Compiler & Build Pipeline      🟡 IN_PROGRESS — preprocessing
+    └── Sections 10–15                            ⬜ Not started
 ```
 
-Sections 1–5 have been consolidated into this handbook. Sections 6–7 are completed for the current conceptual-validation pass, and Section 8 — Concurrency Foundations is in progress. Current design/lab checkpoints are maintained in `Design/Progress.md`, `Labs/Progress.md`, and `Active-Context.md`.
+Sections 1–5 have been consolidated into this handbook. Sections 6–8 are completed for the current conceptual-validation pass. Section 8's 15-question cumulative assessment covers Sections 1–8; completion does not imply permanent mastery. Section 9 — Compiler & Build Pipeline is active, starting preprocessing. Current design/lab checkpoints are maintained in `Design/Progress.md`, `Labs/Progress.md`, and `Active-Context.md`.
 
 ---
 
@@ -2245,7 +2246,7 @@ We will normally consolidate and push after each completed Phase-1 section. Late
 
 **Primary board:** STM32H745I-DISCO  
 **Current phase:** Phase 1 — Embedded C + Bare-Metal Foundations  
-**Current section:** Section 8 — Concurrency Foundations (`IN_PROGRESS`)  
+**Current section:** Section 9 — Compiler & Build Pipeline (`IN_PROGRESS`, starting preprocessing)  
 **Primary RTOS:** FreeRTOS  
 **Secondary RTOS:** Zephyr (later)  
 **Primary languages:** C and C++  
