@@ -106,8 +106,8 @@ Do not silently assume later concepts such as interrupt architecture, DMA owners
 ## Hands-On Labs & Board
 
 Latest completed lab:
-- **Board Lab 01 — Register-level LED on/off** (2026-10-06)
-- learner reported successful build/flash and both LED states verified on hardware
+- **Board Lab 02 — SysTick polling LED blink** (2026-10-11)
+- learner reported successful Debug build/flash and expected alternating LED states on hardware; timing not independently measured
 - Board Lab 00 narrow connection/build/flash preview completed; formal Sections 14–15 board acclimation remains later
 - reviewed source/project saved under `Labs/Board/Track1_Board_Labs`
 
@@ -119,15 +119,15 @@ Verified practical checkpoints:
 - shared LED module and `Src/Labs/Lab01_LED` folder; missing-main source-folder link error repaired
 
 Next lab:
-- **Board Lab 02 — timed LED blinking** (planned)
-- establish clock/timing assumptions before writing delay code
-- preserve one IDE project with per-lab folders and only one lab main in each build
-- apply professional review/refactoring practice to each lab
+- objective to be selected; Lab 2 blink objective completed
+- preserve one IDE project with per-lab folders and one active main
+- revisit deferred private SysTick constants, main brief, API contract, and Release configuration
 
 Open limitations:
 - FPU initialization warning unresolved
-- derive remaining literal pin masks and improve reason-focused comments when revisiting the shared module
-- vendor CMSIS header integration and generic GPIO deferred
+- CMSIS integrated for Debug; Release paths/symbols missing
+- polling delay blocks main and assumes 64 MHz / exclusive SysTick use
+- shared LED mask/comment cleanup and generic GPIO remain deferred
 
 No large Track 1 project is currently active. Project selection remains paused until stronger MCU/board foundations are demonstrated.
 

@@ -6,7 +6,7 @@ This index lists practical exercises and their current status. Detailed observat
 |---|---|---|---|
 | Board Lab 00 | First connection and firmware flash | COMPLETED (narrow preview) | Phase 0 tooling/debug orientation; Phase 1 Sections 1–6 foundations |
 | Board Lab 01 | Register-level LED on/off | COMPLETED (2026-10-06) | MMIO, volatile, masks, GPIO documentation; [source](Board/Track1_Board_Labs/README.md) |
-| Board Lab 02 | Timed LED blinking | PLANNED | Lab 1; verified clock/timing assumptions |
+| Board Lab 02 | SysTick polling LED blink | COMPLETED (2026-10-11; user hardware verification) | Lab 1; assumed 64 MHz clock; [source and limitations](Board/Track1_Board_Labs/README.md) |
 | Micro Lab | Pointer arithmetic | PLANNED | Section 6 pointer arithmetic |
 | Micro Lab | Pointer subtraction | PLANNED | Section 6 same-array subtraction rules |
 

@@ -143,3 +143,7 @@ Rule:
 ## Next major milestone
 
 Begin Section 8 while continuing Board Lab 00 and design work only at a depth consistent with readiness through Section 7.
+
+## 2026-10-11 — Board Lab 02 blink checkpoint
+
+Learner reported successful Debug build/flash and expected one-second on/off LED7 blinking using CMSIS SysTick polling. Source and project saved with generated output excluded. Main blocking understood; timing not independently measured. FPU warning and Release setup remain open; cleanup deferred by learner. This practical preview does not advance conceptual mastery. See ../Labs/Progress.md.

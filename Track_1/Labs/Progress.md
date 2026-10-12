@@ -54,9 +54,21 @@ Evidence: learner-written volatile MMIO accesses; GPIOJ clock bit 9 and readback
 
 Known limitations: FPU startup warning unresolved; literal masks and explanatory comments remain cleanup; vendor-header integration/generic GPIO deferred. Saved main calls on then off without delay and ends off. Formal concepts and blanket mastery are not advanced by this preview.
 
-Next: Board Lab 02 — timed LED blinking (planned), reusing the shared LED module. Establish clock/timing assumptions before implementing the delay. Keep all labs in one IDE project and exclude inactive lab folders per build configuration. Professional code review/refactoring remains part of every lab.
+Board Lab 02 is now completed for its narrow blink objective; see below. Keep all labs in one IDE project and exclude inactive lab folders per build configuration. Professional code review/refactoring remains part of every lab.
 
 This early board preview does **not** advance the conceptual curriculum position. Formal board acclimation remains in Phase 1 Sections 14–15.
+
+### Board Lab 02 — SysTick polling LED blink
+
+Status: `COMPLETED` for the stated blink objective (2026-10-11, America/Los_Angeles).
+
+Source: [Board/Track1_Board_Labs](Board/Track1_Board_Labs/README.md), active CM7/Src/Labs/Lab02_Blink/main.c. Lab 1 remains preserved and excluded from the current build.
+
+Evidence: learner implemented the shared SysTick module using CMSIS, LOAD 63999 for an assumed 64 MHz processor clock, COUNTFLAG polling, and 1000 iterations per requested second. Learner reported successful Debug build/flash and expected LED on/off behavior, and explained that main is blocked inside the delay. Header uint32_t dependency was repaired with stdint.h. Reviewer inspected the ZIP and preserved submitted source; no independent rebuild, hardware execution, or timing measurement.
+
+Limitations: FPU warning remains. Release lacks the new CMSIS include paths and symbols. Polling can lose elapsed periods during long interruptions and assumes exclusive SysTick ownership.
+
+User deferred cleanup until the next lab: private SysTick constants, accurate main brief, delay API contract, Release setup. Next lab objective remains to be selected; no concept mastery promotion follows from this checkpoint.
 
 ## Planned host/C micro-labs
 
