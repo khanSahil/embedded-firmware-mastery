@@ -45,3 +45,17 @@ Debug includes STM32H745xx and CORE_CM7 plus both CMSIS include paths. Release l
 The submitted source is preserved unchanged. Deferred until the next lab: move private SysTick constants into systick.c, update the Lab 2 main comment, document the delay API contract, and configure Release. The existing FPU warning remains unresolved. Polling owns SysTick and can miss elapsed periods during long interruptions; this is a blocking learning implementation.
 
 Validation here: archive integrity, source preservation, and repository checks only; no independent rebuild or hardware test. Vendor copyright headers are retained. The header subset targets GCC/CM7 without USE_HAL_DRIVER; other cores, toolchains, and devices require additional vendor headers.
+
+## Development Environment
+
+- IDE: STM32CubeIDE 2.2.0
+- Board: STM32H745I-DISCO
+- MCU cores: Cortex-M7 and Cortex-M4
+- Version control: Git and GitHub
+
+### Verified Setup
+
+- [x] Imported existing projects from Git repository
+- [x] CM7 firmware builds successfully
+- [ ] CM4 firmware build verification
+- [ ] Flash and debug verification
