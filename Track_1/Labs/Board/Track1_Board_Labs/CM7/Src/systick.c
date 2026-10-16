@@ -9,11 +9,14 @@
 #include "systick.h"
 #include "stm32h7xx.h"
 
+#define SYSTICK_CYCLES_PER_MS 0xFA00U
+#define SYSTICK_CLEAR_VALUE 0x0U
+
 void systick_init_1ms(void)
 {
 /*
  	Disables SysTick.
-	Sets RELOAD to 63,999.
+	Sets RELOAD to 63,999. Assuming 64MHz clock
 	Clears the current counter by writing 0 to SYST_CVR.
 	Enables SysTick with CLKSOURCE = 1 and TICKINT = 0.
 	64MHz Clock Assumption

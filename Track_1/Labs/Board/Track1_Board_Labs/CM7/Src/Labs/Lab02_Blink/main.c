@@ -2,7 +2,7 @@
  ******************************************************************************
  * @file           : main.c
  * @author         : Sahil Khan
- * @brief          : This program turns ON LED7
+ * @brief          : This program blinks LED7 with 1 sec ON and 1 sec OFF
  * 				   : on STM32H745I-DISCO Board
  ******************************************************************************\
  */
