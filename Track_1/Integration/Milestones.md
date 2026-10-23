@@ -2,6 +2,14 @@
 
 This file records major checkpoints that matter across Concepts, Design, and Labs. Detailed evidence stays in the owning stream.
 
+## 2026-10-23 — Lab 3 Debug hardware checkpoint
+
+- Non-blocking LED blink with SysTick interrupts implemented, reviewed, and pushed as `1c32cb9`.
+- Learner verified ISR entry and visible blink after fixing `Systick_Handler` to `SysTick_Handler`; practical evidence for weak-symbol linking and ISR/main state separation.
+- Late-check comparison and unsigned rollover discussed with guidance; no independent rollover test or broad mastery promotion.
+- Lab 2 cleanup is complete. Future lab validation is Debug-only by user preference; FPU startup warning remains open.
+- Next proposed lab: GPIO button input, then debouncing; not started. Formal Concepts/Design statuses are unchanged. See [Labs Progress](../Labs/Progress.md).
+
 ## 2026-10-11 — Section 8 cumulative assessment completed; Section 9 active
 
 - Section 8 completed for the current pass after a 15-question cumulative assessment covering Sections 1–8; no permanent mastery claim.
@@ -142,7 +150,7 @@ Rule:
 
 ## Next major milestone
 
-Begin Section 8 while continuing Board Lab 00 and design work only at a depth consistent with readiness through Section 7.
+Continue the owning Concepts stream at its recorded Section 9 position. Labs may explore the proposed button-input/debouncing preview after documentation review; no automatic advancement of formal board-acclimation or mastery status.
 
 ## 2026-10-11 — Board Lab 02 blink checkpoint
 

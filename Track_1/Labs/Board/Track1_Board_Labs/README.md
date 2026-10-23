@@ -1,14 +1,15 @@
-# Track 1 board labs — Lab 2 checkpoint
+# Track 1 board labs — Lab 3 checkpoint
 
-Saved: 2026-10-11 (America/Los_Angeles).
+Updated: 2026-10-23 (America/Los_Angeles).
 
-Learner-written STM32H745I-DISCO firmware, developed with STM32CubeIDE 2.2.0 on Windows. Source and IDE configuration are preserved from the reviewed ZIP; generated Debug/Release output is excluded.
+Learner-written STM32H745I-DISCO firmware, developed with STM32CubeIDE 2.2.0 on Windows. Current development and pushes use Git directly from CubeIDE. Generated Debug/Release output is excluded.
 
 ## Layout and build
 
 - CM7/Src/Labs/Lab01_LED/main.c: preserved Lab 1 entry point (excluded from the current build).
-- CM7/Src/Labs/Lab02_Blink/main.c: active Lab 2 entry point.
-- CM7/Src/systick.c and CM7/Inc/systick.h: polling SysTick delay module.
+- CM7/Src/Labs/Lab02_Blink/main.c: preserved Lab 2 entry point (excluded).
+- CM7/Src/Labs/Lab03_NonBlockingBlink/main.c: active Lab 3 entry point.
+- CM7/Src/systick.c and CM7/Inc/systick.h: polling delay and separate interrupt timebase APIs; select one mode, do not mix them.
 - CM7/Drivers/CMSIS: required STM32H745 / Cortex-M7 GCC headers from the submitted ZIP; unrelated devices/cores omitted.
 - CM7/Src/led7.c and CM7/Inc/led7.h: shared LED7 init/on/off module.
 - CM7/Startup, linker scripts, runtime support, and IDE settings: build support.
@@ -40,11 +41,17 @@ For every lab: implement, verify on hardware, review/refactor, then rebuild and 
 
 The learner confirmed successful build, flash, and visible alternating LED7 on/off, with a requested 1000 ms delay for each state. SysTick uses the assumed 64 MHz processor clock, LOAD = 63999, processor clock source, and no interrupt. A software loop polls 1000 COUNTFLAG events per second. Main is blocked during each delay. Timing was not independently measured.
 
-Debug includes STM32H745xx and CORE_CM7 plus both CMSIS include paths. Release lacks these additions and is not validated. Lab 1 is excluded in the saved configurations; select exactly one lab main when switching labs.
+Debug and Release CMSIS paths/symbols were corrected in the Lab 2 cleanup. The learner now chooses Debug-only validation for labs. Select exactly one lab main when switching labs.
 
-The submitted source is preserved unchanged. Deferred until the next lab: move private SysTick constants into systick.c, update the Lab 2 main comment, document the delay API contract, and configure Release. The existing FPU warning remains unresolved. Polling owns SysTick and can miss elapsed periods during long interruptions; this is a blocking learning implementation.
+Lab 2 cleanup is complete: private constants, main brief, API contract, and Release setup. The existing FPU warning remains unresolved. Polling owns SysTick and can miss elapsed periods during long interruptions; this is a blocking learning implementation.
 
 Validation here: archive integrity, source preservation, and repository checks only; no independent rebuild or hardware test. Vendor copyright headers are retained. The header subset targets GCC/CM7 without USE_HAL_DRIVER; other cores, toolchains, and devices require additional vendor headers.
+
+## Lab 3 — interrupt timebase checkpoint (2026-10-23)
+
+Saved in commit `1c32cb9`. SysTick requests an interrupt every nominal millisecond; `SysTick_Handler` increments a private volatile counter. Main uses unsigned elapsed-time subtraction and `>= 1000U` to change LED state without a blocking delay. The LED starts OFF. The learner verified the handler breakpoint and visible one-second ON/OFF behavior after correcting a case-sensitive handler-name typo. Code was reviewed; no independent reviewer build, hardware test, or timing measurement is claimed.
+
+Debug-only builds are the current lab preference. FPU initialization remains unresolved. See [lab progress](../../Progress.md) for evidence, limitations, and the proposed button-input/debouncing lab.
 
 ## Development Environment
 
@@ -58,4 +65,4 @@ Validation here: archive integrity, source preservation, and repository checks o
 - [x] Imported existing projects from Git repository
 - [x] CM7 firmware builds successfully
 - [ ] CM4 firmware build verification
-- [ ] Flash and debug verification
+- [x] CM7 Lab 3 flash/debug and visible blink verification reported by learner (Debug)

@@ -62,13 +62,36 @@ This early board preview does **not** advance the conceptual curriculum position
 
 Status: `COMPLETED` for the stated blink objective (2026-10-11, America/Los_Angeles).
 
-Source: [Board/Track1_Board_Labs](Board/Track1_Board_Labs/README.md), active CM7/Src/Labs/Lab02_Blink/main.c. Lab 1 remains preserved and excluded from the current build.
+Source: [Board/Track1_Board_Labs](Board/Track1_Board_Labs/README.md), CM7/Src/Labs/Lab02_Blink/main.c, preserved and now excluded while Lab 3 is active.
 
 Evidence: learner implemented the shared SysTick module using CMSIS, LOAD 63999 for an assumed 64 MHz processor clock, COUNTFLAG polling, and 1000 iterations per requested second. Learner reported successful Debug build/flash and expected LED on/off behavior, and explained that main is blocked inside the delay. Header uint32_t dependency was repaired with stdint.h. Reviewer inspected the ZIP and preserved submitted source; no independent rebuild, hardware execution, or timing measurement.
 
-Limitations: FPU warning remains. Release lacks the new CMSIS include paths and symbols. Polling can lose elapsed periods during long interruptions and assumes exclusive SysTick ownership.
+Limitations: FPU warning remains. Polling can lose elapsed periods during long interruptions and assumes exclusive SysTick ownership.
 
-User deferred cleanup until the next lab: private SysTick constants, accurate main brief, delay API contract, Release setup. Next lab objective remains to be selected; no concept mastery promotion follows from this checkpoint.
+Cleanup subsequently completed in commits c9d9bb4 and 296bc7d: private constants, accurate main brief, delay API documentation, and Release CMSIS configuration. Release build success was reported; this does not establish Lab 3 Release validation.
+
+### Board Lab 03 — Non-blocking blink with SysTick interrupts
+
+Status: `COMPLETED` for the basic implementation and Debug hardware objective (2026-10-23, America/Los_Angeles); not blanket interrupt/timing mastery.
+
+Source checkpoint: [`1c32cb9`](https://github.com/khanSahil/embedded-firmware-mastery/commit/1c32cb9), reviewed after the learner pushed from CubeIDE. Four files changed: CM7/.cproject, Inc/systick.h, Src/systick.c, and Src/Labs/Lab03_NonBlockingBlink/main.c.
+
+Implementation and evidence:
+- Separate interrupt initialization retains the Lab 2 polling API. SysTick uses LOAD 63999 and CLKSOURCE/ENABLE/TICKINT set, assuming a 64 MHz processor clock.
+- `SysTick_Handler` increments a file-private `static volatile uint32_t elapsed_ms`; a getter returns a snapshot to main. The handler stays short and contains no LED policy.
+- Main starts with LED7 OFF, tracks unsigned current-minus-last time, tests `>= LED_BLINK_INTERVAL_MS` (1000U), toggles a Boolean, and uses the learner-preferred ternary call to select LED on/off. Other short, non-blocking work can run outside the timing if inside the main loop.
+- Learner confirmed the handler breakpoint was reached after correction and confirmed approximately one second ON / one second OFF on hardware with breakpoints disabled. This is learner-reported Debug validation, not independent reviewer execution or instrumented timing measurement.
+- Guided debugging found `Systick_Handler` instead of `SysTick_Handler`. C symbol case matters: the misspelled function did not override the startup weak alias. Breakpoint source-line mismatch initially obscured the cause; inspecting the complete source found it. Do not claim the exact breakpoint relocation mechanism was proven.
+- Learner correctly placed continuous work outside the timing if. The reason for `>=` rather than equality was explained, then the learner correctly accepted a late check at 1005 ms. Resetting last-change time to current time schedules the next interval from actual handling time; lateness can accumulate.
+- Unsigned wraparound was explained with a 32-bit example and the less-than-one-full-counter-cycle assumption. Learner acknowledged the explanation; no independent wraparound exercise or hardware rollover test was performed.
+
+Workflow and remaining limits:
+- User explicitly prefers Debug-only builds for labs; Release testing is not a lab completion gate. Lab 3 Release hardware validation is not claimed.
+- Use Git/CubeIDE directly in the existing repository; ZIP transfer is no longer the normal workflow. Keep one active lab main; Labs 1 and 2 are preserved and excluded in the saved Lab 3 configurations.
+- FPU startup warning remains unresolved. Clock frequency is assumed, not measured. Exclusive SysTick ownership is required; do not mix the polling delay with the interrupt timebase. Interrupt masking or long service delays can lose ticks; volatile alone is not a general synchronization guarantee.
+- This guided practical preview supplies evidence for later Concepts review; it does not advance the formal curriculum or establish MASTERED status.
+
+Next proposed lab: GPIO button input controlling LED behavior, followed by non-blocking debouncing. Not started; locate the button wiring in the matching board documentation before selecting a pin or pull configuration.
 
 ## Planned host/C micro-labs
 

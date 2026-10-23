@@ -106,28 +106,20 @@ Do not silently assume later concepts such as interrupt architecture, DMA owners
 ## Hands-On Labs & Board
 
 Latest completed lab:
-- **Board Lab 02 — SysTick polling LED blink** (2026-10-11)
-- learner reported successful Debug build/flash and expected alternating LED states on hardware; timing not independently measured
-- Board Lab 00 narrow connection/build/flash preview completed; formal Sections 14–15 board acclimation remains later
-- reviewed source/project saved under `Labs/Board/Track1_Board_Labs`
+- **Board Lab 03 — Non-blocking LED blink with SysTick interrupts** (2026-10-23).
+- Code reviewed and pushed in `1c32cb9`; learner verified ISR entry and approximately one-second ON/OFF behavior in Debug. No independent reviewer hardware test or instrumented timing measurement.
+- Guided bug fix: `Systick_Handler` did not override the weak startup alias; corrected exact name `SysTick_Handler`.
+- Private volatile millisecond counter, getter, short ISR, non-blocking main loop, and Boolean LED state implemented. Learner prefers the valid ternary on/off call.
+- `>=` for late checks explained and checked with a nearby example. Unsigned rollover explained but not independently tested; no blanket mastery promotion.
+- Lab 2 cleanup completed (private constants, brief, API contract, Release setup). Labs 1–2 remain preserved; Lab 3 is the active main.
 
-Verified practical checkpoints:
-- STLINK-V3E connection and flash download verification working
-- physical board MB1381-H745XI-B03; active-low LD7/PJ2
-- factory 2 MiB internal-Flash backup saved and compared before programming
-- volatile register access, RCC readback, output preload before mode, direct BSRR commands
-- shared LED module and `Src/Labs/Lab01_LED` folder; missing-main source-folder link error repaired
+Workflow: one CubeIDE project, per-lab folders, Git/CubeIDE direct pushes. **Debug-only validation for labs** by explicit learner preference; no Release test gate.
 
-Next lab:
-- objective to be selected; Lab 2 blink objective completed
-- preserve one IDE project with per-lab folders and one active main
-- revisit deferred private SysTick constants, main brief, API contract, and Release configuration
+Next proposed lab: GPIO button input controlling LED behavior, followed by non-blocking debouncing. Not started; documentation lookup comes first.
 
-Open limitations:
-- FPU initialization warning unresolved
-- CMSIS integrated for Debug; Release paths/symbols missing
-- polling delay blocks main and assumes 64 MHz / exclusive SysTick use
-- shared LED mask/comment cleanup and generic GPIO remain deferred
+Open limits: FPU startup warning unresolved; assumed 64 MHz clock; exclusive SysTick ownership; polling delay must not be mixed with the interrupt timebase. Long interrupt delays can lose ticks. Formal board acclimation remains in Sections 14–15; this is an early practical preview.
+
+Board recovery evidence remains recorded in Labs Progress: full factory internal-Flash backup saved/compared, ST-LINK path verified, active-low LD7/PJ2 on MB1381-H745XI-B03.
 
 No large Track 1 project is currently active. Project selection remains paused until stronger MCU/board foundations are demonstrated.
 
@@ -177,6 +169,8 @@ Do not refresh it for every individual message or small correction.
 
 ## Latest milestone
 
+**2026-10-23 — Lab 3 complete:** Debug hardware behavior verified by learner; source reviewed and saved in `1c32cb9`. Lab 2 cleanup reconciled, Debug-only lab preference recorded, and button input/debouncing proposed next. Concepts and Design statuses remain unchanged.
+
 **2026-10-11 — Reference notes restored:** Sections 6–8 now have detailed handbook notes in the same format as Sections 1–5. Progress/mastery/revision files complement the handbook. Future completed sections should be consolidated in that format. This documentation checkpoint adds no new practical or mastery evidence; Section 9 remains active at preprocessing.
 
 **2026-10-11:** Section 8 completed for the current conceptual-validation pass after the 15-question cumulative Sections 1–8 assessment; Q15 5/5, Q14 4/4, Q13 credited 4/4, Q12 corrected 3/3, earlier Q10/Q7/Q3 each 3/4. Section 9 is active, starting preprocessing. The four revision targets remain open; no permanent mastery or new Design/Labs completion is claimed. Detailed checkpoint: `Integration/History/2026-10-11-Section-8-Completion.md`.
@@ -191,4 +185,4 @@ Do not refresh it for every individual message or small correction.
 
 Detailed milestones: `Integration/Milestones.md`.
 
-Last synchronized: 2026-10-11
+Last synchronized: 2026-10-23 (Labs checkpoint)

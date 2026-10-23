@@ -7,7 +7,10 @@ This index lists practical exercises and their current status. Detailed observat
 | Board Lab 00 | First connection and firmware flash | COMPLETED (narrow preview) | Phase 0 tooling/debug orientation; Phase 1 Sections 1–6 foundations |
 | Board Lab 01 | Register-level LED on/off | COMPLETED (2026-10-06) | MMIO, volatile, masks, GPIO documentation; [source](Board/Track1_Board_Labs/README.md) |
 | Board Lab 02 | SysTick polling LED blink | COMPLETED (2026-10-11; user hardware verification) | Lab 1; assumed 64 MHz clock; [source and limitations](Board/Track1_Board_Labs/README.md) |
+| Board Lab 03 | Non-blocking LED blink with SysTick interrupts | COMPLETED (2026-10-23; Debug hardware verified by learner) | Lab 2; ISR/main timebase; [checkpoint](Progress.md#board-lab-03--non-blocking-blink-with-systick-interrupts) |
 | Micro Lab | Pointer arithmetic | PLANNED | Section 6 pointer arithmetic |
 | Micro Lab | Pointer subtraction | PLANNED | Section 6 same-array subtraction rules |
 
 Future labs should be added when they are concrete enough to execute. Use `../Integration/Learning-Map.md` to align lab choice with current concept and design readiness.
+
+Next proposed board lab: GPIO button input and then non-blocking debouncing; not started. Current lab validation preference: Debug builds only.
